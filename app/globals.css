@@ -6,6 +6,8 @@
   --nav-background: rgba(30, 30, 30, 0.40);
   --nav-foreground: #ededed;
   --primary-background: #1B1B1B;
+  --dark-textfont: #1E1E1E;
+  --prodcard-background:#E2DED3;
 }
 
 @theme inline {
@@ -16,16 +18,19 @@
   --color-primary-background: var(--primary-background);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-dark-textfont: var(--dark-textfont);
+  --color-prodcard-background: var(--prodcard-background);
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     --background: #0a0a0a;
     --nav-background: rgba(30, 30, 30, 0.40);
-
+    --prodcard-background:#E2DED3;
     --nav-foreground: #ffffff;
     --foreground: #ededed;
     --primary-background: #1B1B1B;
+    --dark-textfont: #1E1E1E;
   }
 }
 
