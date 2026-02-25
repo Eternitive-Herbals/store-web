@@ -10,6 +10,13 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Card tokens */
+  --width-card: 387px;
+  --height-card: 404px;
+  --font-size-card-title: 22px;
+  --font-size-card-desc: 15px;
+  --radius-card: 59px;
 }
 
 @media (prefers-color-scheme: dark) {
