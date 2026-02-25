@@ -8,6 +8,8 @@
   --primary-background: #1B1B1B;
   --dark-textfont: #1E1E1E;
   --prodcard-background:#E2DED3;
+  --ghost-background: #F9F8F6;
+  --star-fill:#EDC06F;
 }
 
 @theme inline {
@@ -20,6 +22,8 @@
   --font-mono: var(--font-geist-mono);
   --color-dark-textfont: var(--dark-textfont);
   --color-prodcard-background: var(--prodcard-background);
+  --color-ghost-background: var(--ghost-background);
+  --color-star-fill:var(--star-fill);
 }
 
 @media (prefers-color-scheme: light) {
@@ -31,6 +35,9 @@
     --foreground: #ededed;
     --primary-background: #1B1B1B;
     --dark-textfont: #1E1E1E;
+    --ghost-background: #F9F8F6;
+    --star-fill:#EDC06F;
+
   }
 }
 

@@ -30,7 +30,7 @@ export default function RootLayout({
       >
         <div className="bg-background text-foreground relative min-h-screen font-sans">
           <NavBar />
-          <main className="relative">{children}</main>
+          <main className="relative w-screen mx-auto">{children}</main>
         </div>
       </body>
     </html>
