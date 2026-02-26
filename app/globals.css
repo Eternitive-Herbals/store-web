@@ -3,19 +3,48 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --nav-background: rgba(30, 30, 30, 0.40);
+  --nav-foreground: #ededed;
+  --primary-background: #1B1B1B;
+  --dark-textfont: #1E1E1E;
+  --prodcard-background:#E2DED3;
+  --ghost-background: #F9F8F6;
+  --star-fill:#EDC06F;
+  --screen-1: 100dvh;
+  --screen-2: 200dvh;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-nav-background: var(--nav-background);
+  --color-nav-foreground: var(--nav-foreground);
+  --color-primary-background: var(--primary-background);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-dark-textfont: var(--dark-textfont);
+  --color-prodcard-background: var(--prodcard-background);
+  --color-ghost-background: var(--ghost-background);
+  --color-star-fill:var(--star-fill);
+  --height-screen-1:var(--screen-1);
+  --height-screen-2: var(--screen-2);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --background: #0a0a0a;
+    --nav-background: rgba(30, 30, 30, 0.40);
+    --prodcard-background:#E2DED3;
+    --nav-foreground: #ffffff;
     --foreground: #ededed;
+    --primary-background: #1B1B1B;
+    --dark-textfont: #1E1E1E;
+    --ghost-background: #F9F8F6;
+    --star-fill:#EDC06F;
+    --screen-1: 100dvh;
+    --screen-2: 200dvh;
+
+
   }
 }
 
