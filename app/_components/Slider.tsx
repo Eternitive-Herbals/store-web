@@ -1,4 +1,5 @@
 "use client";
+
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -9,18 +10,19 @@ type Slide = {
 };
 
 const Slider = ({ slides }: { slides: Slide[] }) => {
+  if (!slides || slides.length === 0) return null;
+
   const extendedSlides = [slides[slides.length - 1], ...slides, slides[0]];
+
   const [slideIdx, setSlideIdx] = useState(1);
   const [isTransition, setIsTransition] = useState(true);
 
   const next = () => {
     setSlideIdx((prev) => prev + 1);
-    console.log(slideIdx);
   };
 
   const prev = () => {
     setSlideIdx((prev) => prev - 1);
-    console.log(slideIdx);
   };
 
   useEffect(() => {
@@ -32,9 +34,9 @@ const Slider = ({ slides }: { slides: Slide[] }) => {
   }, [isTransition]);
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden">
+    <div className="relative h-screen w-full overflow-hidden">
       <div
-        className={`z-0 flex ${
+        className={`flex ${
           isTransition
             ? "transition-transform duration-1000 ease-in-out"
             : "transition-none"
@@ -52,20 +54,20 @@ const Slider = ({ slides }: { slides: Slide[] }) => {
           }
         }}
       >
-        {extendedSlides.map((slide, idx) => {
-          return (
-            <div key={idx} className="relative h-screen min-w-full">
-              <Image
-                src={slide.href}
-                alt="carousel"
-                fill
-                className="object-cover"
-              />
-            </div>
-          );
-        })}
+        {extendedSlides.map((slide, idx) => (
+          <div key={idx} className="relative h-screen min-w-full">
+            <Image
+              src={slide.href}
+              alt={slide.name}
+              fill
+              className="object-cover"
+              priority={idx === 1}
+            />
+          </div>
+        ))}
       </div>
-      <div className="absolute inset-0 z-0 flex items-center justify-between px-8">
+
+      <div className="absolute inset-0 flex items-center justify-between px-8">
         <button
           onClick={prev}
           className="rounded-full bg-white/60 p-2 hover:bg-white/90"
