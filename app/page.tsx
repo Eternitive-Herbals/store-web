@@ -1,9 +1,11 @@
-import Usp from "./(home)/_components/Usp";
+import Cta from "./(home)/_component/Cta";
 
-export default function Home() {
+const page = async () => {
   return (
-    <>
-      <Usp />
-    </>
+    <div className="">
+      <Cta />
+    </div>
   );
-}
+};
+
+export default page;
