@@ -15,7 +15,7 @@ const NavBar = async () => {
       <div className=" text-medium relative flex w-full items-center justify-between px-2">
         <span className="flex shrink-0 items-center justify-start">
           <Image
-            src="/athery_Logo.svg"
+            src="/assets/athery_Logo.svg"
             alt="athery logo"
             width={100}
             height={100}

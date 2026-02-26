@@ -28,7 +28,7 @@ const OurProd = async () => {
   return (
     <div className="bg-background h-screen-2 relative block w-full gap-8 place-self-center py-42">
       <Image
-        src={`/our_prod.svg`}
+        src={`/assets/our_prod.svg`}
         alt="our Prod"
         fill
         className="z-0 object-cover"
