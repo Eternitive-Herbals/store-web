@@ -19,7 +19,7 @@ const Footer = async () => {
   return (
     <div className="bg-primary-background relative flex h-256 flex-col py-24">
       <Image
-        src={`/spiral_footer.svg`}
+        src={`/assets/spiral_footer.svg`}
         alt="footer spiral"
         fill
         className="z-0 object-cover"
@@ -60,7 +60,7 @@ const Footer = async () => {
       <div className="relative top-24 z-0">
         <Image
           alt="footer_aethery"
-          src="/footer_aethery.svg"
+          src="/assets/footer_aethery.svg"
           height={100}
           width={100}
           className="mx-auto w-fit"
