@@ -1,16 +1,15 @@
-"use server";
 import { Copyright, Instagram, LucideFacebook, Twitter } from "lucide-react";
 import Image from "next/image";
-
+ 
 const Footer = async () => {
-  const contactUs = [
+  const contactUs:string[] = [
     "Contact Us",
     "Adress",
     "aethery@gmail.com",
     "+0000000000",
   ];
 
-  const policy = [
+  const policy:string[] = [
     "Privacy Policy",
     "Terms & Conditions",
     "Refund & Return Policy",
@@ -18,7 +17,7 @@ const Footer = async () => {
   ];
 
   return (
-    <div className="bg-primary-background relative flex min-h-screen flex-col py-24">
+    <div className="bg-primary-background relative flex h-256 flex-col py-24">
       <Image
         src={`/spiral_footer.svg`}
         alt="footer spiral"

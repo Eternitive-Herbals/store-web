@@ -1,12 +1,9 @@
 "use client";
-
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
-  const router = useRouter();
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

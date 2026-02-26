@@ -1,19 +1,9 @@
-
-import HomeCorousal from "./_components/HomeCorousal";
-
-import OurProd from "./_components/OurProd";
-import Feedback from "./_components/Feedback";
-import Usp from "./_components/Usp";
-
+import Cta from "./(home)/_component/Cta";
 
 const page = async () => {
   return (
     <div className="">
-      <HomeCorousal />
-      <OurProd />
-      <Usp />
-      <Feedback />
-      
+      <Cta />
     </div>
   );
 };

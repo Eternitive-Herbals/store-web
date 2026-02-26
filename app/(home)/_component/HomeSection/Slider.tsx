@@ -10,12 +10,20 @@ type Slide = {
 };
 
 const Slider = ({ slides }: { slides: Slide[] }) => {
+  const [slideIdx, setSlideIdx] = useState(1);
+  const [isTransition, setIsTransition] = useState(true);
+
+   useEffect(() => {
+     if (!isTransition) {
+       requestAnimationFrame(() => {
+         setIsTransition(true);
+       });
+     }
+   }, [isTransition]);
+
   if (!slides || slides.length === 0) return null;
 
   const extendedSlides = [slides[slides.length - 1], ...slides, slides[0]];
-
-  const [slideIdx, setSlideIdx] = useState(1);
-  const [isTransition, setIsTransition] = useState(true);
 
   const next = () => {
     setSlideIdx((prev) => prev + 1);
@@ -24,14 +32,6 @@ const Slider = ({ slides }: { slides: Slide[] }) => {
   const prev = () => {
     setSlideIdx((prev) => prev - 1);
   };
-
-  useEffect(() => {
-    if (!isTransition) {
-      requestAnimationFrame(() => {
-        setIsTransition(true);
-      });
-    }
-  }, [isTransition]);
 
   return (
     <div className="relative h-screen w-full overflow-hidden">

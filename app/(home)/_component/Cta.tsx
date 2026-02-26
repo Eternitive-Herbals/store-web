@@ -1,9 +1,17 @@
-import React from 'react'
+import HomeCorousal from "./HomeSection/HomeCorousal";
+import OurProd from "./Our_products/OurProd";
+import Usp from "./Unique_selling_point/Usp";
+import Feedback from "./Feedback/Feedback";
 
-function CTA() {
+const Cta = () => {
   return (
-    <div>CTA</div>
-  )
-}
+    <>
+      <HomeCorousal />
+      <OurProd />
+      <Usp />
+      <Feedback />
+    </>
+  );
+};
 
-export default CTA
+export default Cta;

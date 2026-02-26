@@ -1,4 +1,4 @@
-import Slider from "./Slider";
+import Slider from './Slider'
 
 const slides = [
   { name: "img1", href: "/Corosal.png" },

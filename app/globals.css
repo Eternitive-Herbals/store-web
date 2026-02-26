@@ -10,6 +10,8 @@
   --prodcard-background:#E2DED3;
   --ghost-background: #F9F8F6;
   --star-fill:#EDC06F;
+  --screen-1: 100dvh;
+  --screen-2: 200dvh;
 }
 
 @theme inline {
@@ -24,6 +26,8 @@
   --color-prodcard-background: var(--prodcard-background);
   --color-ghost-background: var(--ghost-background);
   --color-star-fill:var(--star-fill);
+  --height-screen-1:var(--screen-1);
+  --height-screen-2: var(--screen-2);
 }
 
 @media (prefers-color-scheme: light) {
@@ -37,13 +41,9 @@
     --dark-textfont: #1E1E1E;
     --ghost-background: #F9F8F6;
     --star-fill:#EDC06F;
+    --screen-1: 100dvh;
+    --screen-2: 200dvh;
 
-/* cards css */
-    /* --width-card: 387px;
-  --height-card: 404px;
-  --font-size-card-title: 22px;
-  --font-size-card-desc: 15px;
-  --radius-card: 59px; */
 
   }
 }

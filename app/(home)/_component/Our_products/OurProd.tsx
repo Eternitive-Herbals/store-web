@@ -26,7 +26,7 @@ const OurProd = async () => {
     },
   ];
   return (
-    <div className="bg-background relative block gap-8 place-self-center py-24 w-full">
+    <div className="bg-background h-screen-2 relative block w-full gap-8 place-self-center py-42">
       <Image
         src={`/our_prod.svg`}
         alt="our Prod"
@@ -34,8 +34,8 @@ const OurProd = async () => {
         className="z-0 object-cover"
       />
 
-      <div className="justif-center items-between flex flex-col gap-16 pt-6 max-w-3xl mx-auto">
-        <span className="text-dark-textfont p-2 text-3xl font-medium">
+      <div className="justif-center items-between mx-auto flex max-w-3xl flex-col gap-16">
+        <span className="text-dark-textfont pt-2 pb-14 text-3xl font-medium">
           <h1 className="text-center">Our best sellers</h1>
         </span>
 
