@@ -9,7 +9,7 @@ type card = {
 
 const UspContentSection = ({ cards }: { cards: card[] }) => {
   return (
-    <div className="relative z-10 mx-auto max-w-7xl px-6 text-center">
+    <div className="relative z-10 mx-auto w-fit px-6 text-center  h-fit ">
       {/* Header */}
       <div className="mb-20 space-y-4">
         <h2 className="text-4xl font-bold text-neutral-100">Why Choose Us</h2>

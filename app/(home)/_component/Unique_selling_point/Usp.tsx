@@ -24,14 +24,14 @@ const cards: card[] = [
   {
     id: "transparency-2",
     title: "Quality",
-    desc: "Premium ingredients sourced responsibly and tested for purity and effectiveness.",
+    desc: "We clearly share what goes into every product and why it’s there, so you always know what you’re choosing.",
     bg: "bg-amber-700",
   },
 ];
 
 export default function Usp() {
   return (
-    <div className="h-screen-1 relative rounded-t-[42] bg-neutral-900 py-64">
+    <div className="h-screen-1 relative rounded-t-[42] bg-neutral-900 py-[178px] ">
       {/* Background Pattern */}
       <Image
         src="/assets/usp-backspiral.svg"
