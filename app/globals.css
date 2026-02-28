@@ -26,8 +26,17 @@
   --color-prodcard-background: var(--prodcard-background);
   --color-ghost-background: var(--ghost-background);
   --color-star-fill:var(--star-fill);
+<<<<<<< Updated upstream
   --height-screen-1:var(--screen-1);
   --height-screen-2: var(--screen-2);
+=======
+  --color-usp-card-1: var(--usp-card-1);
+  --color-usp-card-2: var(--usp-card-2);
+  --color-usp-card-3: var(--usp-card-3);
+
+  --spacing-screen-1:100dvh;
+  --spacing-screen-2:200dvh;
+>>>>>>> Stashed changes
 }
 
 @media (prefers-color-scheme: light) {
