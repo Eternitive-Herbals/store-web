@@ -13,7 +13,7 @@ const PostCard = async ({ products }: { products: prod[] }) => {
       {products.map((product, idx) => (
         <div
           key={idx}
-          className={`flex ${idx % 2 !== 0 ? "flex-row-reverse" : "flex-row"} bg-prodcard-background relative items-start justify-between gap-8 overflow-hidden rounded-2xl`}
+          className={`flex ${idx % 2 !== 0 ? "flex-row-reverse" : "flex-row"} bg-prodcard-background relative items-start text-SF_Pro_Text justify-between gap-8 overflow-hidden rounded-2xl`}
         >
           <div className="w-full">
             <Image alt="prod" src={product.image} width={480} height={100} />
