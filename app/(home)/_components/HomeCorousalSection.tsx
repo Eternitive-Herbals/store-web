@@ -1,4 +1,4 @@
-import Slider from './Slider'
+import Slider from "./Slider";
 
 const slides = [
   { name: "img1", href: "/assets/Corosal.png" },
@@ -7,12 +7,10 @@ const slides = [
   { name: "img4", href: "/assets/Corosal.png" },
 ];
 
-const HomeCorousal = () => {
+export default function HomeCorousalSection() {
   return (
     <div className="">
       <Slider slides={slides} />
     </div>
   );
-};
-
-export default HomeCorousal;
+}

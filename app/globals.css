@@ -3,18 +3,18 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --nav-background: rgba(30, 30, 30, 0.40);
+  --nav-background: rgba(30, 30, 30, 0.4);
   --nav-foreground: #ededed;
-  --primary-background: #1B1B1B;
-  --dark-textfont: #1E1E1E;
-  --prodcard-background: #E2DED3;
-  --ghost-background: #F9F8F6;
+  --primary-background: #1b1b1b;
+  --dark-textfont: #1e1e1e;
+  --prodcard-background: #e2ded3;
+  --ghost-background: #f9f8f6;
 
-  --star-fill: #EDC06F;
+  --star-fill: #edc06f;
 
-  --usp-card-1: #0A3351;
+  --usp-card-1: #0a3351;
   --usp-card-2: #576149;
-  --usp-card-3: #AE8363;
+  --usp-card-3: #ae8363;
 }
 
 @theme {
@@ -27,94 +27,13 @@
   --color-prodcard-background: var(--prodcard-background);
   --color-ghost-background: var(--ghost-background);
   --color-star-fill: var(--star-fill);
-   --font-sans: "SF_Pro_Text", Arial, Helvetica, sans-serif;
-  --font-mono: var(--font-geist-mono);
+  --font-sf-pro-text: var(--font-sf-pro-text);
+  --font-comfortaa: var(--font-comfortaa);
   --color-usp-card-1: var(--usp-card-1);
   --color-usp-card-2: var(--usp-card-2);
   --color-usp-card-3: var(--usp-card-3);
- 
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --nav-background: rgba(30, 30, 30, 0.40);
-    --nav-foreground: #ffffff;
-    --primary-background: #1B1B1B;
-  }
-}
-
-
-
-
-
-@font-face {
-  font-family: "SF_Pro_Text";
-  src: url("/fonts/SF-Pro-Text-Light.otf") format("opentype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF_Pro_Text";
-  src: url("/fonts/SF-Pro-Text-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF_Pro_Text";
-  src: url("/fonts/SF-Pro-Text-Medium.otf") format("opentype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF_Pro_Text";
-  src: url("/fonts/SF-Pro-Text-Semibold.otf") format("opentype");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF_Pro_Text";
-  src: url("/fonts/SF-Pro-Text-Bold.otf") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF_Pro_Text";
-  src: url("/fonts/SF-Pro-Text-Heavy.otf") format("opentype");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Comfortaa_Heading_Text";
-  src: url("/fonts/Comfortaa.ttf") format("truetype");
-  font-weight: 700;
-  font-style: bold;
-  font-display: swap;
-}
-
-
 
 body {
-  background: var(--background);
-  color: var(--foreground);
- font-family: Comfortaa_Heading_Text, SF_Pro_Text, Arial, Helvetica, sans-serif;
+  @apply bg-background text-foreground font-sf-pro-text min-h-dvh max-w-dvw;
 }
-
-
-
-
-
-
