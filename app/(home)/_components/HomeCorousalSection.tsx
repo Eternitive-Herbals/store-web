@@ -1,10 +1,10 @@
 import Slider from "./Slider";
-
+import Corosal from "@/assets/Corosal.png";
 const slides = [
-  { name: "img1", href: "/assets/Corosal.png" },
-  { name: "img2", href: "/assets/Corosal.png" },
-  { name: "img3", href: "/assets/Corosal.png" },
-  { name: "img4", href: "/assets/Corosal.png" },
+  { name: "img1", href: Corosal.src },
+  { name: "img2", href: Corosal.src },
+  { name: "img3", href: Corosal.src },
+  { name: "img4", href: Corosal.src },
 ];
 
 export default function HomeCorousalSection() {

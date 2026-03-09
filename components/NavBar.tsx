@@ -8,7 +8,7 @@ const NavBar = async () => {
   const links = [
     { name: "Home", href: "/" },
     { name: "Our Story", href: "#" },
-    { name: "Product", href: "#" },
+    { name: "Product", href: "/product" },
     { name: "Contact", href: "#" },
   ];
   return (

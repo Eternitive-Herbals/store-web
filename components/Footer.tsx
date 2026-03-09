@@ -1,6 +1,8 @@
 import { Copyright, Instagram, LucideFacebook, Twitter } from "lucide-react";
 import Image from "next/image";
- 
+import FooterFirstImage from "@/assets/spiral_footer.svg";
+import FooterSecondImage from "@/assets/footer_aethery.svg";
+
 const Footer = async () => {
   const contactUs:string[] = [
     "Contact Us",
@@ -19,7 +21,7 @@ const Footer = async () => {
   return (
     <div className="bg-primary-background relative flex h-256 flex-col py-24">
       <Image
-        src={`/assets/spiral_footer.svg`}
+        src={FooterFirstImage}
         alt="footer spiral"
         fill
         className="z-0 object-cover"
@@ -60,7 +62,7 @@ const Footer = async () => {
       <div className="relative top-24 z-0">
         <Image
           alt="footer_aethery"
-          src="/assets/footer_aethery.svg"
+          src={FooterSecondImage}
           height={100}
           width={100}
           className="mx-auto w-fit"
