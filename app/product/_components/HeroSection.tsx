@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import ProductBgImage from "@/assets/ProductBgImage.png"
+import ProductBgImage from "@/assets/ProductBgImage.svg"
 export default function HeroSection() {
   return (
     <div className="h-full w-full flex">
