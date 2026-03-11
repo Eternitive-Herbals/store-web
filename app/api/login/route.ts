@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import connectDB from "../../../lib/db";
 import User from "../../../models/userModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 
-export async function POST(req) {
+export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
@@ -38,7 +38,7 @@ export async function POST(req) {
 
     const token = jwt.sign(
       { userId: user._id.toString(), email: user.email },
-      process.env.SECRET_AETHERY,
+      process.env.SECRET_AETHERY!,
       { expiresIn: "10d" },
     );
 
