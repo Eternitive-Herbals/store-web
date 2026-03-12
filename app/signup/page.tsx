@@ -9,14 +9,14 @@ import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
- const [username,setUserName] = useState("")
- const [email, setEmail] = useState("");
- const [password, setPassword] = useState("");
+  const [username, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
- const router = useRouter()
+  const router = useRouter();
   const handleSignUp = async () => {
     try {
-      const res = await fetch("/api/signUp", {
+      const res = await fetch("/api/signup", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -35,13 +35,11 @@ export default function Page() {
       }
 
       router.push("/");
-      router.refresh()
-      
+      router.refresh();
     } catch (error) {
       console.error("SignUp error:", error);
     }
   };
-
 
   const [showPassword, setShowPassword] = useState(false);
   const [confirmShowPassword, setConfirmShowPassword] = useState(false);
@@ -192,9 +190,10 @@ export default function Page() {
               <span className="text-sm text-[#181818]">Forgot Password?</span>
             </Link>
           </div>
-          <button 
-          onClick={handleSignUp}
-          className="flex w-full cursor-pointer items-center justify-center rounded-2xl bg-[#1B1B1B] py-3">
+          <button
+            onClick={handleSignUp}
+            className="flex w-full cursor-pointer items-center justify-center rounded-2xl bg-[#1B1B1B] py-3"
+          >
             <span className="font-sf-pro-text text-sm text-white">Sign up</span>
           </button>
 

@@ -8,6 +8,7 @@ export interface IUser extends Document {
   emailVerified: boolean;
   emailOtp?: string | null;
   emailOtpExpiry?: Date | null;
+  refreshToken?: string | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -43,7 +44,10 @@ const userSchema = new Schema<IUser>(
       default: null,
     },
 
+    refreshToken: { 
+    type: String, 
    
+  },
   },
   { timestamps: true },
 );

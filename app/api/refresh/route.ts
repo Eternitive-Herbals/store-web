@@ -13,14 +13,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "No refresh token" }, { status: 401 });
     }
 
-    
     let payload: { userId: string };
     try {
       payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET!) as {
         userId: string;
       };
     } catch {
-      return NextResponse.json({ message: "Invalid or expired refresh token" }, { status: 401 });
+      
+      return NextResponse.json(
+        { message: "Refresh token expired, please login again" },
+        { status: 401 }
+      );
     }
 
     await connectDB();
@@ -28,48 +31,36 @@ export async function POST(req: NextRequest) {
     
     const user = await User.findOne({
       _id: payload.userId,
-      refreshTokens: refreshToken,
+      refreshToken: refreshToken,  
     });
 
     if (!user) {
-      return NextResponse.json({ message: "Refresh token revoked" }, { status: 401 });
+      return NextResponse.json(
+        { message: "Refresh token revoked" },
+        { status: 401 }
+      );
     }
 
-   
-    user.refreshTokens = user.refreshTokens.filter((t: string) => t !== refreshToken);
-
+    
     const newAccessToken = jwt.sign(
       { userId: user._id.toString(), email: user.email },
       process.env.SECRET_AETHERY!,
-      { expiresIn: "1h" }
+      { expiresIn: "30s" }
     );
-
-    const newRefreshToken = jwt.sign(
-      { userId: user._id.toString() },
-      process.env.REFRESH_TOKEN_SECRET!,
-      { expiresIn: "30d" }
-    );
-
-    user.refreshTokens.push(newRefreshToken);
-    await user.save();
 
     cookieStore.set("access_token", newAccessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60,
+      maxAge: 30,
     });
 
-    cookieStore.set("refresh_token", newRefreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 30,
-    });
+    return NextResponse.json(
+      { message: "Access token refreshed" },
+      { status: 200 }
+    );
 
-    return NextResponse.json({ message: "Token refreshed" }, { status: 200 });
   } catch (error) {
     console.error("Refresh error:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });

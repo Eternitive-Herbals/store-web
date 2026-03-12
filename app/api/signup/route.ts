@@ -11,7 +11,6 @@ export async function POST(req: NextRequest) {
 
     const { username, email, password } = await req.json();
 
-    // Validation
     if (!username || !email || !password) {
       return NextResponse.json(
         { message: "username, email and password are required" },
@@ -19,60 +18,57 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
-
     if (existingUser) {
-      return NextResponse.json(
-        { message: "User already exists" },
-        { status: 409 }
-      );
+      return NextResponse.json({ message: "User already exists" }, { status: 409 });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await User.create({ username, email, password: hashedPassword });
 
-    // Create user
-    const newUser = await User.create({
-      username,
-      email,
-      password: hashedPassword,
-    });
-
-    // Generate JWT
-    const token = jwt.sign(
-      {
-        userId: newUser._id.toString(),
-        email: newUser.email,
-      },
+    
+    const accessToken = jwt.sign(
+      { userId: newUser._id.toString(), email: newUser.email },
       process.env.SECRET_AETHERY!,
-      { expiresIn: "10d" }
+      { expiresIn: "30s" }
     );
 
-    // Set cookie
+   
+    const refreshToken = jwt.sign(
+      { userId: newUser._id.toString() },
+      process.env.REFRESH_TOKEN_SECRET!,
+      { expiresIn: "2m" }
+    );
+
+    
+    newUser.refreshToken = refreshToken;
+    await newUser.save();
     const cookieStore = await cookies();
 
-    cookieStore.set("auth_token", token, {
+   
+    cookieStore.set("access_token", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 24 * 10,
+      maxAge: 30, 
+    });
+
+   
+    cookieStore.set("refresh_token", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 2, 
     });
 
     return NextResponse.json(
-      {
-        message: "User created successfully",
-        accessToken: token,
-      },
+      { message: "User created successfully" },
       { status: 201 }
     );
   } catch (error) {
     console.log("Signup error:", error);
-
-    return NextResponse.json(
-      { message: "Server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
