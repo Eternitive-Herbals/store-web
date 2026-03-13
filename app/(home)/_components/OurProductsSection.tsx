@@ -31,8 +31,8 @@ export default function OurProductsSection() {
   ];
 
   return (
-    <div className="bg-background relative z-50 block h-full w-full gap-8 place-self-center">
-      <Image src={OurProd} alt="our Prod" fill className="-z-10 object-cover" />
+    <div className="relative block h-full w-full gap-8 place-self-center">
+      <Image src={OurProd} alt="our Prod" fill className="object-cover" />
 
       <div className="justif-center items-between mx-auto flex max-w-3xl flex-col gap-16">
         <span className="text-dark-textfont mt-42 pt-2 pb-14 text-3xl font-medium">
@@ -43,13 +43,13 @@ export default function OurProductsSection() {
       </div>
 
       <div className="mt-14 flex justify-center pb-63">
-        <Link href={"/product"} className="flex font-sf-pro-text h-15 w-61.25 cursor-pointer items-center justify-center gap-6 rounded-full border border-neutral-800 text-2xl font-semibold text-[#1E1E1E] transition hover:bg-black hover:text-white">
+        <Link
+          href={"/product"}
+          className="font-sf-pro-text flex h-15 w-61.25 cursor-pointer items-center justify-center gap-6 rounded-full border border-neutral-800 text-2xl font-semibold text-[#1E1E1E] transition hover:bg-black hover:text-white"
+        >
           View Product
           <span className="rounded-3xl bg-[#D9D9D9]/40 p-2">
-            <ArrowUpRight
-              className="text-[#7d7878]"
-              size={29}
-            />
+            <ArrowUpRight className="text-[#7d7878]" size={29} />
           </span>
         </Link>
       </div>
