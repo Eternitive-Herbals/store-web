@@ -1,7 +1,6 @@
 "use server";
 import { IndianRupee, Star } from "lucide-react";
 import Image from "next/image";
-import Spiral from "@/assets/product_spiral.svg";
 
 type prod = {
   image: string;
@@ -45,7 +44,7 @@ const ProductGrid = async ({ products }: { products: prod[] }) => {
               {product.price}
             </span>
 
-            <button className="mt-3 w-[270px] h-[43px] rounded-full bg-[#1B1B1B] text-white">
+            <button className="mt-3 w-67.5 h-10.75 rounded-full bg-[#1B1B1B] text-white cursor-pointer hover:scale-105 duration-300">
               Add to Cart
             </button>
           </div>

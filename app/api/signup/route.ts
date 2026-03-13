@@ -30,14 +30,14 @@ export async function POST(req: NextRequest) {
     const accessToken = jwt.sign(
       { userId: newUser._id.toString(), email: newUser.email },
       process.env.SECRET_AETHERY!,
-      { expiresIn: "30s" }
+      { expiresIn: "15m" }
     );
 
    
     const refreshToken = jwt.sign(
       { userId: newUser._id.toString() },
       process.env.REFRESH_TOKEN_SECRET!,
-      { expiresIn: "2m" }
+      { expiresIn: "7d" }
     );
 
     
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 30, 
+      maxAge: 60 * 15, 
     });
 
    
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 2, 
+      maxAge: 60 * 60 * 24 * 7, 
     });
 
     return NextResponse.json(

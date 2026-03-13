@@ -100,11 +100,11 @@ export default function FeedbackSection() {
         </div>
 
         <div className="relative mx-auto h-104.5 w-326.5">
-          <button className="absolute top-52 -left-16 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#E2DED3]">
+          <button className="absolute top-52 -left-16 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#E2DED3]  hover:bg-white/90 cursor-pointer">
             <ArrowLeft size={20} className="text-[#4F5C39]"/>
           </button>
 
-          <button className="absolute top-52 -right-16 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#E2DED3]">
+          <button className="absolute top-52 -right-16 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#E2DED3]  hover:bg-white/90 cursor-pointer">
             <ArrowRight size={20} className="text-[#4F5C39]" />
           </button>
 

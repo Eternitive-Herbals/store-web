@@ -70,13 +70,13 @@ const Slider = ({ slides }: { slides: Slide[] }) => {
       <div className="absolute inset-0 flex items-center justify-between px-8">
         <button
           onClick={prev}
-          className="rounded-full bg-white/60 p-2 hover:bg-white/90"
+          className="rounded-full bg-white/60 p-2 hover:bg-white/90 cursor-pointer"
         >
           <ArrowLeft />
         </button>
         <button
           onClick={next}
-          className="rounded-full bg-white/60 p-2 hover:bg-white/90"
+          className="rounded-full bg-white/60 p-2 hover:bg-white/90 cursor-pointer"
         >
           <ArrowRight />
         </button>

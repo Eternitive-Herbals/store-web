@@ -5,6 +5,7 @@ import Prod1 from "@/assets/prod1.png";
 import Prod2 from "@/assets/prod2.png";
 import Prod3 from "@/assets/prod3.png";
 import OurProd from "@/assets/our_prod.svg";
+import Link from "next/link";
 export default function OurProductsSection() {
   const products = [
     {
@@ -42,7 +43,7 @@ export default function OurProductsSection() {
       </div>
 
       <div className="mt-14 flex justify-center pb-63">
-        <button className="flex font-sf-pro-text h-15 w-61.25 cursor-pointer items-center justify-center gap-6 rounded-full border border-neutral-800 text-2xl font-semibold text-[#1E1E1E] transition hover:bg-black hover:text-white">
+        <Link href={"/product"} className="flex font-sf-pro-text h-15 w-61.25 cursor-pointer items-center justify-center gap-6 rounded-full border border-neutral-800 text-2xl font-semibold text-[#1E1E1E] transition hover:bg-black hover:text-white">
           View Product
           <span className="rounded-3xl bg-[#D9D9D9]/40 p-2">
             <ArrowUpRight
@@ -50,7 +51,7 @@ export default function OurProductsSection() {
               size={29}
             />
           </span>
-        </button>
+        </Link>
       </div>
     </div>
   );

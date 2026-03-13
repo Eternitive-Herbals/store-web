@@ -1,6 +1,7 @@
 "use server";
-import { ArrowUpRight, IndianRupee } from "lucide-react";
+import { ArrowUpRight, IndianRupee, Link2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 type prod = {
   image: string;
   title: string;
@@ -36,15 +37,15 @@ const PostCard = async ({ products }: { products: prod[] }) => {
                 {product.price}
               </span>
             </div>
-            <button
-              className={`tracking-tight text-white font-sf-pro-text absolute bottom-6 flex h-15 w-61.25 text-2xl items-center justify-center gap-3
-                rounded-full bg-[#1B1B1B] py-2 pr-2 pl-5  ${idx % 2 !== 0 ? "left-6" : "right-6"} `}
+            <Link href={"/product"}
+              className={`tracking-tight text-white font-sf-pro-text cursor-pointer absolute bottom-6 flex h-15 w-61.25 text-2xl items-center justify-center gap-3
+                rounded-full bg-[#1B1B1B] py-2 pr-2 pl-5 hover:scale-105 duration-300 ${idx % 2 !== 0 ? "left-6" : "right-6"} `}
             >
-              View Products{" "}
+              View Products
               <span className="rounded-full bg-[#D9D9D9]/40 p-2">
                 <ArrowUpRight size={30} />
               </span>
-            </button>
+            </Link>
           </div>
         ))}
       </div>

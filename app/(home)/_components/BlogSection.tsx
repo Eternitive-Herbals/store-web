@@ -53,7 +53,7 @@ export default function BlogSection() {
               </p>
             </div>
 
-            <button className="h-13.5 w-48.5 rounded-full border border-white/40 bg-[#1B1B1B] px-6 py-2 text-sm text-white transition hover:bg-white hover:text-black">
+            <button className="h-13.5 w-48.5 cursor-pointer rounded-full border border-white/40 bg-[#1B1B1B] px-6 py-2 text-sm text-white transition hover:bg-white hover:text-black">
               Learn More
             </button>
           </div>
