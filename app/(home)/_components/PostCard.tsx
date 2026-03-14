@@ -1,5 +1,5 @@
 "use server";
-import { ArrowUpRight, IndianRupee, Link2 } from "lucide-react";
+import { ArrowUpRight, IndianRupee} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 type prod = {

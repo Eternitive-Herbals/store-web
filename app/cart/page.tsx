@@ -1,7 +1,16 @@
 "use client";
 
+import { Trash } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+
+type prod = {
+  _id?: string;
+  image: string;
+  title: string;
+  description: string;
+  price: number | string;
+};
 
 export default function CartPage() {
   const [cart, setCart] = useState<any[]>([]);
@@ -19,6 +28,18 @@ export default function CartPage() {
     fetchCart();
   }, []);
 
+  const deleteItem = async (title: string) => {
+    const res = await fetch("/api/cart", {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ title }),
+    });
+    const data = await res.json();
+    setCart(data.cart.items);
+  };
   return (
     <div className="p-10">
       <h1 className="mb-6 text-3xl">Your Cart</h1>
@@ -35,6 +56,13 @@ export default function CartPage() {
             <p>₹{item.price}</p>
             <p>Quantity: {item.quantity}</p>
           </div>
+
+          <button
+            onClick={() => deleteItem(item.title)}
+            className="flex cursor-pointer justify-end text-right text-red-500"
+          >
+            <Trash size={22} />
+          </button>
         </div>
       ))}
     </div>

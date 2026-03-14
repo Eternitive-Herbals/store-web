@@ -9,7 +9,6 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     const body = await req.json();
-    console.log("BODY:", body);
 
     const { productId, title, price, image } = body;
 
@@ -81,4 +80,36 @@ export async function GET() {
 
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
+}
+
+export async function DELETE(req: NextRequest) {
+  await connectDB();
+
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
+  if (!token) {
+    return NextResponse.json({ message: "unauthorized" }, { status: 401 });
+  }
+
+  const decoded: any = jwt.verify(token, process.env.SECRET_AETHERY!);
+  const userId = decoded.userId;
+
+  const body = await req.json();
+
+  const cart = await Cart.findOne({ userId });
+  if (!cart) {
+    return NextResponse.json({ message: "unauthorized" }, { status: 404 });
+  }
+
+  cart.items = cart.items.filter(
+    (item: any) => item.productId?.toString() !== body.productId,
+  );
+
+  await cart.save();
+
+  return NextResponse.json({
+    message: "Item Removed from Cart",
+    cart,
+  });
 }
