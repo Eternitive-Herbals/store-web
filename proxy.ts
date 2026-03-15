@@ -7,7 +7,7 @@ export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   const isProtected = PROTECTED_ROUTES.some((route) =>
-    pathname.startsWith(route)
+    pathname.startsWith(route),
   );
   if (!isProtected) return NextResponse.next();
 
@@ -17,23 +17,18 @@ export async function proxy(req: NextRequest) {
     try {
       await jwtVerify(
         accessToken,
-        new TextEncoder().encode(process.env.SECRET_AETHERY!)
+        new TextEncoder().encode(process.env.SECRET_AETHERY!),
       );
       return NextResponse.next();
-    } catch {
-      
-    }
+    } catch {}
   }
 
   const refreshToken = req.cookies.get("refresh_token")?.value;
   if (refreshToken) {
-    const refreshRes = await fetch(
-      `${req.nextUrl.origin}/api/refresh`,
-      {
-        method: "POST",
-        headers: { cookie: `refresh_token=${refreshToken}` },
-      }
-    );
+    const refreshRes = await fetch(`${req.nextUrl.origin}/api/refresh`, {
+      method: "POST",
+      headers: { cookie: `refresh_token=${refreshToken}` },
+    });
 
     if (refreshRes.ok) {
       const response = NextResponse.next();
@@ -48,8 +43,5 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-     "/product",       
-    "/product/(.*)",
-  ],
+  matcher: ["/cart", "/cart/(.*)"],
 };

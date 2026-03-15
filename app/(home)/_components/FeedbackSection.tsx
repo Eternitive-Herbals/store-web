@@ -100,24 +100,29 @@ export default function FeedbackSection() {
         </div>
 
         <div className="relative mx-auto h-104.5 w-326.5">
-          <button className="absolute top-52 -left-16 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#E2DED3]  hover:bg-white/90 cursor-pointer">
-            <ArrowLeft size={20} className="text-[#4F5C39]"/>
+          <button className="absolute top-52 -left-16 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[#E2DED3] hover:bg-white/90">
+            <ArrowLeft size={20} className="text-[#4F5C39]" />
           </button>
 
-          <button className="absolute top-52 -right-16 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#E2DED3]  hover:bg-white/90 cursor-pointer">
+          <button className="absolute top-52 -right-16 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[#E2DED3] hover:bg-white/90">
             <ArrowRight size={20} className="text-[#4F5C39]" />
           </button>
 
           <div className="mx-auto flex h-full max-w-4xl items-center justify-center">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
               {FeedbackSectionData.reviews.slice(0, 4).map((review, index) => (
-                <div key={index} className="rounded-2xl bg-[#FFFFFF] p-6 shadow-lg shadow-[#E2DED3]">
+                <div
+                  key={index}
+                  className="rounded-2xl bg-[#FFFFFF] p-6 shadow-lg shadow-[#E2DED3]"
+                >
                   <div className="mb-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="h-10 w-10 rounded-full bg-[#D9D9D9]" />
                       <div>
-                        <h3 className="font-semibold text-[#0F2B4A] font-sf-pro-text">{review.name}</h3>
-                        <p className="text-[11px] text-[#474747] font-sf-pro-text">
+                        <h3 className="font-sf-pro-text font-semibold text-[#0F2B4A]">
+                          {review.name}
+                        </h3>
+                        <p className="font-sf-pro-text text-[11px] text-[#474747]">
                           {review.address}
                         </p>
                       </div>
@@ -128,13 +133,13 @@ export default function FeedbackSection() {
                         <StarIcon
                           key={i}
                           size={16}
-                          className="text-[#FFCC32] fill-[#FFCC32]"
+                          className="fill-[#FFCC32] text-[#FFCC32]"
                         />
                       ))}
                     </div>
                   </div>
 
-                  <p className="text-sm leading-relaxed text-[#232323] font-sf-pro-text">
+                  <p className="font-sf-pro-text text-sm leading-relaxed text-[#232323]">
                     {review.feedback}
                   </p>
                 </div>

@@ -22,7 +22,7 @@ const UspCard = ({ cards }: { cards: card[] }) => {
             </p>
           </div>
 
-          <button className="w-fit rounded-full border cursor-pointer border-white/40 px-6 py-2 text-sm transition hover:bg-white hover:text-black">
+          <button className="w-fit cursor-pointer rounded-full border border-white/40 px-6 py-2 text-sm transition hover:bg-white hover:text-black">
             Learn More
           </button>
         </div>

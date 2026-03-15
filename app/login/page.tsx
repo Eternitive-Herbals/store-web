@@ -9,7 +9,7 @@ import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const router = useRouter()
+  const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,34 +17,29 @@ export default function Page() {
 
   const handleLogin = async () => {
     try {
-
-      const res = await fetch('/api/login',{
+      const res = await fetch("/api/login", {
         method: "POST",
-        headers:{
-          "content-type":"application/json"
+        headers: {
+          "content-type": "application/json",
         },
         body: JSON.stringify({
           email,
           password,
-        })
-      })
+        }),
+      });
       const data = await res.json();
 
       if (!res.ok) {
         alert(data.message);
         return;
       }
-     
-      router.push('/');
-      router.refresh()
-      
-    } catch (error) {
 
+      router.push("/");
+      router.refresh();
+    } catch (error) {
       console.error("Login error:", error);
     }
-  }
-
-
+  };
 
   return (
     <div className="flex min-h-screen w-full gap-23">
@@ -93,7 +88,7 @@ export default function Page() {
               name="email"
               id="email"
               value={email}
-              onChange={(e)=> setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter email or username"
               autoComplete="email"
               className="bg-background-light focus:outline-background-lightest w-full rounded-2xl border border-[#C4C4C4] px-4 py-2 outline-2 outline-offset-0 outline-transparent transition-all placeholder:text-sm placeholder:text-[#9D9D9E]"
@@ -110,7 +105,7 @@ export default function Page() {
                 name="password"
                 id="password"
                 value={password}
-                onChange={(e)=>setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password"
                 autoComplete="current-password"
                 className="bg-background-light focus:outline-background-lightest w-full rounded-2xl border border-[#C4C4C4] px-4 py-2 pr-10 outline-2 outline-offset-0 outline-transparent transition-all placeholder:text-sm placeholder:text-[#9D9D9E]"
@@ -149,7 +144,10 @@ export default function Page() {
               <span className="text-sm text-[#181818]">Forgot Password?</span>
             </Link>
           </div>
-          <button onClick={handleLogin}className="flex w-full cursor-pointer items-center justify-center rounded-2xl bg-[#1B1B1B] py-3">
+          <button
+            onClick={handleLogin}
+            className="flex w-full cursor-pointer items-center justify-center rounded-2xl bg-[#1B1B1B] py-3"
+          >
             <span className="font-sf-pro-text text-sm text-white">Log In</span>
           </button>
 

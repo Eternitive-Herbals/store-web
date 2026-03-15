@@ -25,7 +25,7 @@ export default function BlogSection() {
   return (
     <div className="w-full bg-[#F9F8F6] py-42">
       <div className="flex justify-center">
-        <div className="flex flex-col items-center gap-3 mb-2 text-center">
+        <div className="mb-2 flex flex-col items-center gap-3 text-center">
           <span className="font-comfortaa text-4xl text-[#020E35]">
             A Thoughtful Approach to Wellness
           </span>

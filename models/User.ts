@@ -44,10 +44,9 @@ const userSchema = new Schema<IUser>(
       default: null,
     },
 
-    refreshToken: { 
-    type: String, 
-   
-  },
+    refreshToken: {
+      type: String,
+    },
   },
   { timestamps: true },
 );

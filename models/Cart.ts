@@ -19,7 +19,7 @@ const CartSchema = new Schema(
     },
     items: [CartItemSchema],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Cart = models.Cart || model("Cart", CartSchema);

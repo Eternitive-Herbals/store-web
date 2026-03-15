@@ -33,8 +33,8 @@
   --color-usp-card-2: var(--usp-card-2);
   --color-usp-card-3: var(--usp-card-3);
 
-  --spacing-screen-1:100dvh;
-  --spacing-screen-2:200dvh;
+  --spacing-screen-1: 100dvh;
+  --spacing-screen-2: 200dvh;
 }
 
 body {

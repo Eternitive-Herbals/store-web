@@ -10,7 +10,10 @@ export async function POST(req: NextRequest) {
     const refreshToken = cookieStore.get("refresh_token")?.value;
 
     if (!refreshToken) {
-      return NextResponse.json({ message: "No refresh token" }, { status: 401 });
+      return NextResponse.json(
+        { message: "No refresh token" },
+        { status: 401 },
+      );
     }
 
     let payload: { userId: string };
@@ -19,33 +22,30 @@ export async function POST(req: NextRequest) {
         userId: string;
       };
     } catch {
-      
       return NextResponse.json(
         { message: "Refresh token expired, please login again" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
     await connectDB();
 
-    
     const user = await User.findOne({
       _id: payload.userId,
-      refreshToken: refreshToken,  
+      refreshToken: refreshToken,
     });
 
     if (!user) {
       return NextResponse.json(
         { message: "Refresh token revoked" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
-    
     const newAccessToken = jwt.sign(
       { userId: user._id.toString(), email: user.email },
       process.env.SECRET_AETHERY!,
-      { expiresIn: "30s" }
+      { expiresIn: "30s" },
     );
 
     cookieStore.set("access_token", newAccessToken, {
@@ -58,9 +58,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       { message: "Access token refreshed" },
-      { status: 200 }
+      { status: 200 },
     );
-
   } catch (error) {
     console.error("Refresh error:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });

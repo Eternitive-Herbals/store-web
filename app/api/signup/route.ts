@@ -14,58 +14,60 @@ export async function POST(req: NextRequest) {
     if (!username || !email || !password) {
       return NextResponse.json(
         { message: "username, email and password are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return NextResponse.json({ message: "User already exists" }, { status: 409 });
+      return NextResponse.json(
+        { message: "User already exists" },
+        { status: 409 },
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ username, email, password: hashedPassword });
+    const newUser = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+    });
 
-    
     const accessToken = jwt.sign(
       { userId: newUser._id.toString(), email: newUser.email },
       process.env.SECRET_AETHERY!,
-      { expiresIn: "15m" }
+      { expiresIn: "15m" },
     );
 
-   
     const refreshToken = jwt.sign(
       { userId: newUser._id.toString() },
       process.env.REFRESH_TOKEN_SECRET!,
-      { expiresIn: "7d" }
+      { expiresIn: "7d" },
     );
 
-    
     newUser.refreshToken = refreshToken;
     await newUser.save();
     const cookieStore = await cookies();
 
-   
     cookieStore.set("access_token", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 15, 
+      maxAge: 60 * 15,
     });
 
-   
     cookieStore.set("refresh_token", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 24 * 7, 
+      maxAge: 60 * 60 * 24 * 7,
     });
 
     return NextResponse.json(
       { message: "User created successfully" },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.log("Signup error:", error);

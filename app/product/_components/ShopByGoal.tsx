@@ -27,11 +27,9 @@ export default function ShopByGoal() {
   return (
     <div className="">
       <div className="flex w-full flex-col items-center gap-10 bg-[#F4F4F4] pt-12 pb-12">
-        <h2 className="font-comfortaa text-2xl font-semibold">
-          Shop by Goal
-        </h2>
+        <h2 className="font-comfortaa text-2xl font-semibold">Shop by Goal</h2>
 
-        <div className="flex flex-wrap justify-center gap-9 px-12 w-full">
+        <div className="flex w-full flex-wrap justify-center gap-9 px-12">
           {goals.map((goal, idx) => (
             <div key={idx} className="flex flex-col items-center gap-3">
               <div className="relative h-37 w-37 overflow-hidden rounded-full">
@@ -47,9 +45,8 @@ export default function ShopByGoal() {
             </div>
           ))}
         </div>
-
       </div>
-      <div className=" bg-[#1B1B1B] py-3 px-16 flex w-full gap-6 justify-around items-center ">
+      <div className="flex w-full items-center justify-around gap-6 bg-[#1B1B1B] px-16 py-3">
         <select className="flex-1 rounded-md border bg-white px-4 py-2 text-gray-600">
           <option>Supplement Type</option>
         </select>
@@ -58,18 +55,18 @@ export default function ShopByGoal() {
           <option>Price</option>
         </select>
 
-        <div className="flex-1 relative">
-        <input
-          type="text"
-          placeholder="search"
-          className="w-full rounded-md border bg-white px-4 py-2 pr-10"
-        />
+        <div className="relative flex-1">
+          <input
+            type="text"
+            placeholder="search"
+            className="w-full rounded-md border bg-white px-4 py-2 pr-10"
+          />
 
-        <Search
-          size={18}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-        />
-      </div>
+          <Search
+            size={18}
+            className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500"
+          />
+        </div>
       </div>
     </div>
   );

@@ -12,21 +12,21 @@ type prod = {
 };
 
 const ProductGrid = ({ products }: { products: prod[] }) => {
- const addToCart = async (product: prod) => {
-  await fetch("/api/cart", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({
-      productId: product._id,
-      title: product.title,
-      price: product.price,
-      image: product.image,
-    }),
-  });
-};
+  const addToCart = async (product: prod) => {
+    await fetch("/api/cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        productId: product._id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+      }),
+    });
+  };
 
   return (
     <div className="flex items-center justify-center py-16">
