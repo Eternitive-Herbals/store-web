@@ -1,24 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "../../../lib/db";
-import User from "../../../models/User";
+import connectDB from "../../../../lib/db";
+import User from "../../../../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { signupSchema } from "@/lib/Validation";
 
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
-    const { username, email, password } = await req.json();
+    const body = await req.json();
 
-    if (!username || !email || !password) {
+    const validation = signupSchema.safeParse(body);
+
+
+    if (!validation.success) {
       return NextResponse.json(
-        { message: "username, email and password are required" },
+        { message: validation.error.issues[0].message },
         { status: 400 },
       );
     }
+    const { username, email, password } = validation.data;
 
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
       return NextResponse.json(
         { message: "User already exists" },
@@ -27,6 +33,7 @@ export async function POST(req: NextRequest) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = await User.create({
       username,
       email,

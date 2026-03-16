@@ -1,22 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "../../../lib/db";
-import User from "../../../models/User";
+import connectDB from "../../../../lib/db";
+import User from "../../../../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { loginSchema } from "@/lib/Validation";
 
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
-    const { email, password } = await req.json();
+    const body = await req.json();
 
-    if (!email || !password) {
+    const validation = loginSchema.safeParse(body);
+
+    if (!validation.success) {
       return NextResponse.json(
-        { message: "Email and password are required" },
+        { message: validation.error.issues[0].message },
         { status: 400 },
       );
     }
+    const { email, password} = validation.data;
 
     const user = await User.findOne({ email });
 

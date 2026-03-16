@@ -16,7 +16,7 @@ export default function Page() {
   const router = useRouter();
   const handleSignUp = async () => {
     try {
-      const res = await fetch("/api/signup", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
           "content-type": "application/json",

@@ -17,7 +17,7 @@ export default function Page() {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "content-type": "application/json",
