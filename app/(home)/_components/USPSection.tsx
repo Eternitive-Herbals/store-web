@@ -32,7 +32,7 @@ export default function USPSection() {
   ];
 
   return (
-    <div className="relative h-full min-h-screen overflow-hidden rounded-t-[42px] bg-neutral-900 py-44.5">
+    <div className="relative h-fit md:min-h-screen overflow-hidden rounded-t-[42px] bg-neutral-900 py-44.5">
       <Image
         src={BackGraphics}
         alt="pattern"
