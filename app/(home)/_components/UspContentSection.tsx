@@ -1,4 +1,4 @@
-import UspCard from "./UspCard";
+import React from "react";
 
 type card = {
   id: string;
@@ -7,21 +7,30 @@ type card = {
   bg: string;
 };
 
-const UspContentSection = ({ cards }: { cards: card[] }) => {
+const UspCard = ({ cards }: { cards: card[] }) => {
   return (
-    <div className="relative z-10 mx-auto w-fit px-6 text-center  h-fit ">
-      {/* Header */}
-      <div className="mb-20 space-y-4">
-        <h2 className="text-4xl font-bold text-neutral-100">Why Choose Us</h2>
-        <p className="text-lg text-neutral-400">
-          We Help You Prioritize Your Health
-        </p>
-      </div>
+    <div className="flex flex-col items-center gap-6 sm:gap-10 md:flex-row md:flex-wrap md:justify-center lg:flex-nowrap lg:gap-15">
+      {cards.map((card) => (
+        <div
+          key={card.id}
+          className={`${card.bg} flex h-auto min-h-80 w-full max-w-sm flex-col items-center justify-between rounded-[40px] p-6 py-10 text-white shadow-lg transition-transform duration-300 hover:-translate-y-2 md:min-h-96 md:w-72 md:py-14 lg:h-101 lg:w-96 lg:rounded-[60px] lg:py-18`}
+        >
+          <div className="flex flex-col items-center gap-6 md:gap-8 lg:gap-10">
+            <h3 className="mb-2 text-center text-xl font-semibold sm:text-2xl">
+              {card.title}
+            </h3>
+            <p className="mb-4 text-center text-sm leading-relaxed text-white/80">
+              {card.desc}
+            </p>
+          </div>
 
-      {/* Cards */}
-      <UspCard cards={cards} />
+          <button className="w-fit rounded-full border border-white/40 px-6 py-2 text-sm transition hover:bg-white hover:text-black">
+            Learn More
+          </button>
+        </div>
+      ))}
     </div>
   );
 };
 
-export default UspContentSection;
+export default UspCard;
