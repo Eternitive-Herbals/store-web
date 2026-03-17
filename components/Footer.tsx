@@ -4,14 +4,14 @@ import FooterFirstImage from "@/assets/spiral_footer.svg";
 import FooterSecondImage from "@/assets/footer_aethery.svg";
 
 const Footer = async () => {
-  const contactUs:string[] = [
+  const contactUs: string[] = [
     "Contact Us",
     "Adress",
     "aethery@gmail.com",
     "+0000000000",
   ];
 
-  const policy:string[] = [
+  const policy: string[] = [
     "Privacy Policy",
     "Terms & Conditions",
     "Refund & Return Policy",

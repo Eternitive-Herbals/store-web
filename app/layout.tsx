@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Comfortaa } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import NavBar from "../components/NavBar";
+import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const comfortaa = Comfortaa({
@@ -107,21 +107,19 @@ const sf_pro_text = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Aethery",
+  title: "aethery",
   description: "",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body
         className={`${comfortaa.variable} ${sf_pro_text.variable} relative antialiased`}
       >
-        <NavBar />
+        <Header />
         {children}
         <Footer />
       </body>

@@ -13,13 +13,13 @@ const Slider = ({ slides }: { slides: Slide[] }) => {
   const [slideIdx, setSlideIdx] = useState(1);
   const [isTransition, setIsTransition] = useState(true);
 
-   useEffect(() => {
-     if (!isTransition) {
-       requestAnimationFrame(() => {
-         setIsTransition(true);
-       });
-     }
-   }, [isTransition]);
+  useEffect(() => {
+    if (!isTransition) {
+      requestAnimationFrame(() => {
+        setIsTransition(true);
+      });
+    }
+  }, [isTransition]);
 
   if (!slides || slides.length === 0) return null;
 
@@ -70,13 +70,13 @@ const Slider = ({ slides }: { slides: Slide[] }) => {
       <div className="absolute inset-0 flex items-center justify-between px-8">
         <button
           onClick={prev}
-          className="rounded-full bg-white/60 p-2 hover:bg-white/90"
+          className="cursor-pointer rounded-full bg-white/60 p-2 hover:bg-white/90"
         >
           <ArrowLeft />
         </button>
         <button
           onClick={next}
-          className="rounded-full bg-white/60 p-2 hover:bg-white/90"
+          className="cursor-pointer rounded-full bg-white/60 p-2 hover:bg-white/90"
         >
           <ArrowRight />
         </button>
