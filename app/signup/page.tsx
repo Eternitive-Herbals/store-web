@@ -21,6 +21,7 @@ export default function Page() {
         headers: {
           "content-type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           username,
           email,
@@ -170,26 +171,7 @@ export default function Page() {
               </button>
             </div>
           </label>
-          <div className="flex w-full justify-between">
-            <label
-              htmlFor="remember-me"
-              className="flex cursor-pointer items-center gap-2"
-            >
-              <input
-                type="checkbox"
-                name="rememberMe"
-                id="remember-me"
-                className="cursor-pointer text-[#C4C4C4]"
-              />
-              <span className="text-sm text-[#181818]">Remember Me</span>
-            </label>
-            <Link
-              href={"/forgot-password"}
-              className="transition-all hover:opacity-75 active:opacity-50"
-            >
-              <span className="text-sm text-[#181818]">Forgot Password?</span>
-            </Link>
-          </div>
+
           <button
             onClick={handleSignUp}
             className="flex w-full cursor-pointer items-center justify-center rounded-2xl bg-[#1B1B1B] py-3"

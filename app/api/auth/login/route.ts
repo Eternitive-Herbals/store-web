@@ -20,7 +20,8 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
-    const { email, password} = validation.data;
+    const { email, password, rememberMe } = validation.data;
+    const isRemember = rememberMe ?? false;
 
     const user = await User.findOne({ email });
 
@@ -40,14 +41,41 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const token = jwt.sign(
+    const accessToken = jwt.sign(
       { userId: user._id.toString(), email: user.email },
       process.env.SECRET_AETHERY!,
-      { expiresIn: "10d" },
+      { expiresIn: "15m" },
     );
 
+    const refreshToken = jwt.sign(
+      { userId: user._id.toString() },
+      process.env.REFRESH_TOKEN_SECRET!,
+      { expiresIn: isRemember ? "7d" : "1d" },
+    );
+
+    user.refreshToken = await bcrypt.hash(refreshToken, 10);
+    await user.save();
+
     const cookieStore = await cookies();
-    cookieStore.set("refresh_token", token, {
+
+    cookieStore.set("access_token", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 15,
+    });
+
+    const newRefreshToken = jwt.sign(
+      { userId: user._id.toString() },
+      process.env.REFRESH_TOKEN_SECRET!,
+      { expiresIn: "7d" },
+    );
+
+    user.refreshToken = newRefreshToken;
+    await user.save();
+
+    cookieStore.set("refresh_token", newRefreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
@@ -55,13 +83,7 @@ export async function POST(req: NextRequest) {
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    return NextResponse.json(
-      {
-        message: "Login successful",
-        accessToken: token,
-      },
-      { status: 200 },
-    );
+    return NextResponse.json({ message: "Login successful" });
   } catch (error) {
     console.log("something wend twrong please try after some time", error);
 

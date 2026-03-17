@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "../../../../lib/db";
-import User from "../../../../models/User";
+import connectDB from "@/lib/db";
+import User from "@/models/User";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 30,
+      maxAge: 60 * 15,
     });
 
     return NextResponse.json(

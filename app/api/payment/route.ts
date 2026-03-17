@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
-import { Payment } from "@/models/Transaction";
+import { Transaction } from "@/models/Transaction";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
@@ -18,14 +18,13 @@ export async function POST(req: NextRequest) {
     const decoded: any = jwt.verify(token, process.env.SECRET_AETHERY!);
     const userId = decoded.userId;
 
-    const { orderId, amount, paymentMethod, transactionId } = await req.json();
+    const { orderId, amount, paymentMethod } = await req.json();
 
-    const payment = await Payment.create({
+    const payment = await Transaction.create({
       order: orderId,
       user: userId,
       amount,
       paymentMethod,
-      transactionId,
     });
 
     return NextResponse.json(
@@ -46,7 +45,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const orderId = searchParams.get("orderId");
 
-    const payment = await Payment.findOne({ order: orderId });
+    const payment = await Transaction.findOne({ order: orderId });
 
     return NextResponse.json(payment);
   } catch (error) {

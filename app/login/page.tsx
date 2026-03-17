@@ -14,6 +14,7 @@ export default function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -22,9 +23,11 @@ export default function Page() {
         headers: {
           "content-type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           email,
           password,
+          rememberMe,
         }),
       });
       const data = await res.json();
@@ -132,6 +135,8 @@ export default function Page() {
               >
                 <input
                   type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                   name="rememberMe"
                   id="remember-me"
                   className="cursor-pointer text-[#C4C4C4]"
