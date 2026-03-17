@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     );
 
     const cookieStore = await cookies();
-    cookieStore.set("access_token", token, {
+    cookieStore.set("refresh_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

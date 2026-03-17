@@ -1,13 +1,7 @@
 import { Schema, model } from "mongoose";
 
-const PaymentSchema = new Schema(
+const TransactionSchema = new Schema(
   {
-    order: {
-      type: Schema.Types.ObjectId,
-      ref: "Order",
-      required: true,
-    },
-
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -24,12 +18,13 @@ const PaymentSchema = new Schema(
       enum: ["card", "upi", "netbanking", "cod"],
       required: true,
     },
-
-    transactionId: {
-      type: String,
-    },
+    order: {
+      type: Schema.Types.ObjectId,
+      ref: "Order",
+      required: true,
+    }
   },
   { timestamps: true },
 );
 
-export const Payment = model("Payment", PaymentSchema);
+export const Transaction = model("Transaction", TransactionSchema);

@@ -1,11 +1,11 @@
-import HeroSection from "./_components/HeroSection";
+// import HeroSection from "./_components/HeroSection";
 import OurProductSection from "./_components/OurProductSection";
 import ShopByGoal from "./_components/ShopByGoal";
 
 export default function page() {
   return (
     <div>
-      <HeroSection />
+      {/* <HeroSection /> */}
       <ShopByGoal />
       <OurProductSection />
     </div>
