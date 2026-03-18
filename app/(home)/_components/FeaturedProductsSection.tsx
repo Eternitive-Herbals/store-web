@@ -41,11 +41,15 @@ export default function FeaturedProductsSection() {
       />
 
       <span className="font-comfortaa mb-16 text-4xl font-bold">
-        Our best sellers
+        Our Best Sellers
       </span>
 
       {products.map((product, index) => (
-        <FeaturedProductCard key={index} {...product} />
+        <FeaturedProductCard
+          key={index}
+          {...product}
+          reverse={index % 2 !== 0}
+        />
       ))}
     </div>
   );
