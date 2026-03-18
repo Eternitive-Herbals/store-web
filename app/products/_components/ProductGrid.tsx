@@ -30,7 +30,7 @@ const ProductGrid = ({ products }: { products: prod[] }) => {
 
   return (
     <div className="flex items-center justify-center py-16">
-      <div className="grid grid-cols-3 gap-17">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-17">
         {products.map((product, idx) => (
           <div
             key={idx}
