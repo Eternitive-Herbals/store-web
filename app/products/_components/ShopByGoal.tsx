@@ -10,7 +10,7 @@ import HairImg from "@/assets/hair.svg";
 
 type goal = {
   title: string;
-  image: any;
+  image: string;
 };
 
 export default function ShopByGoal() {
@@ -25,14 +25,14 @@ export default function ShopByGoal() {
   ];
 
   return (
-    <div className="">
-      <div className="flex w-full flex-col items-center gap-10 bg-[#F4F4F4] pt-12 pb-12">
+    <div className=" bg-transparent">
+      <div className="flex w-full flex-col items-start gap-10 overflow-x-auto backdrop:blur-lg bg-shop-background pt-12 pb-12 sm:items-center md:overflow-auto">
         <h2 className="font-comfortaa text-2xl font-semibold">Shop by Goal</h2>
 
-        <div className="flex w-full flex-wrap justify-center gap-9 px-12">
+        <div className="flex w-full justify-center gap-9 px-12">
           {goals.map((goal, idx) => (
             <div key={idx} className="flex flex-col items-center gap-3">
-              <div className="relative h-37 w-37 overflow-hidden rounded-full">
+              <div className="relative size-24 overflow-hidden rounded-full sm:size-37">
                 <Image
                   src={goal.image}
                   alt={goal.title}
@@ -46,16 +46,16 @@ export default function ShopByGoal() {
           ))}
         </div>
       </div>
-      <div className="flex w-full items-center justify-around gap-6 bg-[#1B1B1B] px-16 py-3">
-        <select className="flex-1 rounded-md border bg-white px-4 py-2 text-gray-600">
+      <div className="flex w-full items-center justify-around gap-2 sm:gap-6 bg-[#1B1B1B]  px-2 sm:px-16 py-3">
+        <select className="flex-1 overflow-hidden min-w-10 rounded-md border bg-white px-4 py-2 text-gray-600">
           <option>Supplement Type</option>
         </select>
 
-        <select className="flex-1 rounded-md border bg-white px-4 py-2 text-gray-600">
+        <select className="flex-1 overflow-hidden min-w-10  rounded-md border bg-white px-4 py-2 text-gray-600">
           <option>Price</option>
         </select>
 
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-w-10  overflow-hidden">
           <input
             type="text"
             placeholder="search"
