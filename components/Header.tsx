@@ -12,7 +12,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed top-12 z-50 flex min-w-[calc(100%-10rem)] items-center justify-between place-self-center rounded-[20px] bg-[#1E1E1E]/66 px-12 py-4.5 text-white backdrop-blur-2xl">
+    <header className="fixed top-12 z-50 flex min-w-[calc(100%-10rem)] items-center justify-between place-self-center rounded-[20px] border border-white/10 bg-[#1E1E1E]/66 px-12 py-4.5 text-white backdrop-blur-2xl">
       <Link
         className="flex items-center gap-2 transition-all hover:opacity-75 active:opacity-50"
         href={"/"}

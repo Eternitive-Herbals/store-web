@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 
 export default function CarouselSection() {
   return (
-    <div className="bg-foreground relative h-dvh">
+    <div className="bg-foreground relative h-dvh snap-start">
       <button
         type="button"
         className="absolute top-1/2 left-16 z-10 -translate-y-1/2 cursor-pointer rounded-full bg-[#E2DED3] p-2 transition-all hover:opacity-75 active:opacity-50"

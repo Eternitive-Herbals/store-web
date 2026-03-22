@@ -24,7 +24,7 @@ export default function BlogSection() {
   ];
 
   return (
-    <div className="w-full bg-[#F9F8F6] py-16 sm:py-24 md:py-32 lg:py-42">
+    <div className="h-dvh w-full snap-start bg-[#F9F8F6] py-16 sm:py-24 md:py-32 lg:py-42">
       {/* Header */}
       <div className="flex justify-center px-4">
         <div className="mb-2 flex flex-col items-center gap-3 text-center">

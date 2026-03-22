@@ -32,7 +32,7 @@ export default function FeaturedProductsSection() {
   ];
 
   return (
-    <div className="min-h-screen-2 relative flex flex-col items-center justify-center gap-16 px-24 py-48">
+    <section className="min-h-screen-2 relative flex snap-start flex-col items-center gap-16 px-24 py-48">
       <Image
         src={BackgroundTexture}
         alt="Background Texture"
@@ -51,6 +51,6 @@ export default function FeaturedProductsSection() {
           reverse={index % 2 !== 0}
         />
       ))}
-    </div>
+    </section>
   );
 }

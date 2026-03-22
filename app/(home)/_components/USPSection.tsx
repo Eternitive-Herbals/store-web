@@ -1,46 +1,50 @@
 import Image from "next/image";
-import UspContentSection from "./UspContentSection";
-import BackGraphics from "../../../assets/usp-backspiral.svg";
-
-type card = {
-  id: string;
-  title: string;
-  desc: string;
-  bg: string;
-};
+import BackgroundTexture from "@/assets/background-texture-white-2.svg";
+import USPCard, { USPCardProps } from "./USPCard";
 
 export default function USPSection() {
-  const cards: card[] = [
+  const cards: USPCardProps[] = [
     {
-      id: "clear-science",
       title: "Clear Science",
-      desc: "Our supplements are crafted with care, backed by science and design for your wellness.",
-      bg: "bg-usp-card-1",
+      description:
+        "Our supplements are crafted with care, backed by science and design for your wellness.",
+      bgColour: "#0A3351",
     },
     {
-      id: "transparency-1",
       title: "Transparency",
-      desc: "We clearly share what goes into every product and why its there, so you always know what you are choosing.",
-      bg: "bg-usp-card-2",
+      description:
+        "We clearly share what goes into every product and why its there, so you always know what you are choosing.",
+      bgColour: "#576149",
     },
     {
-      id: "transparency-2",
       title: "Transparency",
-      desc: "We clearly share what goes into every product and why its there, so you always know what you are choosing.",
-      bg: "bg-usp-card-3",
+      description:
+        "We clearly share what goes into every product and why its there, so you always know what you are choosing.",
+      bgColour: "#AE8363",
     },
   ];
 
   return (
-    <div className="relative h-fit md:min-h-screen overflow-hidden rounded-t-[42px] bg-neutral-900 py-44.5">
+    <section className="relative flex min-h-dvh snap-start flex-col items-center justify-between overflow-hidden rounded-t-[4rem] bg-[#1B1B1B] px-20 py-48 text-white">
       <Image
-        src={BackGraphics}
-        alt="pattern"
+        src={BackgroundTexture}
+        alt="Background Texture"
         fill
-        className="z-0 object-cover"
+        className="object-cover opacity-5"
       />
 
-      <UspContentSection cards={cards} />
-    </div>
+      <div className="font-comfortaa z-10 flex flex-col gap-2 text-center">
+        <span className="text-4xl font-bold">Why Choose Us</span>
+        <span className="text-xl opacity-75">
+          We Help You Prioritize Your Health
+        </span>
+      </div>
+
+      <div className="z-10 flex gap-16">
+        {cards.map((card, index) => (
+          <USPCard key={index} {...card} />
+        ))}
+      </div>
+    </section>
   );
 }

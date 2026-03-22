@@ -19,7 +19,7 @@ const Footer = async () => {
   ];
 
   return (
-    <div className="bg-primary-background relative flex h-256 flex-col py-24">
+    <div className="bg-primary-background relative flex h-dvh snap-start flex-col py-24">
       <Image
         src={FooterFirstImage}
         alt="footer spiral"
