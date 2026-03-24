@@ -16,7 +16,7 @@ export default function FeedBackSection() {
       authorAvatar: Avatar,
       rating: 3.5,
       reviewText:
-        "Sufficient particular impossible by reasonable oh expression is. Yet preference connection unpleasant yet melancholy but end appearance. And excellence.",
+        "Sufficient particular impossible by reasonable oh expression is. Sufficient particular impossible by reasonable oh expression is. Yet preference connection unpleasant yet melancholy but end appearance. And excellence.",
     },
   ];
 
@@ -70,6 +70,12 @@ export default function FeedBackSection() {
         >
           <ArrowRight size={24} className="text-[#4F5C39]" />
         </button>
+      </div>
+      <div className="flex gap-2">
+        <div className="size-2 rounded-full bg-[#33556E]" />
+        <div className="size-2 rounded-full bg-[#ADBBC5]" />
+        <div className="size-2 rounded-full bg-[#ADBBC5]" />
+        <div className="size-2 rounded-full bg-[#ADBBC5]" />
       </div>
     </section>
   );

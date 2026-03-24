@@ -15,7 +15,7 @@ export default function ReviewCard({
   reviewText,
 }: ReviewCardProps) {
   return (
-    <div className="flex h-48 flex-col gap-4 rounded-xl border-2 border-[#AE8363]/50 bg-white p-6">
+    <div className="shadow-foreground/15 flex h-48 flex-col gap-4 rounded-xl border-2 border-[#AE8363]/50 bg-white p-6 shadow-2xl">
       <div className="flex items-center gap-4">
         <div className="relative size-12">
           <Image
@@ -42,7 +42,7 @@ export default function ReviewCard({
         </div>
       </div>
 
-      <p>{reviewText}</p>
+      <p className="line-clamp-3">{reviewText}</p>
     </div>
   );
 }

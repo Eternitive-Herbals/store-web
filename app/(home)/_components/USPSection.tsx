@@ -25,7 +25,7 @@ export default function USPSection() {
   ];
 
   return (
-    <section className="relative flex min-h-dvh snap-start flex-col items-center justify-between overflow-hidden rounded-t-[4rem] bg-[#1B1B1B] px-20 py-48 text-white">
+    <section className="relative flex min-h-dvh snap-start flex-col items-center justify-between overflow-hidden bg-[#1B1B1B] px-20 py-48 text-white">
       <Image
         src={BackgroundTexture}
         alt="Background Texture"
