@@ -4,6 +4,7 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password?: string;
+  role: "Customer" | "Admin" | "Distributer";
   mobile?: string;
   emailVerified: boolean;
   emailOtp?: string | null;
@@ -29,7 +30,11 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
-
+    role: {
+      type: String,
+      enum: ["Customer", "Admin", "Distributer"],
+      default: "Customer",
+    },
     emailVerified: {
       type: Boolean,
       default: false,
