@@ -6,8 +6,33 @@ export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const reviews = await Review.find();
-    if (!reviews) {
+    const { searchParams } = new URL(req.url);
+
+    const author = searchParams.get("author");
+    const rating = searchParams.get("rating");
+    const image = searchParams.get("image");
+
+    const filter: any = {};
+
+    if (author) {
+      filter.author = author;
+    }
+    if (rating) {
+      filter.rating = rating;
+    }
+    if (image === "true") {
+      filter.image = { $ne: "" };
+    }
+    if (image === "false") {
+      filter.$or = [
+        { image: "" },
+        { image: { $exists: "false" } },
+        { image: null },
+      ];
+    }
+
+    const reviews = await Review.find(filter);
+    if (reviews.length === 0) {
       return NextResponse.json(
         {
           message: "Reviews not found",
@@ -21,7 +46,7 @@ export async function GET(req: NextRequest) {
         message: "Reviews fetched successfully",
         reviews,
       },
-      { status: 201 },
+      { status: 200 },
     );
   } catch (error) {
     console.log("Reviews can't be fetched", error);
@@ -39,7 +64,7 @@ export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
-    const { author, rating, content } = await req.json();
+    const { author, rating, content, image } = await req.json();
 
     if (!author || !rating || !content) {
       return NextResponse.json(
@@ -54,6 +79,7 @@ export async function POST(req: NextRequest) {
       author,
       rating,
       content,
+      image,
     });
 
     return NextResponse.json(
