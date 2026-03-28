@@ -38,5 +38,5 @@
 }
 
 body {
-  @apply bg-background text-foreground font-sf-pro-text min-h-dvh max-w-dvw;
+  @apply bg-background text-foreground font-sf-pro-text min-h-dvh max-w-dvw overflow-x-hidden;
 }

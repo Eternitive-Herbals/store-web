@@ -56,7 +56,7 @@ export default function Footer() {
           </Link>
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex items-center gap-4">
           <Link
             href={"https://x.com"}
             target="_blank"
