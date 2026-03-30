@@ -33,9 +33,19 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
-    const { name, description, ingredients, price, image, type } = await req.json();
+    const { name, description, ingredients, price, image, type, dosage, goal } =
+      await req.json();
 
-    if (!name || !description || !ingredients || !price || !image || !type) {
+    if (
+      !name ||
+      !description ||
+      !ingredients ||
+      !price ||
+      !image ||
+      !type ||
+      !dosage ||
+      !goal
+    ) {
       return NextResponse.json(
         {
           message: "All Fields required",
@@ -50,6 +60,8 @@ export async function POST(req: NextRequest) {
       ingredients,
       price,
       type,
+      goal,
+      dosage,
       image,
     });
 
