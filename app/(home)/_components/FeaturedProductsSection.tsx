@@ -45,11 +45,7 @@ export default function FeaturedProductsSection() {
       </span>
 
       {products.map((product, index) => (
-        <FeaturedProductCard
-          key={index}
-          {...product}
-          reverse={index % 2 !== 0}
-        />
+        <FeaturedProductCard key={index} {...product} />
       ))}
     </section>
   );

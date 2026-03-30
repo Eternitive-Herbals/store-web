@@ -4,11 +4,9 @@ import SampleImage1 from "@/assets/product-sample-image-1.png";
 import SampleImage2 from "@/assets/prod2.png";
 import SampleImage3 from "@/assets/prod3.png";
 import SampleImage4 from "@/assets/BgImage.jpg";
-
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-// Add AnimatePresence to your imports
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
 
@@ -34,7 +32,7 @@ export default function CarouselSection() {
     const timer = setInterval(() => {
       setDirection(1);
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000);
+    }, 7000);
 
     return () => clearInterval(timer);
   }, [currentIndex, images.length]);
@@ -95,12 +93,18 @@ export default function CarouselSection() {
         </motion.div>
       </AnimatePresence>
 
-      <div className="bg-foreground/66 absolute top-1/2 left-1/2 z-10 flex w-1/4 translate-x-1/2 -translate-y-1/2 flex-col gap-6 rounded-2xl p-4 text-white transition-all">
-        <span className="text-[2.5rem]">Immunohigh</span>
-        <p className="text-2xl font-light">
-          Supports your body&apos;s natural immune defence to help you stay
-          protected every day.
-        </p>
+      <div className="bg-foreground/66 absolute bottom-12 left-1/2 z-10 flex h-40 w-4xl -translate-x-1/2 flex-col justify-between rounded-2xl border border-white/10 px-6 py-4 text-white backdrop-blur-2xl transition-all">
+        <AnimatePresence initial={false}>
+          <motion.span className="font-comfortaa text-[2.5rem]">
+            Immunohigh
+          </motion.span>
+        </AnimatePresence>
+        <AnimatePresence initial={false}>
+          <motion.p className="text-2xl font-light">
+            Supports your body&apos;s natural immune defence to help you stay
+            protected every day.
+          </motion.p>
+        </AnimatePresence>
       </div>
 
       <Link
@@ -122,7 +126,7 @@ export default function CarouselSection() {
               <motion.div
                 initial={{ width: "0%" }}
                 animate={{ width: "100%" }}
-                transition={{ duration: 5, ease: "easeInOut" }}
+                transition={{ duration: 7, ease: "easeInOut" }}
                 className="bg-background min-h-full"
               />
             )}
