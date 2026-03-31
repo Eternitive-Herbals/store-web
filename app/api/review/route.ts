@@ -2,6 +2,7 @@ import connectDB from "@/lib/db";
 import { Review } from "@/models/Review";
 import { NextRequest, NextResponse } from "next/server";
 
+
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
