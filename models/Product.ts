@@ -28,10 +28,6 @@ const ProductItemSchema = new Schema(
       },
     ],
     image: { type: String, require: true },
-    location: {
-      type: String,
-      enum: ["right", "left", "bottom"],
-    },
   },
   { timestamps: true },
 );

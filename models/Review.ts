@@ -5,6 +5,7 @@ const ReviewItemSchema = new Schema(
     author: { type: String, required: true },
     rating: { type: Number, required: true },
     content: { type: String, required: true },
+    image: { type: String },
   },
   { timestamps: true },
 );

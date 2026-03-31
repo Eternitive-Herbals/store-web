@@ -15,12 +15,9 @@ export default function FeaturedProductCard({
   image,
   description,
   price,
-  reverse = false,
 }: FeaturedProductCardProps) {
   return (
-    <div
-      className={`${reverse && "flex-row-reverse"} flex h-96 w-full max-w-6xl items-center overflow-hidden rounded-4xl bg-[#E2DED3]`}
-    >
+    <div className="flex h-96 w-full max-w-6xl items-center overflow-hidden rounded-4xl bg-[#E2DED3]">
       <div className="relative min-h-full min-w-md">
         <Image
           src={image}

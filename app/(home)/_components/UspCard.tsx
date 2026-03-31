@@ -1,36 +1,27 @@
-import React from "react";
-
-type card = {
-  id: string;
+export type USPCardProps = {
   title: string;
-  desc: string;
-  bg: string;
+  description: string;
+  bgColour: string;
 };
 
-const UspCard = ({ cards }: { cards: card[] }) => {
+export default function USPCard({
+  title,
+  description,
+  bgColour,
+}: USPCardProps) {
   return (
-    <div className="flex flex-col items-center gap-6 sm:gap-10 md:flex-row md:flex-wrap md:justify-center lg:flex-nowrap lg:gap-15">
-      {cards.map((card) => (
-        <div
-          key={card.id}
-          className={`${card.bg} flex h-auto min-h-80 w-full max-w-sm flex-col items-center justify-between rounded-[40px] p-6 py-10 text-white shadow-lg transition-transform duration-300 hover:-translate-y-2 md:min-h-96 md:w-72 md:py-14 lg:h-101 lg:w-96 lg:rounded-[60px] lg:py-18`}
-        >
-          <div className="flex flex-col items-center gap-6 md:gap-8 lg:gap-10">
-            <h3 className="mb-2 text-center text-xl font-semibold sm:text-2xl">
-              {card.title}
-            </h3>
-            <p className="mb-4 text-center text-sm leading-relaxed text-white/80">
-              {card.desc}
-            </p>
-          </div>
-
-          <button className="w-fit cursor-pointer rounded-full border border-white/40 px-6 py-2 text-sm transition hover:bg-white hover:text-black">
-            Learn More
-          </button>
-        </div>
-      ))}
+    <div
+      className="flex size-100 flex-col items-center gap-8 rounded-[3.5rem] px-12 py-16"
+      style={{ backgroundColor: bgColour }}
+    >
+      <span className="font-comfortaa text-3xl font-semibold">{title}</span>
+      <p className="text-center text-lg font-light">{description}</p>
+      <button
+        type="button"
+        className="mt-auto cursor-pointer rounded-full border px-12 py-4 transition-all hover:border-[#1B1B1B] hover:bg-[#1B1B1B] active:opacity-75"
+      >
+        <span className="text-xl font-light">Learn More</span>
+      </button>
     </div>
   );
-};
-
-export default UspCard;
+}

@@ -14,7 +14,6 @@ export async function POST(req: NextRequest) {
 
     const validation = signupSchema.safeParse(body);
 
-
     if (!validation.success) {
       return NextResponse.json(
         { message: validation.error.issues[0].message },
@@ -41,7 +40,11 @@ export async function POST(req: NextRequest) {
     });
 
     const accessToken = jwt.sign(
-      { userId: newUser._id.toString(), email: newUser.email },
+      {
+        userId: newUser._id.toString(),
+        email: newUser.email,
+        role: newUser.role,
+      },
       process.env.SECRET_AETHERY!,
       { expiresIn: "15m" },
     );

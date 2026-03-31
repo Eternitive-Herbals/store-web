@@ -1,75 +1,89 @@
-import { Copyright, Instagram, LucideFacebook, Twitter } from "lucide-react";
+import { Copyright } from "lucide-react";
 import Image from "next/image";
+import XLogo from "@/assets/x-logo.svg";
+import InstagramLogo from "@/assets/instagram-logo.svg";
 import FooterFirstImage from "@/assets/spiral_footer.svg";
-import FooterSecondImage from "@/assets/footer_aethery.svg";
+import FooterElementalIcons from "../assets/footer-elemental-icons.svg";
+import FooterAetheryText from "@/assets/footer-aethery-text.svg";
+import Link from "next/link";
 
-const Footer = async () => {
-  const contactUs: string[] = [
-    "Contact Us",
-    "Adress",
-    "aethery@gmail.com",
-    "+0000000000",
-  ];
-
-  const policy: string[] = [
-    "Privacy Policy",
-    "Terms & Conditions",
-    "Refund & Return Policy",
-    "Help Center",
-  ];
-
+export default function Footer() {
   return (
-    <div className="bg-primary-background relative flex h-256 flex-col py-24">
+    <div className="font-comfortaa relative flex h-dvh flex-col justify-between bg-[#1B1B1B] px-20 pt-48 text-white">
       <Image
         src={FooterFirstImage}
         alt="footer spiral"
         fill
-        className="z-0 object-cover"
+        className="object-cover"
       />
 
-      <div className="text-nav-foreground relative z-10 my-auto flex w-full items-start justify-around gap-8 pt-24 text-left text-sm font-extralight">
-        <div className="space-y-4">
-          {contactUs.map((contact, idx) => (
-            <div key={idx} className="hover:text-blue-500">
-              {contact}
-            </div>
-          ))}
+      <Image
+        src={FooterElementalIcons}
+        alt="Elemental Icons"
+        className="absolute top-0 left-1/2 z-10 -translate-1/2"
+      />
+
+      <div className="z-10 mx-auto flex w-full max-w-7xl items-start justify-between gap-8 text-sm font-extralight">
+        <div className="flex flex-col gap-4">
+          <Link href={"mailto:contact@aethery.com"}>contact@aethery.com</Link>
+          <Link href={"tel:+919810373111"}>+91 9810373111</Link>
         </div>
 
-        <div className="space-y-4">
-          {policy.map((policy, idx) => (
-            <div key={idx} className="hover:text-blue-500">
-              {policy}
-            </div>
-          ))}
+        <div className="mx-auto flex flex-col gap-4">
+          <Link
+            href={"/privacy-policy"}
+            className="transition-all hover:opacity-75 active:opacity-50"
+          >
+            <span>Privacy Policy</span>
+          </Link>
+          <Link
+            href={"/terms-and-conditions"}
+            className="transition-all hover:opacity-75 active:opacity-50"
+          >
+            <span>Terms & Conditions</span>
+          </Link>
+          <Link
+            href={"/refund-policy"}
+            className="transition-all hover:opacity-75 active:opacity-50"
+          >
+            <span>Refund & Return Policy</span>
+          </Link>
+          <Link
+            href={"/support"}
+            className="transition-all hover:opacity-75 active:opacity-50"
+          >
+            <span>Help Center</span>
+          </Link>
         </div>
 
-        <div className="space-y-4 pr-12">
-          <h1>Stay Connected</h1>
-          <div className="flex items-center gap-6">
-            <LucideFacebook size={24} />
-            <Instagram size={24} />
-            <Twitter size={24} />
-          </div>
+        <div className="flex items-center gap-4">
+          <Link
+            href={"https://x.com"}
+            target="_blank"
+            className="transition-all hover:opacity-75 active:opacity-50"
+          >
+            <Image src={XLogo} alt="X Logo" className="size-6" />
+          </Link>
+          <Link
+            href={"https://instagram.com"}
+            target="_blank"
+            className="transition-all hover:opacity-75 active:opacity-50"
+          >
+            <Image src={InstagramLogo} alt="X Logo" className="size-6" />
+          </Link>
         </div>
       </div>
 
-      <h1 className="text-nav-foreground mx-auto flex items-center gap-2 pt-32 text-sm font-extralight">
+      <h1 className="z-10 mx-auto flex items-center gap-2 text-lg">
         <Copyright size={16} />
         aethery. 2018 All rights reserved.
       </h1>
 
-      <div className="relative top-24 z-0">
-        <Image
-          alt="footer_aethery"
-          src={FooterSecondImage}
-          height={100}
-          width={100}
-          className="mx-auto w-fit"
-        />
-      </div>
+      <Image
+        alt="footer_aethery"
+        src={FooterAetheryText}
+        className="z-10 mx-auto w-fit"
+      />
     </div>
   );
-};
-
-export default Footer;
+}
