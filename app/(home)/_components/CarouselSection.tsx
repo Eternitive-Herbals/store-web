@@ -133,14 +133,6 @@ export default function CarouselSection() {
         </AnimatePresence>
       </div>
 
-      <Link
-        href={"/product/alskdjfhlkajsdhflkajsdf"}
-        className="bg-foreground/66 absolute right-20 bottom-12 z-10 flex items-center gap-2 rounded-2xl border border-white/10 px-6 py-2 text-white transition-all hover:opacity-75 active:opacity-50"
-      >
-        <span className="text-2xl">View Product</span>
-        <ArrowRight size={24} />
-      </Link>
-
       <div className="absolute bottom-8 left-1/2 z-10 flex h-2 w-4xl -translate-x-1/2 gap-2 rounded-full p-0.5">
         {Array.from({ length: images.length }).map((_, index) => (
           <button
@@ -162,6 +154,14 @@ export default function CarouselSection() {
           </button>
         ))}
       </div>
+
+      <Link
+        href={"/product/alskdjfhlkajsdhflkajsdf"}
+        className="bg-foreground/66 absolute right-20 bottom-12 z-10 flex items-center gap-2 rounded-2xl border border-white/10 px-6 py-2 text-white backdrop-blur-2xl transition-all hover:opacity-75 active:opacity-50"
+      >
+        <span className="text-2xl">View Product</span>
+        <ArrowRight size={24} />
+      </Link>
 
       <button
         type="button"
