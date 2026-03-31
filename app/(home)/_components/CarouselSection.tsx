@@ -4,7 +4,7 @@ import SampleImage1 from "@/assets/product-sample-image-1.png";
 import SampleImage2 from "@/assets/prod2.png";
 import SampleImage3 from "@/assets/prod3.png";
 import SampleImage4 from "@/assets/BgImage.jpg";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
@@ -15,6 +15,7 @@ export default function CarouselSection() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const slideVariants = {
     enter: (direction: number) => ({
@@ -29,13 +30,17 @@ export default function CarouselSection() {
   };
 
   useEffect(() => {
+    if (isPaused) {
+      return;
+    }
+
     const timer = setInterval(() => {
       setDirection(1);
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 7000);
 
     return () => clearInterval(timer);
-  }, [currentIndex, images.length]);
+  }, [currentIndex, images.length, isPaused]);
 
   function handleNext() {
     setDirection(1);
@@ -47,6 +52,15 @@ export default function CarouselSection() {
     setCurrentIndex(
       (prevIndex) => (prevIndex - 1 + images.length) % images.length,
     );
+  }
+
+  function togglePause() {
+    if (isPaused) {
+      setIsPaused(false);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      return;
+    }
+    setIsPaused(true);
   }
 
   function handleImageButton(index: number) {
@@ -93,6 +107,18 @@ export default function CarouselSection() {
         </motion.div>
       </AnimatePresence>
 
+      <button
+        type="button"
+        onClick={togglePause}
+        className="bg-foreground/66 absolute bottom-12 left-20 z-10 cursor-pointer rounded-2xl border border-white/10 p-4 text-white backdrop-blur-2xl transition-all hover:opacity-75 active:opacity-50"
+      >
+        {isPaused ? (
+          <Play size={20} className="fill-white" />
+        ) : (
+          <Pause size={20} className="fill-white" />
+        )}
+      </button>
+
       <div className="bg-foreground/66 absolute bottom-12 left-1/2 z-10 flex h-40 w-4xl -translate-x-1/2 flex-col justify-between rounded-2xl border border-white/10 px-6 py-4 text-white backdrop-blur-2xl transition-all">
         <AnimatePresence initial={false}>
           <motion.span className="font-comfortaa text-[2.5rem]">
@@ -109,7 +135,7 @@ export default function CarouselSection() {
 
       <Link
         href={"/product/alskdjfhlkajsdhflkajsdf"}
-        className="absolute right-20 bottom-24 z-10 flex items-center gap-2 rounded-full bg-[#1B1B1B] px-6 py-2 text-white transition-all hover:opacity-75 active:opacity-50"
+        className="bg-foreground/66 absolute right-20 bottom-12 z-10 flex items-center gap-2 rounded-2xl border border-white/10 px-6 py-2 text-white transition-all hover:opacity-75 active:opacity-50"
       >
         <span className="text-2xl">View Product</span>
         <ArrowRight size={24} />
@@ -122,14 +148,17 @@ export default function CarouselSection() {
             onClick={() => handleImageButton(index)}
             className="bg-foreground/66 min-h-full flex-1 cursor-pointer overflow-hidden rounded-full"
           >
-            {currentIndex === index && (
-              <motion.div
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 7, ease: "easeInOut" }}
-                className="bg-background min-h-full"
-              />
-            )}
+            {currentIndex === index &&
+              (isPaused ? (
+                <div className="bg-background min-h-full min-w-full" />
+              ) : (
+                <motion.div
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 7, ease: "linear" }}
+                  className="bg-background min-h-full"
+                />
+              ))}
           </button>
         ))}
       </div>
