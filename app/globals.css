@@ -9,6 +9,7 @@
   --dark-textfont: #1e1e1e;
   --prodcard-background: #e2ded3;
   --ghost-background: #f9f8f6;
+  --ingredient-background: #E2DED3;
 
   --star-fill: #edc06f;
 
@@ -26,6 +27,7 @@
   --color-dark-textfont: var(--dark-textfont);
   --color-prodcard-background: var(--prodcard-background);
   --color-ghost-background: var(--ghost-background);
+  --color-ingredient-background: var(--ingredient-background);
   --color-star-fill: var(--star-fill);
   --font-sf-pro-text: var(--font-sf-pro-text);
   --font-comfortaa: var(--font-comfortaa);
@@ -38,5 +40,5 @@
 }
 
 body {
-  @apply bg-background text-foreground font-sf-pro-text min-h-dvh max-w-dvw;
+  @apply bg-background text-foreground font-sf-pro-text min-h-dvh max-w-dvw overflow-x-hidden;
 }
