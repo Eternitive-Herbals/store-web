@@ -4,13 +4,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
+
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
     const body = await req.json();
 
-    const { productId, title, price, image } = body;
+    const {  title, price, image } = body;
 
     const cookieStore = await cookies();
     const token = cookieStore.get("access_token")?.value;
@@ -81,6 +82,60 @@ export async function GET() {
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
+
+export async function PUT(req: NextRequest) {
+  try {
+    await connectDB();
+
+    const body = await req.json();
+    const { productId, quantity } = body;
+
+    const cookieStore = cookies();
+    const token = cookieStore.get("access_token")?.value;
+
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const decoded: any = jwt.verify(token, process.env.SECRET_AETHERY!);
+    const userId = decoded.userId;
+
+    const cart = await Cart.findOne({ userId });
+
+    if (!cart) {
+      return NextResponse.json({ message: "Cart not found" }, { status: 404 });
+    }
+
+    const itemIndex = cart.items.findIndex(
+      (item: any) => item.productId === productId,
+    );
+
+    if (itemIndex === -1) {
+      return NextResponse.json({ message: "Item not found" }, { status: 404 });
+    }
+
+    // 🔥 Update quantity logic
+    if (quantity <= 0) {
+      // remove item
+      cart.items.splice(itemIndex, 1);
+    } else {
+      cart.items[itemIndex].quantity = quantity;
+    }
+
+    await cart.save();
+
+    return NextResponse.json({
+      message: "Cart updated successfully",
+      cart,
+    });
+  } catch (error) {
+    console.log("Cart PUT Error:", error);
+
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
+  }
+}
+
+
 
 export async function DELETE(req: NextRequest) {
   await connectDB();
