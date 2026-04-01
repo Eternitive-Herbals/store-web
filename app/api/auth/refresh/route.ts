@@ -3,6 +3,7 @@ import connectDB from "@/lib/db";
 import User from "@/models/User";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
   try {
@@ -30,17 +31,21 @@ export async function POST(req: NextRequest) {
 
     await connectDB();
 
-    const user = await User.findOne({
-      _id: payload.userId,
-      refreshToken: refreshToken,
-    });
+    const user = await User.findById(payload.userId);
 
-    if (!user) {
+    if (!user || !user.refreshToken) {
       return NextResponse.json(
-        { message: "Refresh token revoked" },
+        { message: "Invalid refresh token" },
         { status: 401 },
       );
     }
+
+    const isValid = await bcrypt.compare(refreshToken, user.refreshToken);
+    if (!isValid)
+      return NextResponse.json(
+        { message: "Invalid refresh token" },
+        { status: 401 },
+      );
 
     const newAccessToken = jwt.sign(
       { userId: user._id.toString(), email: user.email },

@@ -1,4 +1,4 @@
-import { Schema,  model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const OrderItemSchema = new Schema(
   {
@@ -17,6 +17,12 @@ const OrderItemSchema = new Schema(
     price: {
       type: Number,
       required: true,
+    },
+    
+    status: {
+      type: String,
+      enum: ["pending", "paid", "failed"],
+      default: "pending",
     },
   },
   { _id: false },
