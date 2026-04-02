@@ -15,7 +15,7 @@ export default function Header() {
     { name: "Home", href: "/" },
     { name: "Our Story", href: "/our-story" },
     { name: "Products", href: "/products" },
-    { name: "Contact Us", href: "/contact-us" },
+    { name: "Contact", href: "/contact" },
   ];
 
   useEffect(() => {
