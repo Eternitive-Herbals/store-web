@@ -1,8 +1,14 @@
-import { Schema,  model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const couponSchema = new Schema(
   {
-    code: { type: String, required: true, trim: true },
+    code: {
+      type: String,
+      required: true,
+      trim: true,
+      uppercase: true,
+      unique: true,
+    },
     discountType: {
       type: String,
       enum: ["percentage", "fixed"],
