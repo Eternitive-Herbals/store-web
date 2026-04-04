@@ -64,7 +64,7 @@ export default async function ProductsSection() {
   ];
 
   return (
-    <section className="relative flex w-full gap-8 px-20 py-24">
+    <section className="relative flex w-full gap-4 px-[calc(100dvw/24)] py-24">
       <Image
         src={BackgroundTexture}
         alt="Background Texture"
@@ -73,7 +73,7 @@ export default async function ProductsSection() {
       />
 
       <Sidebar />
-      <div className="flex min-h-full flex-1 flex-col gap-8">
+      <div className="flex min-h-full flex-1 flex-col gap-4">
         <div className="top sticky top-33 z-20 flex items-center place-self-end">
           <div className="flex items-center gap-2 rounded-l-2xl bg-[#E2DED3] py-2 pr-2 pl-4">
             <ListFilter size={22} />

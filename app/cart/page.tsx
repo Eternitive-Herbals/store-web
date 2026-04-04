@@ -111,7 +111,7 @@ export default function CartPage() {
   }
   const calculatedTotal = subTotal(cart) - discount;
   return (
-    <div className="h-screen bg-white px-20 pt-41">
+    <div className="h-screen bg-white px-[calc(100dvw/24)] pt-41">
       <div className="font-sf-pro-text grid h-full grid-cols-[2fr_1fr] gap-16">
         <div className="relative flex h-9/10 flex-col rounded-4xl bg-[#F9F8F6] p-8">
           <div className="border-primary-background/50 flex w-full items-center justify-between border-b pb-4">
@@ -243,7 +243,7 @@ export default function CartPage() {
               </span>
 
               <span className="text-primary-background text-righ font-semibold">
-               ₹{calculatedTotal > 0 ? calculatedTotal : 0}
+                ₹{calculatedTotal > 0 ? calculatedTotal : 0}
               </span>
             </div>
             <div className="bg-primary-background my-5 flex items-center justify-center rounded-full p-4 text-2xl font-medium text-white">
