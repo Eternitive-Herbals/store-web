@@ -68,7 +68,7 @@ export default function Header() {
             <ShoppingBag size={20} />
           </Link>
           <Link
-            href={"/"}
+            href={"/account"}
             className="transition-all hover:opacity-75 active:opacity-50"
           >
             <User size={20} />
@@ -83,18 +83,18 @@ export default function Header() {
             animate={{ y: 0, opacity: 100 }}
             exit={{ y: -5, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="search_bar absolute right-0 -bottom-full flex w-full max-w-2xl items-center gap-4 rounded-[20px] border border-white/10 bg-[#1E1E1E]/66 px-12 py-2.5 backdrop-blur-2xl"
+            className="search_bar absolute right-0 -bottom-full flex w-full max-w-2xl items-center gap-2.75 rounded-[20px] border border-white/10 bg-[#1E1E1E]/66 p-2.75 backdrop-blur-2xl"
           >
             <input
               type="text"
               name="search"
               id="search"
               ref={searchRef}
-              className="w-full text-white outline-none"
+              className="bg-background/10 w-full rounded-[10px] px-4 py-2 text-white outline-none"
             />
             <button
               type="button"
-              className="bg-background cursor-pointer rounded-xl px-4 py-2 transition-all hover:opacity-75 active:opacity-50"
+              className="bg-background cursor-pointer rounded-[10px] px-4 py-2 transition-all hover:opacity-75 active:opacity-50"
             >
               <span className="text-foreground font-comfortaa font-bold">
                 Search
