@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { AuthProvider } from "@/context/AuthContext";
 
 const comfortaa = Comfortaa({
   variable: "--font-comfortaa",
@@ -119,9 +120,11 @@ export default function RootLayout({
       <body
         className={`${comfortaa.variable} ${sf_pro_text.variable} relative antialiased`}
       >
-        <Header />
+       <AuthProvider>
+         <Header />
         {children}
         <Footer />
+       </AuthProvider>
       </body>
     </html>
   );

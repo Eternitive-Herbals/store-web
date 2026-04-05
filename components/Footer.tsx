@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <div className="font-comfortaa relative flex h-dvh flex-col justify-between bg-[#1B1B1B] px-20 pt-48 text-white">
+    <div className="font-comfortaa relative flex h-dvh flex-col justify-between bg-[#1B1B1B] px-[calc(100dvw/24)] pt-48 text-white">
       <Image
         src={FooterFirstImage}
         alt="footer spiral"

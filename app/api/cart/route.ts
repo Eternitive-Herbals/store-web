@@ -4,14 +4,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
-
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
     const body = await req.json();
 
-    const {  title, price, image } = body;
+    const { title, price, image, description } = body;
 
     const cookieStore = await cookies();
     const token = cookieStore.get("access_token")?.value;
@@ -28,7 +27,9 @@ export async function POST(req: NextRequest) {
     if (!cart) {
       cart = await Cart.create({
         userId,
-        items: [{ title, price: Number(price), image, quantity: 1 }],
+        items: [
+          { title, price: Number(price), image, description, quantity: 1 },
+        ],
       });
     } else {
       const existingItem = cart.items.find((item: any) => item.title === title);
@@ -40,6 +41,7 @@ export async function POST(req: NextRequest) {
           title,
           price: Number(price),
           image,
+          description,
           quantity: 1,
         });
       }
@@ -90,7 +92,7 @@ export async function PUT(req: NextRequest) {
     const body = await req.json();
     const { productId, quantity } = body;
 
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get("access_token")?.value;
 
     if (!token) {
@@ -107,7 +109,7 @@ export async function PUT(req: NextRequest) {
     }
 
     const itemIndex = cart.items.findIndex(
-      (item: any) => item.productId === productId,
+      (item: any) => item._id.toString() === productId,
     );
 
     if (itemIndex === -1) {
@@ -135,8 +137,6 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-
-
 export async function DELETE(req: NextRequest) {
   await connectDB();
 
@@ -157,9 +157,7 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ message: "unauthorized" }, { status: 404 });
   }
 
-  cart.items = cart.items.filter(
-    (item: any) => item.productId?.toString() !== body.productId,
-  );
+  cart.items = cart.items.filter((item: any) => item.title !== body.title);
 
   await cart.save();
 

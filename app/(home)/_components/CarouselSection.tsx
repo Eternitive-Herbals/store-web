@@ -56,6 +56,7 @@ export default function CarouselSection() {
 
   function togglePause() {
     if (isPaused) {
+      setDirection(1);
       setIsPaused(false);
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
       return;
@@ -107,19 +108,7 @@ export default function CarouselSection() {
         </motion.div>
       </AnimatePresence>
 
-      <button
-        type="button"
-        onClick={togglePause}
-        className="bg-foreground/66 absolute bottom-12 left-20 z-10 cursor-pointer rounded-2xl border border-white/10 p-4 text-white backdrop-blur-2xl transition-all hover:opacity-75 active:opacity-50"
-      >
-        {isPaused ? (
-          <Play size={20} className="fill-white" />
-        ) : (
-          <Pause size={20} className="fill-white" />
-        )}
-      </button>
-
-      <div className="bg-foreground/66 absolute bottom-12 left-1/2 z-10 flex h-40 w-4xl -translate-x-1/2 flex-col justify-between rounded-2xl border border-white/10 px-6 py-4 text-white backdrop-blur-2xl transition-all">
+      <div className="bg-foreground/66 absolute bottom-12 left-20 z-10 flex h-40 w-3xl flex-col justify-between rounded-2xl border border-white/10 px-6 py-4 text-white backdrop-blur-2xl transition-all">
         <AnimatePresence initial={false}>
           <motion.span className="font-comfortaa text-[2.5rem]">
             Immunohigh
@@ -133,7 +122,7 @@ export default function CarouselSection() {
         </AnimatePresence>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 z-10 flex h-2 w-4xl -translate-x-1/2 gap-2 rounded-full p-0.5">
+      <div className="absolute bottom-8 left-20 z-10 flex h-2 w-3xl gap-2 rounded-full p-0.5">
         {Array.from({ length: images.length }).map((_, index) => (
           <button
             key={index}
@@ -155,13 +144,27 @@ export default function CarouselSection() {
         ))}
       </div>
 
-      <Link
-        href={"/product/alskdjfhlkajsdhflkajsdf"}
-        className="bg-foreground/66 absolute right-20 bottom-12 z-10 flex items-center gap-2 rounded-2xl border border-white/10 px-6 py-2 text-white backdrop-blur-2xl transition-all hover:opacity-75 active:opacity-50"
-      >
-        <span className="text-2xl">View Product</span>
-        <ArrowRight size={24} />
-      </Link>
+      <div className="absolute right-20 bottom-12 z-10 flex gap-4">
+        <button
+          type="button"
+          onClick={togglePause}
+          className="bg-foreground/66 cursor-pointer rounded-2xl border border-white/10 p-4 text-white backdrop-blur-2xl transition-all hover:opacity-75 active:opacity-50"
+        >
+          {isPaused ? (
+            <Play size={20} className="fill-white" />
+          ) : (
+            <Pause size={20} className="fill-white" />
+          )}
+        </button>
+
+        <Link
+          href={"/product/alskdjfhlkajsdhflkajsdf"}
+          className="bg-foreground/66 flex items-center gap-2 rounded-2xl border border-white/10 px-6 py-2 text-white backdrop-blur-2xl transition-all hover:opacity-75 active:opacity-50"
+        >
+          <span className="text-2xl">View Product</span>
+          <ArrowRight size={24} />
+        </Link>
+      </div>
 
       <button
         type="button"

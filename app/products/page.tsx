@@ -1,13 +1,13 @@
-// import HeroSection from "./_components/HeroSection";
-import OurProductSection from "./_components/OurProductSection";
+import HeroSection from "./_components/HeroSection";
+import ProductsSection from "./_components/ProductsSection";
 import ShopByGoal from "./_components/ShopByGoal";
 
-export default function page() {
+export default function Products() {
   return (
-    <div>
-      {/* <HeroSection /> */}
-      <ShopByGoal />
-      <OurProductSection />
-    </div>
+    <>
+      <HeroSection />
+      {/* <ShopByGoal /> */}
+      <ProductsSection />
+    </>
   );
 }

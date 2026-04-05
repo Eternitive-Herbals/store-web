@@ -1,6 +1,6 @@
 import Image from "next/image";
 import BackgroundTexture from "@/assets/background-texture-white-2.svg";
-import USPCard, { USPCardProps } from "./UspCard";
+import USPCard, { USPCardProps } from "./USPCard";
 
 export default function USPSection() {
   const cards: USPCardProps[] = [
@@ -25,7 +25,7 @@ export default function USPSection() {
   ];
 
   return (
-    <section className="relative flex min-h-dvh snap-start flex-col items-center justify-between overflow-hidden bg-[#1B1B1B] px-20 py-48 text-white">
+    <section className="relative flex min-h-dvh snap-start flex-col items-center justify-between overflow-hidden bg-[#1B1B1B] px-[calc(100dvw/24)] py-48 text-white">
       <Image
         src={BackgroundTexture}
         alt="Background Texture"
