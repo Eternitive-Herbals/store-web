@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
+import { CartProvider } from "@/context/CartContext";
 
 const comfortaa = Comfortaa({
   variable: "--font-comfortaa",
@@ -120,11 +121,13 @@ export default function RootLayout({
       <body
         className={`${comfortaa.variable} ${sf_pro_text.variable} relative antialiased`}
       >
-       <AuthProvider>
-         <Header />
-        {children}
-        <Footer />
-       </AuthProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Header />
+            {children}
+            <Footer />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

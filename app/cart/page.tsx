@@ -2,6 +2,7 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useCart } from "@/hooks/useCart";
 
 export default function CartPage() {
   const [cart, setCart] = useState<any[]>([]);
@@ -10,6 +11,7 @@ export default function CartPage() {
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [couponCode, setCouponCode] = useState<string>("");
   const [isCouponOpen, setIsCouponOpen] = useState<boolean>(false);
+  const { updateQuantity: updateCartQuantity, removeFromCart } = useCart();
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -29,45 +31,29 @@ export default function CartPage() {
     fetchCart();
   }, []);
 
-  const deleteItem = async (title: string) => {
-    const res = await fetch("/api/cart", {
-      method: "DELETE",
-      headers: {
-        "content-type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ title }),
-    });
-    const data = await res.json();
+  const handleDelete = async (productId: string) => {
+    const data = await removeFromCart(productId);
 
-    if (data.cart) {
-      setCart(data.cart.items);
-    } else {
-      console.error(data.message);
+    if (data?.cart) {
+      setCart(data.cart);
     }
   };
 
   const updateQuantity = async (productId: string, quantity: number) => {
-    const res = await fetch("/api/cart", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ productId, quantity }),
-    });
+    const data = await updateCartQuantity(productId, quantity);
 
-    const data = await res.json();
     console.log("API RESPONSE:", data);
 
-    if (data.cart) {
-      setCart(data.cart.items);
+    if (data?.cart) {
+      setCart(data.cart);
     } else {
-      console.error(data.message);
+      console.error(data?.message);
     }
   };
 
   const subTotal = (cart: any[]) => {
+    if (!Array.isArray(cart)) return 0;
+
     return cart.reduce((total, item) => {
       return total + Number(item.price) * item.quantity;
     }, 0);
@@ -164,7 +150,7 @@ export default function CartPage() {
                     <div className="flex items-center gap-4 rounded-full bg-white px-4 py-2">
                       {item.quantity == 1 ? (
                         <button
-                          onClick={() => deleteItem(item.title)}
+                          onClick={() => handleDelete(item._id)}
                           className="hover:text-primary-background text-[#99A1AF]"
                         >
                           <Trash2 size={22} />
@@ -258,28 +244,6 @@ export default function CartPage() {
           </div>
         </div>
       </div>
-
-      {/* {cart.map((item, index) => (
-        <div
-          key={index}
-          className="mb-4 flex items-center gap-6  p-4"
-        >
-          <Image src={item.image} alt="items-image" width={80} height={80} className="rounded-xl" />
-
-          <div>
-            <h2 className="text-lg">{item.title}</h2>
-            <p>₹{item.price}</p>
-            <p>Quantity: {item.quantity}</p>
-          </div>
-
-          <button
-            onClick={() => deleteItem(item.title)}
-            className="flex cursor-pointer justify-end text-right text-red-500"
-          >
-            <Trash size={22} />
-          </button>
-        </div>
-      ))} */}
     </div>
   );
 }

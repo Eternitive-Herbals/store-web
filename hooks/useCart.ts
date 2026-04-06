@@ -7,7 +7,6 @@ export function useCart() {
 
   const requestHeaders = {
     "Content-Type": "application/json",
-    "x-user-id": user?._id?.toString() || "",
   };
 
   const getCart = async () => {
@@ -15,6 +14,7 @@ export function useCart() {
 
     const res = await fetch("/api/cart", {
       headers: requestHeaders,
+      credentials: "include",
     });
 
     return res.json();
@@ -22,49 +22,60 @@ export function useCart() {
 
   const syncContext = async () => {
     const cart = await getCart();
+
+    const items = cart.cart || cart.items || [];
+
     setTotalQuantity(
-      cart.items.reduce(
-        (sum: number, item: { quantity: number }) => sum + item.quantity,
+      items.reduce(
+        (sum: any, item: { quantity: unknown }) => sum + item.quantity,
         0,
       ),
     );
-    bumpCart();
   };
 
   const addToCart = async (item: unknown) => {
-    await fetch("/api/cart", {
+    const res = await fetch("/api/cart", {
       method: "POST",
       headers: requestHeaders,
+      credentials: "include",
       body: JSON.stringify(item),
     });
 
+    const data = await res.json();
+
     await syncContext();
 
-    return { success: true };
+    return data;
   };
 
   const updateQuantity = async (productId: string, quantity: number) => {
-    await fetch("/api/cart", {
+    const res = await fetch("/api/cart", {
       method: "PUT",
       headers: requestHeaders,
+      credentials: "include",
       body: JSON.stringify({ productId, quantity }),
     });
 
+    const data = await res.json();
+
     await syncContext();
 
-    return { success: true };
+    return data;
   };
 
   const removeFromCart = async (productId: string) => {
-    if (!user?._id) return;
-
-    await fetch("/api/cart", {
+    const res = await fetch("/api/cart", {
       method: "DELETE",
       headers: requestHeaders,
+      credentials: "include",
       body: JSON.stringify({ productId }),
     });
 
+    const data = await res.json();
+
     await syncContext();
+
+    return data;
   };
 
   return {

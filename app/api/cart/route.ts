@@ -50,8 +50,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({
-      message: "Product added to cart",
-      cart,
+      cart: cart?.items || [],
     });
   } catch (error) {
     console.log("Cart Error:", error);
@@ -127,8 +126,7 @@ export async function PUT(req: NextRequest) {
     await cart.save();
 
     return NextResponse.json({
-      message: "Cart updated successfully",
-      cart,
+      cart: cart?.items || [],
     });
   } catch (error) {
     console.log("Cart PUT Error:", error);
@@ -157,12 +155,19 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ message: "unauthorized" }, { status: 404 });
   }
 
-  cart.items = cart.items.filter((item: any) => item.title !== body.title);
+  const itemIndex = cart.items.findIndex(
+    (item: any) => item._id.toString() === body.productId,
+  );
+
+  if (itemIndex === -1) {
+    return NextResponse.json({ message: "Item not found" }, { status: 404 });
+  }
+
+  cart.items.splice(itemIndex, 1);
 
   await cart.save();
 
   return NextResponse.json({
-    message: "Item Removed from Cart",
-    cart,
+    cart: cart?.items || [],
   });
 }

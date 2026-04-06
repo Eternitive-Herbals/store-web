@@ -1,3 +1,6 @@
+"use client";
+
+import { useCart } from "@/hooks/useCart";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 
@@ -14,6 +17,23 @@ export default function ProductCard({
   description,
   price,
 }: ProductCardProps) {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = async () => {
+    const res = await addToCart({
+      productId: title,
+      title,
+      price,
+      description,
+      image: image.src,
+      quantity: 1,
+    });
+
+    if (res.success) {
+      alert("Item added to cart");
+    }
+  };
+
   return (
     <div className="flex w-xs flex-col gap-4">
       <Link
@@ -32,6 +52,7 @@ export default function ProductCard({
         </div>
       </Link>
       <button
+        onClick={() => handleAddToCart()}
         type="button"
         className="bg-foreground cursor-pointer rounded-[20px] px-4 py-2 text-white transition-all hover:opacity-75 active:opacity-50"
       >
