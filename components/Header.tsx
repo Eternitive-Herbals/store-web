@@ -77,7 +77,11 @@ export default function Header() {
             <ShoppingBag size={20} />
           </Link>
           <Link
+<<<<<<< Updated upstream
             href={"/account"}
+=======
+            href={"/profile"}
+>>>>>>> Stashed changes
             className="transition-all hover:opacity-75 active:opacity-50"
           >
             <User size={20} />
