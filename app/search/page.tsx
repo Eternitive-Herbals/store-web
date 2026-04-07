@@ -1,48 +1,47 @@
 "use client";
+
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+
+type Product = {
+  _id: string;
+  name: string;
+  image: string;
+  description: string;
+  ingredients: { name: string }[];
+  goal: { name: string }[];
+  price: number;
+};
 
 export default function SearchPage() {
-  const [query, setQuery] = useState("");
-  const [products, setProducts] = useState([]);
+  const searchParams = useSearchParams();
 
-  const handleSearch = async () => {
-    const res = await fetch(`/api/search?query=${query}`);
-    const data = await res.json();
+  const query = searchParams.get("query") || "";
 
-    if (Array.isArray(data.products)) {
-      setProducts(data.products);
-    } else {
-      setProducts([]);
-    }
-  };
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    if (!query) return;
+
+    const fetchProducts = async () => {
+      const res = await fetch(`/api/search?query=${query}`);
+      const data = await res.json();
+
+      if (Array.isArray(data.products)) {
+        setProducts(data.products);
+      } else {
+        setProducts([]);
+      }
+    };
+
+    fetchProducts();
+  }, [query]);
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 py-35">
-      <div className="mx-auto max-w-2xl text-center">
-        <h1 className="mb-6 text-3xl font-bold">Search Products</h1>
-
-        <div className="flex gap-2">
-          <input
-            type="text"
-            placeholder="Search by ingredient (e.g. Calcium)"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            className="w-full rounded-lg border p-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-
-          <button
-            onClick={handleSearch}
-            className="rounded-lg bg-blue-600 px-6 text-white hover:bg-blue-700"
-          >
-            Search
-          </button>
-        </div>
-      </div>
-
       <div className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {!Array.isArray(products) || products.length === 0 ? (
+        {products.length === 0 ? (
           <p className="col-span-full text-center text-gray-500">
             No products found
           </p>

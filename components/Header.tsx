@@ -6,10 +6,13 @@ import Logo from "@/assets/brand-logo-white.svg";
 import { Search, ShoppingBag, User } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [searchVisiblity, setSearchVisibility] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
+  const [query, setQuery] = useState("");
+  const router = useRouter();
 
   const links = [
     { name: "Home", href: "/" },
@@ -27,6 +30,12 @@ export default function Header() {
   function toggleSearchVisibility() {
     setSearchVisibility((prev) => !prev);
   }
+  const handleSearch = () => {
+    if (!query.trim()) return;
+
+    router.push(`/search?query=${encodeURIComponent(query)}`);
+    setSearchVisibility(false);
+  };
 
   return (
     <header className="fixed top-12 z-50 min-w-[calc(100%-10rem)] place-self-center text-white">
@@ -90,10 +99,14 @@ export default function Header() {
               name="search"
               id="search"
               ref={searchRef}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               className="bg-background/10 w-full rounded-[10px] px-4 py-2 text-white outline-none"
             />
             <button
               type="button"
+              onClick={handleSearch}
               className="bg-background cursor-pointer rounded-[10px] px-4 py-2 transition-all hover:opacity-75 active:opacity-50"
             >
               <span className="text-foreground font-comfortaa font-bold">

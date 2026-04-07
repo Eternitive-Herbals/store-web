@@ -16,15 +16,24 @@ export async function GET(req: NextRequest) {
 
     if (query) {
       const ingredientDocs = await Ingredients.find({
-        name: { $regex: query, $options: "i" },
+        name: {
+          $regex: query.split(/[\s-]/).join(".*"),
+          $options: "i",
+        },
       });
 
       const categoryDocs = await Category.find({
-        name: { $regex: query, $options: "i" },
+        name: {
+          $regex: query.split(/[\s-]/).join(".*"),
+          $options: "i",
+        },
       });
 
       const goalDocs = await Goal.find({
-        name: { $regex: query, $options: "i" },
+        name: {
+          $regex: query.split(/[\s-]/).join(".*"),
+          $options: "i",
+        },
       });
 
       filter.$or = [
