@@ -1,3 +1,3 @@
 export default function Account() {
-  return <div>Account</div>;
+  return <main className="min-h-dvh">Account</main>;
 }
