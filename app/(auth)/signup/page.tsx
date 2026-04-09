@@ -1,0 +1,173 @@
+"use client";
+import Image from "next/image";
+import BgImage from "@/assets/BgImage.jpg";
+import OurProd from "@/assets/our_prod.svg";
+import GoogleImage from "@/assets/Google_G_logo.svg";
+import { useState } from "react";
+import Link from "next/link";
+import { Eye, EyeClosed } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+export default function Page() {
+  const [username, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const router = useRouter();
+  const handleSignUp = async () => {
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message);
+        return;
+      }
+
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      console.error("SignUp error:", error);
+    }
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [confirmShowPassword, setConfirmShowPassword] = useState(false);
+
+  return (
+    <div className="flex flex-1 flex-col items-center justify-center gap-6">
+      <div className="flex flex-col items-center">
+        <span className="font-sf-pro-text text-4xl text-[#030303]">
+          CREATE AN ACCOUNT
+        </span>
+        <span className="text-md text-[#636364]">
+          Please enter your details.
+        </span>
+      </div>
+      <div className="flex flex-col items-center gap-6">
+        <label htmlFor="name" className="flex h-17.75 w-99.25 flex-col gap-1">
+          <span className="text-md font-sf-pro-text w-fit text-[#181818]">
+            Name
+          </span>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            value={username}
+            onChange={(e) => setUserName(e.target.value)}
+            placeholder="Enter your name"
+            autoComplete="name"
+            className="bg-background-light focus:outline-background-lightest w-full rounded-2xl border border-[#C4C4C4] px-4 py-2 outline-2 outline-offset-0 outline-transparent transition-all placeholder:text-sm placeholder:text-[#9D9D9E]"
+          />
+        </label>
+        <label htmlFor="email" className="flex h-17.75 w-99.25 flex-col gap-1">
+          <span className="text-md font-sf-pro-text w-fit text-[#181818]">
+            Email
+          </span>
+          <input
+            type="text"
+            name="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter email or username"
+            autoComplete="email"
+            className="bg-background-light focus:outline-background-lightest w-full rounded-2xl border border-[#C4C4C4] px-4 py-2 outline-2 outline-offset-0 outline-transparent transition-all placeholder:text-sm placeholder:text-[#9D9D9E]"
+          />
+        </label>
+        <label htmlFor="password" className="flex w-99.25 flex-col gap-1">
+          <span className="text-md font-sf-pro-text w-fit text-[#181818]">
+            Password
+          </span>
+
+          <div className="relative w-full">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
+              autoComplete="current-password"
+              className="bg-background-light focus:outline-background-lightest w-full rounded-2xl border border-[#C4C4C4] px-4 py-2 pr-10 outline-2 outline-offset-0 outline-transparent transition-all placeholder:text-sm placeholder:text-[#9D9D9E]"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer hover:opacity-75 active:opacity-50"
+            >
+              {showPassword ? (
+                <Eye size={22} className="text-[#9D9D9E]" />
+              ) : (
+                <EyeClosed size={22} className="text-[#9D9D9E]" />
+              )}
+            </button>
+          </div>
+        </label>
+        <label htmlFor="password" className="flex w-99.25 flex-col gap-1">
+          <span className="text-md font-sf-pro-text w-fit text-[#181818]">
+            Confirm Password
+          </span>
+
+          <div className="relative w-full">
+            <input
+              type={confirmShowPassword ? "text" : "password"}
+              name="confirm-password"
+              id="confirm-password"
+              placeholder="Re-enter Password"
+              autoComplete="current-password"
+              className="w-full rounded-2xl border border-[#C4C4C4] px-4 py-2 pr-10 outline-2 outline-offset-0 outline-transparent transition-all placeholder:text-sm placeholder:text-[#9D9D9E]"
+            />
+
+            <button
+              type="button"
+              onClick={() => setConfirmShowPassword((prev) => !prev)}
+              className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer hover:opacity-75 active:opacity-50"
+            >
+              {confirmShowPassword ? (
+                <Eye size={22} className="text-[#9D9D9E]" />
+              ) : (
+                <EyeClosed size={22} className="text-[#9D9D9E]" />
+              )}
+            </button>
+          </div>
+        </label>
+
+        <button
+          onClick={handleSignUp}
+          className="flex w-full cursor-pointer items-center justify-center rounded-2xl bg-[#1B1B1B] py-3"
+        >
+          <span className="font-sf-pro-text text-sm text-white">Sign up</span>
+        </button>
+
+        <button className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border border-[#C4C4C4] py-1">
+          <Image src={GoogleImage} alt="Google-G-Logo" className="size-7" />
+          <span className="font-sf-pro-text text-sm text-black">
+            Sign up with Google
+          </span>
+        </button>
+        <p className="flex gap-1 text-sm text-[#595959]">
+          Already have an account?
+          <Link
+            className="cursor-pointer text-sm text-[#1B1B1B]"
+            href={"/login"}
+          >
+            Log In
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+}

@@ -1,4 +1,4 @@
-import { ChevronsRight, SlidersHorizontal } from "lucide-react";
+import { ChevronsRight, SlidersHorizontal, X } from "lucide-react";
 
 export default function Sidebar() {
   return (

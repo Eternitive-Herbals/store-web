@@ -7,11 +7,13 @@ import { Search, ShoppingBag, User } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
   const [searchVisiblity, setSearchVisibility] = useState(false);
-  const searchRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
+  const { isLoggedIn, loading } = useAuth();
+  const searchRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const links = [
@@ -76,12 +78,18 @@ export default function Header() {
           >
             <ShoppingBag size={20} />
           </Link>
-          <Link
-            href={"/account"}
-            className="transition-all hover:opacity-75 active:opacity-50"
-          >
-            <User size={20} />
-          </Link>
+          {loading ? (
+            <span className="animate-pulse">
+              <User size={20} />
+            </span>
+          ) : (
+            <Link
+              href={isLoggedIn ? "/account" : "/login"}
+              className="transition-all hover:opacity-75 active:opacity-50"
+            >
+              <User size={20} />
+            </Link>
+          )}
         </div>
       </div>
 
