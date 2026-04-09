@@ -5,7 +5,7 @@ import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 
 type ProductCardProps = {
-  image: StaticImageData;
+  image: string | StaticImageData;
   title: string;
   description: string;
   price: number;
@@ -25,7 +25,7 @@ export default function ProductCard({
       title,
       price,
       description,
-      image: image.src,
+      image: image,
       quantity: 1,
     });
 

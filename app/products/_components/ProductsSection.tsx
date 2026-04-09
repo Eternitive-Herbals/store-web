@@ -2,72 +2,111 @@
 
 import Image from "next/image";
 import Sidebar from "./Sidebar";
-import Product1 from "@/assets/product-sample-image-1.png";
 import BackgroundTexture from "@/assets/background-texture-brown-long-1.svg";
 import { ChevronDown } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+type Product = {
+  _id: string;
+  name: string;
+  image: string;
+  description: string;
+  price: number;
+  ingredients?: { name: string }[];
+  goal?: { name: string }[];
+};
+
+type Filters = {
+  goals: string[];
+  categories: string[];
+};
 
 export default function ProductsSection() {
   const [sortBy, setSortBy] = useState("featured");
+  const [filters, setFilters] = useState<Filters>({
+    goals: [],
+    categories: [],
+  });
 
-  const products = [
-    {
-      image: Product1,
-      title: "Immunohigh",
-      description: "Enhances bone density",
-      price: 1000,
-    },
-    {
-      image: Product1,
-      title: "Asthistrong",
-      description: "Enhances bone density",
-      price: 1000,
-    },
-    {
-      image: Product1,
-      title: "Vital Strong",
-      description: "Enhances bone density",
-      price: 1000,
-    },
-    {
-      image: Product1,
-      title: "Livoclean",
-      description: "Enhances bone density",
-      price: 1000,
-    },
-    {
-      image: Product1,
-      title: "Supplement Name",
-      description: "Enhances bone density",
-      price: 1000,
-    },
-    {
-      image: Product1,
-      title: "Supplement Name",
-      description: "Enhances bone density",
-      price: 1000,
-    },
-    {
-      image: Product1,
-      title: "Supplement Name",
-      description: "Enhances bone density",
-      price: 1000,
-    },
-    {
-      image: Product1,
-      title: "Supplement Name",
-      description: "Enhances bone density",
-      price: 1000,
-    },
-    {
-      image: Product1,
-      title: "Supplement Name",
-      description: "Enhances bone density",
-      price: 1000,
-    },
-  ];
+  const [products, setProducts] = useState<Product[]>([]);
 
+  // const products = [
+  //   {
+  //     image: Product1,
+  //     title: "Immunohigh",
+  //     description: "Enhances bone density",
+  //     price: 1000,
+  //   },
+  //   {
+  //     image: Product1,
+  //     title: "Asthistrong",
+  //     description: "Enhances bone density",
+  //     price: 1000,
+  //   },
+  //   {
+  //     image: Product1,
+  //     title: "Vital Strong",
+  //     description: "Enhances bone density",
+  //     price: 1000,
+  //   },
+  //   {
+  //     image: Product1,
+  //     title: "Livoclean",
+  //     description: "Enhances bone density",
+  //     price: 1000,
+  //   },
+  //   {
+  //     image: Product1,
+  //     title: "Supplement Name",
+  //     description: "Enhances bone density",
+  //     price: 1000,
+  //   },
+  //   {
+  //     image: Product1,
+  //     title: "Supplement Name",
+  //     description: "Enhances bone density",
+  //     price: 1000,
+  //   },
+  //   {
+  //     image: Product1,
+  //     title: "Supplement Name",
+  //     description: "Enhances bone density",
+  //     price: 1000,
+  //   },
+  //   {
+  //     image: Product1,
+  //     title: "Supplement Name",
+  //     description: "Enhances bone density",
+  //     price: 1000,
+  //   },
+  //   {
+  //     image: Product1,
+  //     title: "Supplement Name",
+  //     description: "Enhances bone density",
+  //     price: 1000,
+  //   },
+  // ];
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const params = new URLSearchParams();
+
+      if (filters.goals.length > 0) {
+        params.append("goals", filters.goals.join(","));
+      }
+
+      if (filters.categories.length > 0) {
+        params.append("categories", filters.categories.join(","));
+      }
+
+      const res = await fetch(`/api/search?${params.toString()}`);
+      const data = await res.json();
+
+      setProducts(data.products || []);
+    };
+
+    fetchProducts();
+  }, [filters]);
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setSortBy(e.target.value);
   }
@@ -81,7 +120,7 @@ export default function ProductsSection() {
         className="fixed inset-0 -z-10 object-cover opacity-5"
       />
 
-      <Sidebar />
+      <Sidebar onFilterChange={setFilters} />
 
       <div className="flex min-h-full flex-1 flex-col gap-4">
         <div className="sticky top-33 z-20 flex items-center place-self-end rounded-2xl bg-[#E2DED3] transition-all hover:opacity-75 active:opacity-50">
@@ -101,8 +140,14 @@ export default function ProductsSection() {
         </div>
 
         <div className="flex flex-wrap justify-between gap-x-4 gap-y-16 p-2">
-          {products.map((product, index) => (
-            <ProductCard key={index} {...product} />
+          {products.map((product) => (
+            <ProductCard
+              key={product._id}
+              image={product.image}
+              title={product.name}
+              description={product.description}
+              price={product.price}
+            />
           ))}
         </div>
       </div>

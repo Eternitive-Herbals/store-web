@@ -9,7 +9,7 @@ export async function GET() {
     await connectDB();
 
     const cookieStore = await cookies();
-    const token = cookieStore.get("auth_token")?.value;
+    const token = cookieStore.get("access_token")?.value;
 
     if (!token) {
       return NextResponse.json({ user: null }, { status: 200 });
@@ -24,7 +24,7 @@ export async function GET() {
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 401 });
     }
-    console.log("COOKIE:", (await cookies()).get("auth_token"));
+    console.log("COOKIE:", (await cookies()).get("access_token"));
 
     console.log("AUTHENTICATE USER FROM DB:", user);
 

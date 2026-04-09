@@ -10,7 +10,11 @@ export async function GET(req: NextRequest) {
     await connectDB();
 
     const { searchParams } = new URL(req.url);
+
     const query = searchParams.get("query");
+
+    const goals = searchParams.get("goals");
+    const categories = searchParams.get("categories");
 
     const filter: any = {};
 
@@ -57,9 +61,37 @@ export async function GET(req: NextRequest) {
       ];
     }
 
+    if (goals) {
+      const goalArray = goals.split(",");
+
+      const goalDocs = await Goal.find({
+        name: { $in: goalArray },
+      });
+
+      if (goalDocs.length > 0) {
+        filter.goal = {
+          $in: goalDocs.map((g) => g._id),
+        };
+      }
+    }
+
+    if (categories) {
+      const categoryArray = categories.split(",");
+
+      const categoryDocs = await Category.find({
+        name: { $in: categoryArray },
+      });
+
+      if (categoryDocs.length > 0) {
+        filter.type = {
+          $in: categoryDocs.map((c) => c._id),
+        };
+      }
+    }
+
     const products = await Product.find(filter)
       .populate("ingredients")
-      .populate("type")
+      .populate("category")
       .populate("goal");
 
     return NextResponse.json({ products: products || [] }, { status: 200 });

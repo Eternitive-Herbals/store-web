@@ -12,7 +12,7 @@ const ProductItemSchema = new Schema(
       },
     ],
     price: { type: Number, required: true },
-    type: [
+    category: [
       {
         type: Schema.Types.ObjectId,
         ref: "Category",
