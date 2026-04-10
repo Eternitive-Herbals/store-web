@@ -87,6 +87,7 @@ export default function ProductsSection() {
   //     price: 1000,
   //   },
   // ];
+  
   useEffect(() => {
     const fetchProducts = async () => {
       const params = new URLSearchParams();
@@ -99,6 +100,10 @@ export default function ProductsSection() {
         params.append("categories", filters.categories.join(","));
       }
 
+      if (sortBy) {
+        params.append("sortBy", sortBy);
+      }
+
       const res = await fetch(`/api/search?${params.toString()}`);
       const data = await res.json();
 
@@ -106,7 +111,8 @@ export default function ProductsSection() {
     };
 
     fetchProducts();
-  }, [filters]);
+  }, [filters, sortBy]);
+
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setSortBy(e.target.value);
   }

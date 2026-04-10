@@ -17,7 +17,27 @@ export async function GET(req: NextRequest) {
     const categories = searchParams.get("categories");
 
     const filter: any = {};
+    const sortBy = searchParams.get("sortBy");
 
+    let sortOption: any = {};
+
+    switch (sortBy) {
+      case "price_low_high":
+        sortOption = { price: 1 };
+        break;
+
+      case "price_high_low":
+        sortOption = { price: -1 };
+        break;
+
+      case "best_selling":
+        sortOption = { orders: -1 };
+        break;
+
+      case "featured":
+      default:
+        sortOption = { createdAt: -1 };
+    }
     if (query) {
       const ingredientDocs = await Ingredients.find({
         name: {
@@ -90,6 +110,7 @@ export async function GET(req: NextRequest) {
     }
 
     const products = await Product.find(filter)
+      .sort(sortOption)
       .populate("ingredients")
       .populate("category")
       .populate("goal");
