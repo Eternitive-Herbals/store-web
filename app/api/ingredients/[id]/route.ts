@@ -27,6 +27,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
     return NextResponse.json({ message: "Ingredient updated", ingredient }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: "Something went wrong" }, { status: 500 });
+    return NextResponse.json({ message: "Something went wrong",error }, { status: 500 });
   }
 }

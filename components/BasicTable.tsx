@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import {
@@ -11,13 +11,11 @@ import {
   ColumnDef,
   SortingState,
   FilterFn,
-
 } from "@tanstack/react-table";
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { OrderType } from "@/types/OrderType";
 import { Row } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
-
 
 const fuzzyFilter: FilterFn<OrderType> = (row, columnId, value, addMeta) => {
   const itemRank = rankItem(String(row.getValue(columnId)), value);
@@ -29,6 +27,7 @@ function BasicTable({
   data,
   columns,
   pageSize = 10,
+
   enableRowSelection = false,
   enableActions = false,
 }: {
@@ -37,14 +36,11 @@ function BasicTable({
   pageSize?: number;
   enableRowSelection?: boolean;
   enableActions?: boolean;
-})  {
-
+}) {
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
 
-
   const [sorting, setSorting] = useState<SortingState>([]);
-
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -69,7 +65,6 @@ function BasicTable({
     ),
   };
 
-
   const actionColumn: ColumnDef<OrderType> = {
     id: "actions",
     header: "Actions",
@@ -93,7 +88,6 @@ function BasicTable({
     ),
   };
 
-
   const finalColumns = [
     ...(enableRowSelection ? [selectionColumn] : []),
     ...columns,
@@ -101,12 +95,14 @@ function BasicTable({
   ];
   const table = useReactTable<OrderType>({
     data,
+
     columns: finalColumns,
     filterFns: {
       fuzzy: fuzzyFilter,
     },
     enableRowSelection: enableRowSelection,
     onRowSelectionChange: setRowSelection,
+
     state: {
       globalFilter,
       sorting,
@@ -115,6 +111,7 @@ function BasicTable({
     },
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: fuzzyFilter,
+
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
@@ -123,23 +120,20 @@ function BasicTable({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-
   const isRowHighlighted = (row: Row<OrderType>) => {
     const id = row.original.order_id;
-  return id%2 !== 0;
+    return id % 2 !== 0;
   };
 
   return (
     <div className="p-4">
-
       <input
         type="text"
         value={globalFilter ?? ""}
         onChange={(e) => setGlobalFilter(e.target.value)}
         placeholder="Search..."
-        className="mb-4 w-full  max-w-xs rounded border p-2"
+        className="mb-4 w-full max-w-xs rounded border p-2"
       />
-
 
       <table className="w-full">
         <thead className="">
@@ -150,17 +144,15 @@ function BasicTable({
                   key={header.id}
                   colSpan={header.colSpan}
                   onClick={header.column.getToggleSortingHandler()}
-                  className="cursor-pointer pl-1 text-left px-2 py-4 text-nowrap"
+                  className="cursor-pointer px-2 py-4 pl-1 text-left text-nowrap"
                 >
                   <div className="flex items-center gap-4 font-medium">
-                    {header.isPlaceholder ? null : (
-
-                        flexRender(
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
                           header.column.columnDef.header,
                           header.getContext(),
-                        )
-
-                    )}
+                        )}
 
                     {{
                       asc: <ChevronUp size={16} />,
@@ -187,11 +179,8 @@ function BasicTable({
                 className={`${isRowHighlighted(row) ? "bg-primary-background/5" : "bg-transparent"} text-nowrap`}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="p-2 ">
-                    {flexRender(
-                      cell.column.columnDef.cell,
-                      cell.getContext(),
-                    )}
+                  <td key={cell.id} className="p-2">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
               </tr>
@@ -199,7 +188,6 @@ function BasicTable({
           )}
         </tbody>
       </table>
-
 
       <div className="mt-4 flex items-center justify-between">
         <div className="flex gap-2">
