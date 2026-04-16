@@ -11,6 +11,7 @@ import {
   ColumnDef,
   SortingState,
   FilterFn,
+
 } from "@tanstack/react-table";
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { OrderType } from "@/types/OrderType";
@@ -28,37 +29,92 @@ function BasicTable({
   data,
   columns,
   pageSize = 10,
+  enableRowSelection = false,
+  enableActions = false,
 }: {
   data: OrderType[];
   columns: ColumnDef<OrderType>[];
   pageSize?: number;
-}) {
-  
+  enableRowSelection?: boolean;
+  enableActions?: boolean;
+})  {
+
+  const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
 
 
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  
+
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize,
   });
 
- 
+  const selectionColumn: ColumnDef<OrderType> = {
+    id: "select",
+    header: ({ table }) => (
+      <input
+        type="checkbox"
+        checked={table.getIsAllRowsSelected()}
+        onChange={table.getToggleAllRowsSelectedHandler()}
+      />
+    ),
+    cell: ({ row }) => (
+      <input
+        type="checkbox"
+        checked={row.getIsSelected()}
+        onChange={row.getToggleSelectedHandler()}
+      />
+    ),
+  };
+
+
+  const actionColumn: ColumnDef<OrderType> = {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => (
+      <div className="relative">
+        <button className="border px-2 py-1">⋮</button>
+
+        {/* Replace with dropdown if using shadcn */}
+        <div className="absolute hidden border bg-white p-2 group-hover:block">
+          <button onClick={() => console.log("View", row.original)}>
+            View
+          </button>
+          <button onClick={() => console.log("Edit", row.original)}>
+            Edit
+          </button>
+          <button onClick={() => console.log("Delete", row.original)}>
+            Delete
+          </button>
+        </div>
+      </div>
+    ),
+  };
+
+
+  const finalColumns = [
+    ...(enableRowSelection ? [selectionColumn] : []),
+    ...columns,
+    ...(enableActions ? [actionColumn] : []),
+  ];
   const table = useReactTable<OrderType>({
     data,
-    columns,
+    columns: finalColumns,
     filterFns: {
       fuzzy: fuzzyFilter,
     },
+    enableRowSelection: enableRowSelection,
+    onRowSelectionChange: setRowSelection,
     state: {
       globalFilter,
       sorting,
       pagination,
+      rowSelection,
     },
     onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: "fuzzy",
+    globalFilterFn: fuzzyFilter,
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
@@ -67,15 +123,15 @@ function BasicTable({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  
+
   const isRowHighlighted = (row: Row<OrderType>) => {
     const id = row.original.order_id;
-    return id%2 === 0;
+  return id%2 !== 0;
   };
 
   return (
     <div className="p-4">
-      
+
       <input
         type="text"
         value={globalFilter ?? ""}
@@ -84,11 +140,11 @@ function BasicTable({
         className="mb-4 w-full  max-w-xs rounded border p-2"
       />
 
-      
+
       <table className="w-full">
         <thead className="">
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="bg-primary-background/5">
+            <tr key={headerGroup.id} className="bg-transparent">
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
@@ -98,12 +154,12 @@ function BasicTable({
                 >
                   <div className="flex items-center gap-4 font-medium">
                     {header.isPlaceholder ? null : (
-                      
+
                         flexRender(
                           header.column.columnDef.header,
                           header.getContext(),
                         )
-                      
+
                     )}
 
                     {{
@@ -128,13 +184,12 @@ function BasicTable({
             table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className={`border-t ${isRowHighlighted(row) ? "bg-primary-background/5" : "bg-transparent"} text-nowrap`}
+                className={`${isRowHighlighted(row) ? "bg-primary-background/5" : "bg-transparent"} text-nowrap`}
               >
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className="p-2 ">
                     {flexRender(
-                      cell.column.columnDef.cell ??
-                        cell.column.columnDef.accessorKey,
+                      cell.column.columnDef.cell,
                       cell.getContext(),
                     )}
                   </td>
@@ -145,7 +200,7 @@ function BasicTable({
         </tbody>
       </table>
 
-    
+
       <div className="mt-4 flex items-center justify-between">
         <div className="flex gap-2">
           <button

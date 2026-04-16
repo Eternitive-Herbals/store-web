@@ -123,9 +123,9 @@ export default function RootLayout({
       >
         <AuthProvider>
           <CartProvider>
-            {/* <Header /> */}
+           
             {children}
-            <Footer />
+           
           </CartProvider>
         </AuthProvider>
       </body>

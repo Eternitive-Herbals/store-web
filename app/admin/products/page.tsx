@@ -9,5 +9,6 @@ import { orderColumns } from "../columns/OrderColumn";
 export default function Page() {
   const data: OrderType[] = useMemo(() => Mdata as OrderType[], []);
 
-  return <BasicTable data={data} columns={orderColumns} pageSize={10}/>;
+  
+  return <BasicTable data={data} columns={orderColumns} pageSize={10} enableActions={true} enableRowSelection={true}/>;
 }

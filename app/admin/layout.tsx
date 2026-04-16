@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/brand-logo-white.svg";   
 import { Album, LogOut, Package, PanelLeft, ReceiptIcon, } from "lucide-react";
-
+import '@/app/globals.css'
 export default function AdminLayout({
   children,
 }: {    children: React.ReactNode }) {
