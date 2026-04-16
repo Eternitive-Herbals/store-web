@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
-const PROTECTED_ROUTES = ["/product"];
+const PROTECTED_ROUTES = ["/cart"];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;

@@ -4,7 +4,7 @@ import User from "../../../../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
-import { loginSchema } from "@/lib/validation";
+import { loginSchema } from "@/lib/Validation";
 
 export async function POST(req: NextRequest) {
   try {
@@ -83,7 +83,9 @@ export async function POST(req: NextRequest) {
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    return NextResponse.json({ message: "Login successful" });
+    return NextResponse.json({ message: "Login successful",
+      user: user.role
+     });
   } catch (error) {
     console.log("something wend twrong please try after some time", error);
 

@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const OrderItemSchema = new Schema(
   {
@@ -51,4 +51,4 @@ const OrderSchema = new Schema(
   { timestamps: true },
 );
 
-export const Order = model("Order", OrderSchema);
+export const Order = models.Order || model("Order", OrderSchema);

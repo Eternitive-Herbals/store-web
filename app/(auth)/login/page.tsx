@@ -36,7 +36,11 @@ export default function Login() {
         return;
       }
       setLoading(false);
-
+if(data.user === "admin"){
+  router.push("/admin");
+  router.refresh();
+  return;
+}
       router.push("/");
       router.refresh();
     } catch (error) {

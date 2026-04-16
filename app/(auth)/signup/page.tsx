@@ -34,7 +34,11 @@ export default function Page() {
         alert(data.message);
         return;
       }
-
+if(data.user === "admin"){
+  router.push("/admin");
+  router.refresh();
+  return;
+}
       router.push("/");
       router.refresh();
     } catch (error) {

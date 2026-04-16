@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const ProductItemSchema = new Schema(
   {
@@ -32,4 +32,4 @@ const ProductItemSchema = new Schema(
   { timestamps: true },
 );
 
-export const Product = model("Product", ProductItemSchema);
+export const Product = models.Product || model("Product", ProductItemSchema);

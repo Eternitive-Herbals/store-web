@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const ReviewItemSchema = new Schema(
   {
@@ -10,5 +10,5 @@ const ReviewItemSchema = new Schema(
   { timestamps: true },
 );
 
-export const Review = model("Review", ReviewItemSchema);
+export const Review = models.Review || model("Review", ReviewItemSchema);
 

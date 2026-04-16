@@ -4,7 +4,7 @@ import User from "../../../../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
-import { signupSchema } from "@/lib/validation";
+import { signupSchema } from "@/lib/Validation";
 
 export async function POST(req: NextRequest) {
   try {

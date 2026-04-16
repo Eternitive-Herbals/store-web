@@ -123,7 +123,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           <CartProvider>
-            <Header />
+            {/* <Header /> */}
             {children}
             <Footer />
           </CartProvider>
