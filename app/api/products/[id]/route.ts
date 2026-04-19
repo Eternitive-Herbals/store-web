@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Product } from "@/models/Product";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export async function PUT(
   req: NextRequest,
@@ -10,6 +10,7 @@ export async function PUT(
 ) {
   try {
     await connectDB();
+    const { id } = await params;
 
     const cookieStore = await cookies();
     const token = cookieStore.get("access_token")?.value;
@@ -18,15 +19,101 @@ export async function PUT(
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    jwt.verify(token, process.env.SECRET_AETHERY!);
+    const decoded = jwt.verify(
+      token,
+      process.env.SECRET_AETHERY!,
+    ) as JwtPayload;
 
-    const body = await req.json();
+    if (decoded.role !== "Admin") {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+    const {
+      name,
+      description,
+      ingredients,
+      price,
+      image,
+      category,
+      dosage,
+      goal,
+    } = await req.json();
+    const updateProduct: Record<string, any> = {};
+    if (name) {
+      if (typeof name !== "string") {
+        return NextResponse.json({ message: "Invalid name" }, { status: 400 });
+      }
+      updateProduct.name = name;
+    }
 
-    const product = await Product.findByIdAndUpdate(
-      params.id,
-      { $set: body },
-      { new: true, runValidators: true },
-    );
+    if (description) {
+      if (typeof description !== "string") {
+        return NextResponse.json(
+          { message: "Invalid description" },
+          { status: 400 },
+        );
+      }
+      updateProduct.description = description;
+    }
+
+    if (ingredients) {
+      if (typeof ingredients !== "string") {
+        return NextResponse.json(
+          { message: "Invalid ingredients" },
+          { status: 400 },
+        );
+      }
+      updateProduct.ingredients = ingredients;
+    }
+
+    if (price) {
+      if (typeof price !== "number") {
+        return NextResponse.json({ message: "Invalid price" }, { status: 400 });
+      }
+      updateProduct.price = price;
+    }
+
+    if (image) {
+      if (typeof image !== "string") {
+        return NextResponse.json({ message: "Invalid image" }, { status: 400 });
+      }
+      updateProduct.image = image;
+    }
+
+    if (category) {
+      if (typeof category !== "string") {
+        return NextResponse.json(
+          { message: "Invalid category" },
+          { status: 400 },
+        );
+      }
+      updateProduct.category = category;
+    }
+
+    if (dosage) {
+      if (typeof dosage !== "string") {
+        return NextResponse.json(
+          { message: "Invalid dosage" },
+          { status: 400 },
+        );
+      }
+      updateProduct.dosage = dosage;
+    }
+
+    if (goal) {
+      if (typeof goal !== "string") {
+        return NextResponse.json({ message: "Invalid goal" }, { status: 400 });
+      }
+      updateProduct.goal = goal;
+    }
+
+    if (Object.keys(updateProduct).length === 0) {
+      return NextResponse.json({ message: "Invalid Input" }, { status: 400 });
+    }
+
+    const product = await Product.findByIdAndUpdate(id, updateProduct, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!product) {
       return NextResponse.json(

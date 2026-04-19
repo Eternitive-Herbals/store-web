@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Category } from "@/models/Category";
+import { cookies } from "next/headers";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export async function GET() {
   try {
@@ -17,6 +19,22 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("access_token")?.value;
+
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const decoded = jwt.verify(
+      token,
+      process.env.SECRET_AETHERY!,
+    ) as JwtPayload;
+
+    if (decoded.role !== "Admin") {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+
     const { name } = await req.json();
 
     if (!name) {
