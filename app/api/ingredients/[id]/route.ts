@@ -15,7 +15,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    jwt.verify(token, process.env.SECRET_AETHERY!);
+    jwt.verify(token, process.env.JWT_SECRET!);
 
     const body = await req.json();
 

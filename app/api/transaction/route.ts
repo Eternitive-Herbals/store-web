@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded: any = jwt.verify(token, process.env.SECRET_AETHERY!);
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
     const userId = decoded.userId;
 
     const { orderId, amount, paymentMethod } = await req.json();

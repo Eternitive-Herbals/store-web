@@ -83,12 +83,16 @@ export default function Header() {
               <User size={20} />
             </span>
           ) : (
-            <Link
-              href={isLoggedIn ? "/account" : "/login"}
+            <button
+              type="button"
+              onClick={() => {
+                if (loading) return;
+                router.push(isLoggedIn ? "/account" : "/login");
+              }}
               className="transition-all hover:opacity-75 active:opacity-50"
             >
               <User size={20} />
-            </Link>
+            </button>
           )}
         </div>
       </div>

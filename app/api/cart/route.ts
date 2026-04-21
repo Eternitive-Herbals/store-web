@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded: any = jwt.verify(token, process.env.SECRET_AETHERY!);
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
     const userId = decoded.userId;
 
     let cart = await Cart.findOne({ userId });
@@ -69,7 +69,7 @@ export async function GET() {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded: any = jwt.verify(token, process.env.SECRET_AETHERY!);
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
     const userId = decoded.userId;
 
     const cart = await Cart.findOne({ userId });
@@ -98,7 +98,7 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded: any = jwt.verify(token, process.env.SECRET_AETHERY!);
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
     const userId = decoded.userId;
 
     const cart = await Cart.findOne({ userId });
@@ -145,7 +145,7 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ message: "unauthorized" }, { status: 401 });
   }
 
-  const decoded: any = jwt.verify(token, process.env.SECRET_AETHERY!);
+  const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
   const userId = decoded.userId;
 
   const body = await req.json();
