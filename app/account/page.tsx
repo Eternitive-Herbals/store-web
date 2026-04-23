@@ -1,3 +1,67 @@
-export default function Account() {
-  return <main className="min-h-dvh">Account</main>;
+"use client";
+
+import { LogOut, MapPinHouse, ShoppingBag, User } from "lucide-react";
+import React, { useState } from "react";
+import AccountDetails from "./_components/AccountDetails";
+import OrderHistory from "./_components/OrderHistory";
+import ShippingAddress from "./_components/ShippingAddress";
+
+type OptionType =
+  | "Order History"
+  | "Shipping Address"
+  | "Account Details"
+  | "Log Out";
+
+type Option = {
+  name: OptionType;
+  icon: React.ReactNode;
+};
+
+export default function Page() {
+  const [selectedOption, setSelectedOption] =
+    useState<OptionType>("Account Details");
+
+  const options: Option[] = [
+    { name: "Order History", icon: <ShoppingBag /> },
+    { name: "Shipping Address", icon: <MapPinHouse /> },
+    { name: "Account Details", icon: <User /> },
+    { name: "Log Out", icon: <LogOut /> },
+  ];
+
+  return (
+    <div className="p-12 pt-42">
+      <div className="border-primary-background/20 min-h-141 w-fit max-w-312 place-self-center rounded-4xl border bg-white p-18 md:w-10/11">
+        <div className="flex flex-col items-start gap-6 sm:flex-row lg:gap-37">
+          {/* Sidebar */}
+          <div className="flex items-start justify-between gap-5 lg:gap-19">
+            <div className="py-4">
+              {options.map((opt) => (
+                <h1
+                  key={opt.name}
+                  onClick={() => setSelectedOption(opt.name)}
+                  className={`flex cursor-pointer items-center gap-3 pb-6 text-sm text-nowrap transition-colors duration-300 md:text-xl ${
+                    selectedOption === opt.name
+                      ? "text-primary-background font-semibold"
+                      : "hover:text-primary-background/60 text-primary-background/40"
+                  }`}
+                >
+                  {opt.icon} {opt.name}
+                </h1>
+              ))}
+            </div>
+
+            <div className="bg-primary-background/20 hidden h-64 w-0.5 md:block" />
+          </div>
+
+          {/* Content */}
+          <div className="w-full">
+            {selectedOption === "Account Details" && <AccountDetails />}
+            {selectedOption === "Order History" && <OrderHistory />}
+            {selectedOption === "Shipping Address" && <ShippingAddress />}
+            {selectedOption === "Log Out" && <h1>Log Out</h1>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { CheckSquare2, Eye, EyeClosed, Square } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
   const [loginData, setLoginData] = useState({
@@ -17,7 +18,7 @@ export default function Login() {
   const checkboxRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
-
+  const { refreshUser } = useAuth();
   async function handleLogin() {
     try {
       setLoading(true);
@@ -32,17 +33,19 @@ export default function Login() {
       const data = await res.json();
 
       if (!res.ok) {
+      
         alert(data.message);
         return;
       }
+      await refreshUser();
       setLoading(false);
-if(data.user === "admin"){
-  router.push("/admin");
-  router.refresh();
+if(data.user === "Admin"){
+  router.push("/Admin/products");
+ 
   return;
 }
       router.push("/");
-      router.refresh();
+      
     } catch (error) {
       console.error("Login error:", error);
     }
