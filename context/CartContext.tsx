@@ -16,37 +16,37 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [totalQuantity, setTotalQuantity] = useState(0);
   const [cartVersion, setCartVersion] = useState(0);
 
-  const { user } = useAuth(); 
+  const { user } = useAuth();
 
   const bumpCart = () => setCartVersion((v) => v + 1);
 
   useEffect(() => {
     async function syncCart() {
       if (!user?._id) {
-        setTotalQuantity(0); 
+        setTotalQuantity(0);
         return;
       }
 
-      const res = await fetch("/api/cart", {
-        headers: {
-          "Content-Type": "application/json",
-          "x-user-id": user._id.toString(),
-        },
-      });
+      try {
+        const res = await fetch("/api/cart");
+        const data = await res.json();
 
-      const cart = await res.json();
+        const items = data.cart || [];
 
-      setTotalQuantity(
-        cart.items.reduce(
-          (sum: number, item: { quantity: number }) =>
-            sum + item.quantity,
-          0
-        )
-      );
+        setTotalQuantity(
+          items.reduce(
+            (sum: number, item: { quantity: number }) => sum + item.quantity,
+            0,
+          ),
+        );
+      } catch (error) {
+        console.error("failed to sync cart:", error);
+        setTotalQuantity(0);
+      }
     }
 
     syncCart();
-  }, [user]); 
+  }, [user, cartVersion]);
 
   return (
     <CartContext.Provider

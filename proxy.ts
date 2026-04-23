@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
-const PROTECTED_ROUTES = ["/cart"];
+const PROTECTED_ROUTES = ["/product", "/account"];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -17,7 +17,7 @@ export async function proxy(req: NextRequest) {
     try {
       await jwtVerify(
         accessToken,
-        new TextEncoder().encode(process.env.SECRET_AETHERY!),
+        new TextEncoder().encode(process.env.JWT_SECRET!),
       );
       return NextResponse.next();
     } catch {}
