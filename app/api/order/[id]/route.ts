@@ -19,7 +19,7 @@ export async function PUT(
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    jwt.verify(token, process.env.SECRET_AETHERY!) as JwtPayload;
+    jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
 
     const { items, totalAmount, shippingAddress } = await req.json();
     const updateOrder: Record<string, any> = {};

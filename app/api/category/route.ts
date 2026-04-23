@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
     const decoded = jwt.verify(
       token,
-      process.env.SECRET_AETHERY!,
+      process.env.JWT_SECRET!,
     ) as JwtPayload;
 
     if (decoded.role !== "Admin") {

@@ -15,7 +15,7 @@ export async function PUT(req: NextRequest,   { params }: { params: { id: string
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded = jwt.verify(token, process.env.SECRET_AETHERY!) as JwtPayload;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
 
     if (decoded.role !== "Admin"){ return NextResponse.json({ message: "Forbidden" }, { status: 403 });}
 

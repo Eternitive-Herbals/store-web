@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
         email: newUser.email,
         role: newUser.role,
       },
-      process.env.SECRET_AETHERY!,
+      process.env.JWT_SECRET!,
       { expiresIn: "15m" },
     );
 

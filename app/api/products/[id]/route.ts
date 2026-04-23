@@ -21,7 +21,7 @@ export async function PUT(
 
     const decoded = jwt.verify(
       token,
-      process.env.SECRET_AETHERY!,
+      process.env.JWT_SECRET!,
     ) as JwtPayload;
 
     if (decoded.role !== "Admin") {

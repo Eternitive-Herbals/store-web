@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     try {
       decoded = jwt.verify(
         token,
-        process.env.SECRET_AETHERY!,
+        process.env.JWT_SECRET!,
       ) as jwt.JwtPayload & { role: string };
     } catch (err) {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });

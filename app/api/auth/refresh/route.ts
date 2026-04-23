@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
 
     const newAccessToken = jwt.sign(
       { userId: user._id.toString(), email: user.email },
-      process.env.SECRET_AETHERY!,
+      process.env.JWT_SECRET!,
       { expiresIn: "30s" },
     );
 

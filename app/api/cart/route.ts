@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
 
     const decoded = jwt.verify(
       token,
-      process.env.SECRET_AETHERY!,
+      process.env.JWT_SECRET!,
     ) as JwtPayload;
     const userId = decoded.userId;
 
@@ -79,7 +79,7 @@ export async function GET() {
 
     const decoded = jwt.verify(
       token,
-      process.env.SECRET_AETHERY!,
+      process.env.JWT_SECRET!,
     ) as JwtPayload;
     const userId = decoded.userId;
 
