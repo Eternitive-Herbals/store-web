@@ -109,7 +109,10 @@ const sf_pro_text = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "aethery",
+  title: {
+    default: "aethery",
+    template: "%s | aethery",
+  },
   description: "",
 };
 

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import BackgroundTexture from "@/assets/background-texture-white-2.svg";
-import USPCard, { USPCardProps } from "./USPCard";
+import USPCard, { USPCardProps } from "./UspCard";
 
 export default function USPSection() {
   const cards: USPCardProps[] = [
