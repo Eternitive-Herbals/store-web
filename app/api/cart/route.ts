@@ -2,15 +2,20 @@ import connectDB from "@/lib/db";
 import { Cart } from "@/models/Cart";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
-    const body = await req.json();
+    const { title, price, image, description } = await req.json();
 
-    const { title, price, image, description } = body;
+    if (!title || price === undefined || !image || !description) {
+      return NextResponse.json(
+        { message: "All Fields required" },
+        { status: 400 },
+      );
+    }
 
     const cookieStore = await cookies();
     const token = cookieStore.get("access_token")?.value;
@@ -19,7 +24,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET!,
+    ) as JwtPayload;
     const userId = decoded.userId;
 
     let cart = await Cart.findOne({ userId });
@@ -69,7 +77,10 @@ export async function GET() {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET!,
+    ) as JwtPayload;
     const userId = decoded.userId;
 
     const cart = await Cart.findOne({ userId });

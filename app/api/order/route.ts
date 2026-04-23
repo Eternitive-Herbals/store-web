@@ -20,6 +20,15 @@ export async function POST(req: NextRequest) {
 
     const { items, totalAmount, shippingAddress } = await req.json();
 
+    if (!items || !totalAmount || !shippingAddress) {
+      return NextResponse.json(
+        {
+          message: "All Fields required",
+        },
+        { status: 400 },
+      );
+    }
+
     const order = await Order.create({
       user: userId,
       items,

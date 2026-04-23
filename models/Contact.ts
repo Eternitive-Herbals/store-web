@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model , models } from "mongoose";
 
 const ContactItem = new Schema({
   name: {
@@ -17,4 +17,4 @@ const ContactItem = new Schema({
   },
 });
 
-export const Contact = model("Contact", ContactItem);
+export const Contact = models.Contact || model("Contact", ContactItem);

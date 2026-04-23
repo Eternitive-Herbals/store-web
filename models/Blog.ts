@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const BlogItemSchema = new Schema({
   title: {
@@ -20,4 +20,4 @@ const BlogItemSchema = new Schema({
   },
 });
 
-export const Blogs = model("Blog", BlogItemSchema);
+export const Blog =   models.Blog ||model("Blog", BlogItemSchema);

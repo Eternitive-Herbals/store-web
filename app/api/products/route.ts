@@ -1,6 +1,8 @@
 import { Product } from "@/models/Product";
 import connectDB from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export async function GET(req: NextRequest) {
   try {
@@ -32,9 +34,33 @@ export async function GET(req: NextRequest) {
 }
 export async function POST(req: NextRequest) {
   try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("access_token")?.value;
+
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET!,
+    ) as JwtPayload;
+
+    if (decoded.role !== "Admin") {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+
     await connectDB();
-    const { name, description, ingredients, price, image, type, dosage, goal } =
-      await req.json();
+    const {
+      name,
+      description,
+      ingredients,
+      price,
+      image,
+      category,
+      dosage,
+      goal,
+    } = await req.json();
 
     if (
       !name ||
@@ -42,7 +68,7 @@ export async function POST(req: NextRequest) {
       !ingredients ||
       !price ||
       !image ||
-      !type ||
+      !category ||
       !dosage ||
       !goal
     ) {
@@ -59,7 +85,7 @@ export async function POST(req: NextRequest) {
       description,
       ingredients,
       price,
-      type,
+      category,
       goal,
       dosage,
       image,

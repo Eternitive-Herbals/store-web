@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model , models } from "mongoose";
 
 const couponSchema = new Schema(
   {
@@ -49,4 +49,4 @@ const couponSchema = new Schema(
   { timestamps: true },
 );
 
-export const Coupon = model("Coupon", couponSchema);
+export const Coupon = models.Coupon || model("Coupon", couponSchema);

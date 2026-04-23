@@ -27,7 +27,7 @@ export function useCart() {
 
     setTotalQuantity(
       items.reduce(
-        (sum: any, item: { quantity: unknown }) => sum + item.quantity,
+        (sum: number, item: { quantity: number }) => sum + item.quantity,
         0,
       ),
     );

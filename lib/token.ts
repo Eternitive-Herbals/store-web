@@ -1,21 +1,21 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-export interface JWTPayload {
+export interface AuthPayload extends JwtPayload {
   userId: string;
-  role: "OWNER" | "ADMIN" | "USER";
+  role: "Distributor" | "Admin" | "Customer";
   email: string;
 }
 
-export function signToken(payload: JWTPayload) {
+export function signToken(payload: AuthPayload) {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: "7d" });
 }
 
-export function verifyToken(token: string): JWTPayload {
-  return jwt.verify(token, JWT_SECRET) as JWTPayload;
+export function verifyToken(token: string): AuthPayload {
+  return jwt.verify(token, JWT_SECRET) as AuthPayload;
 }
 
 export function generateToken() {
