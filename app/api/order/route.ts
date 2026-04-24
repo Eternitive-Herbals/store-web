@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Order } from "@/models/Order";
 import { cookies } from "next/headers";
-import jwt, { JwtPayload } from "jsonwebtoken";
+
 import {verifyToken } from "@/lib/token";
-import { verify } from "crypto";
+
 
 export async function POST(req: NextRequest) {
   try {
