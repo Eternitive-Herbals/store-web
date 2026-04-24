@@ -12,7 +12,7 @@ import { useAuth } from "@/context/AuthContext";
 export default function Header() {
   const [searchVisiblity, setSearchVisibility] = useState(false);
   const [query, setQuery] = useState("");
-  const { isLoggedIn, loading, refreshUser } = useAuth();
+  const { isLoggedIn, loading } = useAuth();
   const searchRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 

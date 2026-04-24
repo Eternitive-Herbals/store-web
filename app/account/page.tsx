@@ -5,6 +5,9 @@ import React, { useState } from "react";
 import AccountDetails from "./_components/AccountDetails";
 import OrderHistory from "./_components/OrderHistory";
 import ShippingAddress from "./_components/ShippingAddress";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+
 
 type OptionType =
   | "Order History"
@@ -18,8 +21,17 @@ type Option = {
 };
 
 export default function Page() {
+    const router = useRouter();
   const [selectedOption, setSelectedOption] =
     useState<OptionType>("Account Details");
+  
+    const {loading, refreshUser, user} = useAuth();
+
+     if (loading) {
+    return <div className="">Loading...</div>;
+  }
+
+
 
   const options: Option[] = [
     { name: "Order History", icon: <ShoppingBag /> },
@@ -27,6 +39,22 @@ export default function Page() {
     { name: "Account Details", icon: <User /> },
     { name: "Log Out", icon: <LogOut /> },
   ];
+
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      await refreshUser(); 
+
+     router.push("/login")
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
 
   return (
     <div className="p-12 pt-42">
@@ -38,7 +66,7 @@ export default function Page() {
               {options.map((opt) => (
                 <h1
                   key={opt.name}
-                  onClick={() => setSelectedOption(opt.name)}
+                  onClick={() => (  opt.name === "Log Out" ? handleLogout() : setSelectedOption(opt.name))}
                   className={`flex cursor-pointer items-center gap-3 pb-6 text-sm text-nowrap transition-colors duration-300 md:text-xl ${
                     selectedOption === opt.name
                       ? "text-primary-background font-semibold"
@@ -55,7 +83,7 @@ export default function Page() {
 
           {/* Content */}
           <div className="w-full">
-            {selectedOption === "Account Details" && <AccountDetails />}
+            {selectedOption === "Account Details" && <AccountDetails user={user} refreshUser={refreshUser} />}
             {selectedOption === "Order History" && <OrderHistory />}
             {selectedOption === "Shipping Address" && <ShippingAddress />}
             {selectedOption === "Log Out" && <h1>Log Out</h1>}

@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Order } from "@/models/Order";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import {verifyToken } from "@/lib/token";
+import { verify } from "crypto";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,7 +17,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded= verifyToken(token);
     const userId = decoded.userId;
 
     const { items, totalAmount, shippingAddress } = await req.json();
@@ -58,14 +60,14 @@ export async function GET() {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded= verifyToken(token);
     const userId = decoded.userId;
 
     const orders = await Order.find({ user: userId })
       .populate("items.product")
       .sort({ createdAt: -1 });
 
-    return NextResponse.json(orders);
+    return NextResponse.json({ orders }, { status: 200 });
   } catch (error) {
     console.log("Fetch orders error:", error);
 
