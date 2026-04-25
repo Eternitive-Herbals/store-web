@@ -39,12 +39,13 @@ export default function Login() {
       }
       await refreshUser();
       setLoading(false);
-if(data.user === "Admin"){
-  router.push("/Admin/products");
- 
+if(data.user === "admin"){
+  router.push("/admin/products");
+  router.refresh();
   return;
 }
       router.push("/");
+      router.refresh();
       
     } catch (error) {
       console.error("Login error:", error);

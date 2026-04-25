@@ -13,7 +13,7 @@ export default function Page() {
 
 
 
-  const handleRowAction = (action: string, row: any) => {
+  const handleRowAction = (action: string, row: OrderType) => {
     console.log(action, row);
 
     if (action === "view") {

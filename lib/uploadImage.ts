@@ -1,0 +1,22 @@
+export async function uploadImage(file: File) {
+  const res = await fetch("/api/s3-upload", {
+    method: "POST",
+    body: JSON.stringify({ fileType: file.type }),
+  });
+
+  const { signedUrl, fileUrl } = await res.json();
+
+  const uploadRes = await fetch(signedUrl, {
+    method: "PUT",
+    headers: {
+      "Content-Type": file.type,
+    },
+    body: file,
+  });
+
+  if (!uploadRes.ok) {
+    throw new Error("Upload failed");
+  }
+
+  return fileUrl;
+}

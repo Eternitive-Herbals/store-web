@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -49,10 +49,9 @@ export default function EnhancedTable({
   enableActions = false,
   title,
   description,
-  leftSection,
+  LeftSection,
   onRowAction,
 }: Props) {
-  // ✅ STATE (centralized)
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -70,7 +69,7 @@ export default function EnhancedTable({
     ...(enableActions ? [actionColumn(onRowAction)] : []),
   ];
 
-  // ✅ TABLE INSTANCE (core logic)
+
   const table = useReactTable<OrderType>({
     data,
     columns: finalColumns,
@@ -111,7 +110,7 @@ export default function EnhancedTable({
         {/* 🔹 SEARCH + SELECTION */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <TableSearch value={globalFilter} onChange={setGlobalFilter} />
-       {leftSection}
+       {LeftSection}
           {enableRowSelection && selectedCount > 0 && (
             <div className="flex items-center gap-3 rounded-lg bg-blue-50 px-4 py-2">
               <span className="text-sm font-medium text-foreground">
