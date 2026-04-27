@@ -28,7 +28,7 @@ export default function CartPage() {
       }
     };
 
-    fetchCart();
+    fetchCart(); //fetching
   }, []);
 
   const handleDelete = async (productId: string) => {
@@ -215,6 +215,8 @@ export default function CartPage() {
               <span className="text-right text-[#4A5565] text-[#009966]">
                 ₹{discount}
               </span>
+
+
             </div>
             <div className="flex w-full items-center justify-between text-xl">
               <span className="text-[#4A5565]">Shipping</span>
