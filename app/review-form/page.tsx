@@ -1,12 +1,12 @@
 "use client";
 export default function page() {
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const author = e.target.author.value;
-    const content = e.target.content.value;
-    const rating = e.target.rating.value;
-    const image = e.target.image.value;
+    const author = e.currentTarget.author.value;
+    const content = e.currentTarget.content.value;
+    const rating = e.currentTarget.rating.value;
+    const image = e.currentTarget.image.value;
 
     try {
       const res = await fetch("/api/review", {
@@ -27,7 +27,7 @@ export default function page() {
 
       alert("Review created successfully");
 
-      e.target.reset();
+      e.currentTarget.reset();
     } catch (error) {
       console.error(error);
       alert("Server error");

@@ -1,11 +1,11 @@
 "use client";
 export default function page() {
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const title = e.target.title.value;
-    const content = e.target.content.value;
-    const image = e.target.image.value;
+    const title = e.currentTarget.title.value;
+    const content = e.currentTarget.content.value;
+    const image = e.currentTarget.image.value;
 
     try {
       const res = await fetch("/api/blog", {
@@ -26,7 +26,7 @@ export default function page() {
 
       alert("Blog created successfully");
 
-      e.target.reset();
+      e.currentTarget.reset();
     } catch (error) {
       console.error(error);
       alert("Server error");

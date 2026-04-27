@@ -3,6 +3,7 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCart } from "@/hooks/useCart";
+import Link from "next/link";
 
 export default function CartPage() {
   const [cart, setCart] = useState<any[]>([]);
@@ -16,7 +17,9 @@ export default function CartPage() {
   useEffect(() => {
     const fetchCart = async () => {
       const res = await fetch("/api/cart", {
+        method: "GET",
         credentials: "include",
+        cache: "no-store",
       });
 
       const data = await res.json();
@@ -70,6 +73,7 @@ export default function CartPage() {
 
     const res = await fetch("/api/coupon/apply", {
       method: "POST",
+      cache: "no-store", 
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         code: couponToApply,
@@ -232,9 +236,9 @@ export default function CartPage() {
                 ₹{calculatedTotal > 0 ? calculatedTotal : 0}
               </span>
             </div>
-            <div className="bg-primary-background my-5 flex items-center justify-center rounded-full p-4 text-2xl font-medium text-white">
+            <Link href="/checkout"  className="bg-primary-background my-5 flex items-center justify-center rounded-full p-4 text-2xl font-medium text-white">
               Checkout
-            </div>
+            </Link>
             <div className="bg-primary-background/20 h-0.5" />
 
             <p className="text-center text-left text-sm font-light text-[#4A5565]">

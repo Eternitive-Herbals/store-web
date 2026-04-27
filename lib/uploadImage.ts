@@ -20,3 +20,19 @@ export async function uploadImage(file: File) {
 
   return fileUrl;
 }
+
+export async function deleteImage(fileUrl: string) {
+  const res = await fetch("/api/s3-upload", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ fileUrl }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete image");
+  }
+
+  return await res.json();
+}

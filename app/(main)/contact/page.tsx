@@ -1,12 +1,12 @@
 "use client";
 export default function Page() {
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const name = e.target.name.value;
-    const email = e.target.email.value;
-    const phonenumber = e.target.phonenumber.value;
-    const message = e.target.message.value;
+    const name = e.currentTarget.name.value;
+    const email = e.currentTarget.email.value;
+    const phonenumber = e.currentTarget.phonenumber.value;
+    const message = e.currentTarget.message.value;
 
     if (!email && !phonenumber) {
       alert("Please enter either Email or Phone Number");
@@ -31,7 +31,7 @@ export default function Page() {
 
       alert("Thank you, We will Reply you Shortly.");
 
-      e.target.reset();
+      e.currentTarget.reset();
     } catch (error) {
       console.error(error);
       alert("Server error");

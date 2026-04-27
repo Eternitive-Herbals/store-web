@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import {  useMemo, useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -13,35 +13,36 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 import { rankItem } from "@tanstack/match-sorter-utils";
-import { OrderType } from "@/types/OrderType";
+
 import "../../app/globals.css";
-// 👉 IMPORT YOUR MODULAR COMPONENTS
+
 import TableSearch from "./TableSearch";
 import TablePagination from "./TablePagination";
 import { selectionColumn } from "./columns/selectionColumn";
 import { actionColumn } from "./columns/actionColumn";
 import TableBody from "./TableBody";
 
-type Props = {
-  data: OrderType[];
-  columns: ColumnDef<OrderType>[];
+type Props<T> = {
+  data: T[];
+  columns: ColumnDef<T>[];
   pageSize?: number;
   enableRowSelection?: boolean;
   enableActions?: boolean;
   title?: string;
   description?: string;
-  onRowAction?: (action: string, row: OrderType) => void;
+  onRowAction?: (action: string, row: T) => void;
   LeftSection?: React.ReactNode;
+  onRowClick?: (row: T) => void;
 };
 
 // ✅ Fuzzy filter stays here (logic layer)
-const fuzzyFilter: FilterFn<OrderType> = (row, columnId, value, addMeta) => {
+const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   const itemRank = rankItem(String(row.getValue(columnId)), value);
   addMeta({ itemRank });
   return itemRank.passed;
 };
 
-export default function EnhancedTable({
+export default function EnhancedTable<T>({
   data,
   columns,
   pageSize = 10,
@@ -51,7 +52,8 @@ export default function EnhancedTable({
   description,
   LeftSection,
   onRowAction,
-}: Props) {
+  onRowClick,
+}: Props<T>) {
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -63,14 +65,16 @@ export default function EnhancedTable({
   const selectedCount = Object.keys(rowSelection).length;
 
   // ✅ COLUMNS COMPOSITION
-  const finalColumns = [
+  const finalColumns = useMemo(() => {
+  return [
     ...(enableRowSelection ? [selectionColumn] : []),
     ...columns,
-    ...(enableActions ? [actionColumn(onRowAction)] : []),
+    ...(enableActions ? [actionColumn<T>(onRowAction)] : []),
   ];
+}, [columns, enableRowSelection, enableActions, onRowAction]);
 
 
-  const table = useReactTable<OrderType>({
+  const table = useReactTable<T>({
     data,
     columns: finalColumns,
     filterFns: { fuzzy: fuzzyFilter },
@@ -117,7 +121,9 @@ export default function EnhancedTable({
                 {selectedCount} selected
               </span>
               <button
-                onClick={() => setRowSelection({})}
+                onClick={() => setRowSelection({
+                  
+                })}
                 className="text-xs text-blue-600 underline"
               >
                 Clear
@@ -130,14 +136,15 @@ export default function EnhancedTable({
       {/* 🔹 TABLE */}
       <div className="flex-1 overflow-auto">
         <table className="w-full ">
-          <thead className="sticky top-0 bg-none py-30 ">
+          <thead className="sticky top-0 bg-white py-30  ">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="">
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
                     colSpan={header.colSpan}
-                    className="px-6 py-3 text-left text-xs font-semibold text-foreground uppercase"
+                    onClick={header.column.getToggleSortingHandler()}
+                    className="px-6 py-3 text-left text-xs font-semibold text-foreground text-nowrap uppercase cursor-pointer"
                   >
                     {header.isPlaceholder
                       ? null
@@ -151,7 +158,7 @@ export default function EnhancedTable({
             ))}
           </thead>
 
-          <TableBody table={table} columnCount={finalColumns.length} />
+          <TableBody table={table} columnCount={finalColumns.length} onRowClick={onRowClick} />
         </table>
       </div>
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { s3 } from "@/lib/s3"; 
 import { v4 as uuidv4 } from "uuid";
@@ -40,8 +40,40 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error(err);
     return NextResponse.json(
+   
       { error: "Failed to generate signed URL" },
       { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { fileUrl } = await req.json();
+
+    if (!fileUrl) {
+      return NextResponse.json(
+        { error: "File URL is required" },
+        { status: 400 }
+      );
+    }
+
+    const urlParts = fileUrl.split("/");
+    const fileName = urlParts[urlParts.length - 1];
+
+    const command = new DeleteObjectCommand({
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: fileName,
+    });
+
+    await s3.send(command);
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json(
+      { error: "Failed to delete image" },
+      { status: 500 }
     );
   }
 }

@@ -17,7 +17,7 @@ type Product = {
   goal?: { name: string }[];
 };
 
-type Filters = {
+export type Filters = {
   goals: string[];
   categories: string[];
 };

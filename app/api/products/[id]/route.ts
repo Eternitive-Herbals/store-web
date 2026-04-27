@@ -56,7 +56,7 @@ export async function PUT(
     }
 
     if (ingredients) {
-      if (typeof ingredients !== "string") {
+      if (!Array.isArray(ingredients)) {
         return NextResponse.json(
           { message: "Invalid ingredients" },
           { status: 400 },
@@ -80,7 +80,7 @@ export async function PUT(
     }
 
     if (category) {
-      if (typeof category !== "string") {
+      if (!Array.isArray(category)) {
         return NextResponse.json(
           { message: "Invalid category" },
           { status: 400 },
@@ -100,7 +100,7 @@ export async function PUT(
     }
 
     if (goal) {
-      if (typeof goal !== "string") {
+      if (!Array.isArray(goal)) {
         return NextResponse.json({ message: "Invalid goal" }, { status: 400 });
       }
       updateProduct.goal = goal;
@@ -128,6 +128,50 @@ export async function PUT(
     );
   } catch (error) {
     console.log("Product PUT Error:", error);
+
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
+  }
+}
+
+
+export async function DELETE(req:NextRequest,{
+  params}:{params:Promise<{id:string}>}){
+
+  try {
+    await connectDB();
+    const { id } = await params;
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get("access_token")?.value;
+
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET!,
+    ) as JwtPayload;
+
+    if (decoded.role !== "Admin") {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+
+    const product = await Product.findByIdAndDelete(id);
+
+    if (!product) {
+      return NextResponse.json(
+        { message: "Product not found" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Product deleted", product },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.log("Product DELETE Error:", error);
 
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }

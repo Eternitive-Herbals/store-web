@@ -1,58 +1,93 @@
 "use client";
-import { OrderType } from "@/types/OrderType";
-import Mdata from "../../MOCK_DATA.json";
-import { useMemo, useState } from "react";
-import { orderColumns } from "../columns/OrderColumn";
-import EnhancedTable from "@/components/DataTable/EnhancedTable";
-import CategoryModal from "@/components/modal";
+
+import { useState , useCallback} from "react";
+import { useFilters } from "./hooks/useFilters";
+import { useProducts } from "./hooks/useProducts";
+import { useMeta } from "./hooks/useMeta";
+import { productHandlers } from "./handlers/productHandlers";
+
+import ProductTableSection from "./components/ProductTableSection";
+import ProductModals from "./components/ProductModals";
+
+import { createCategory } from "@/lib/categoryAction";
+import { createGoal } from "@/lib/goalAction";
+import { ProductType } from "@/types/ProductType";
 
 export default function Page() {
-  const [open, setOpen] = useState(false);
-  const data: OrderType[] = useMemo(() => Mdata as OrderType[], []);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [sortBy, setSortBy] = useState("featured");
 
+  const [selectedProduct, setSelectedProduct] =
+    useState<ProductType | null>(null);
 
+  const [openView, setOpenView] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
 
+  const { filters, setFilters } = useFilters();
+  const { products } = useProducts(filters, sortBy, refreshKey);
+  const { categories, goals, setCategories, setGoals } = useMeta();
 
-  const handleRowAction = (action: string, row: OrderType) => {
-    console.log(action, row);
+  const { handleCreate, handleUpdate, handleDelete } = productHandlers({
+    setRefreshKey,
+    setOpenCreateModal: setOpenCreate,
+    setOpenEditModal: setOpenEdit,
+    selectedProduct,
+  });
 
+  const handleRowAction = useCallback((action: string, row: ProductType) => {
     if (action === "view") {
+      setSelectedProduct(row);
+      setOpenView(true);
+    }
 
+    if (action === "edit") {
+      setSelectedProduct(row);
+      setOpenEdit(true);
     }
 
     if (action === "delete") {
-
+      if (confirm("Delete product?")) {
+        handleDelete(row._id);
+      }
     }
-  };
-    return (
-      <>
-        <EnhancedTable
-          data={data}
-          columns={orderColumns}
-          title="Orders"
-          description="Manage all your orders here"
-          enableRowSelection={true}
-          enableActions={true}
-          onRowAction={handleRowAction}
-          pageSize={20}
+  },[]);
 
-          LeftSection={
-            <button
-              onClick={() => setOpen(true)}
-              className="mb-4 rounded-full bg-primary-background  px-4 py-2 text-white"
-            >
-              Create Category
-            </button>
-          }
-        />
-          <CategoryModal
-            open={open}
-            onClose={() => setOpen(false)}
-            onCreate={(value) => {
-              console.log("New category:", value);
-            }}
-          />
+  return (
+    <>
+      <ProductTableSection
+        products={products}
+        categories={categories}
+        goals={goals}
+        filters={filters}
+        setFilters={setFilters}
+        onCreateCategory={async (val) => {
+          await createCategory(val);
+          setCategories((p) => [...p, val]);
+        }}
+        onCreateGoal={async (val, img) => {
+          await createGoal(val, img);
+          setGoals((p) => [...p, val]);
+        }}
+        onRowAction={handleRowAction}
+        onRowClick={(row) => {
+          setSelectedProduct(row);
+          setOpenView(true);
+        }}
+        openCreateModal={() => setOpenCreate(true)}
+      />
 
-        </>
-    );
+      <ProductModals
+        selectedProduct={selectedProduct}
+        openView={openView}
+        openEdit={openEdit}
+        openCreate={openCreate}
+        setOpenView={setOpenView}
+        setOpenEdit={setOpenEdit}
+        setOpenCreate={setOpenCreate}
+        onCreate={handleCreate}
+        onUpdate={handleUpdate}
+      />
+    </>
+  );
 }

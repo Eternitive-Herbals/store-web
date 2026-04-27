@@ -1,9 +1,9 @@
 import { Schema, model, models } from "mongoose";
 
 const CartItemSchema = new Schema({
-  title: { type: String, require: true },
-  price: { type: Number, require: true },
-  image: { type: String, require: true },
+  title: { type: String, required: true },
+  price: { type: Number, required: true },
+  image: { type: String, required: true },
   description: { type: String, required: true },
   quantity: {
     type: Number,
