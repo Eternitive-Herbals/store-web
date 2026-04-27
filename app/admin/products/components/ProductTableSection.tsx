@@ -53,10 +53,11 @@ export default function ProductTableSection({
             value={filters.categories[0]}
             placeholder="Category: All"
             allOptionsLabel="All Categories"
+            title="category"
             onChange={(val) =>
               setFilters((prev: any) => ({
                 ...prev,
-                categories: val ? [val] : [],
+                categories: val ? [val] : [], 
               }))
             }
             onCreate={onCreateCategory}
@@ -67,6 +68,7 @@ export default function ProductTableSection({
             value={filters.goals[0]}
             placeholder="Goal: All"
             allOptionsLabel="All Goals"
+            title="goal"
             onChange={(val) =>
               setFilters((prev: any) => ({
                 ...prev,
@@ -74,14 +76,14 @@ export default function ProductTableSection({
               }))
             }
             onCreate={onCreateGoal}
-            isImageUpload
+            
           />
 
           <button
             onClick={openCreateModal}
-            className="bg-primary-background hover:bg-primary-background/90 ml-2 flex items-center gap-2 rounded-full px-5 py-2 text-sm text-white"
+            className="bg-primary-background hover:bg-primary-background/90 ml-2 flex items-center gap-2 rounded-full px-4 py-2.5 text-sm text-background"
           >
-            Create Product +
+            Create Product
           </button>
         </div>
       }

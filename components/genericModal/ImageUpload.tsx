@@ -20,7 +20,7 @@ export default function ImageUpload({
   onDelete,
 }: Props) {
   return (
-    <div className="flex relative items-center w-full h-fit gap-4">
+    <div className="flex relative items-center w-full h-fit gap-4 mb-4">
       {previewUrl && (
         <div className="relative w-32 h-32 rounded-xl overflow-hidden border-2 border-foreground/20">
           <img
@@ -37,7 +37,7 @@ export default function ImageUpload({
           </button>
         </div>
       )}
-
+      <div className="w-full relative" >
       <input
         type="file"
         accept="image/*"
@@ -46,13 +46,14 @@ export default function ImageUpload({
       />
 
       <button
-        className="absolute bg-primary-background hover:bg-primary-background/90 text-background inset-0 w-fit mx-auto my-auto h-fit py-2 px-5 rounded-full text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="absolute bg-primary-background hover:bg-primary-background/90 text-background inset-0 w-fit left-1/2 -translate-x-1/2 my-auto h-fit py-2 px-5 rounded-full text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         onClick={onUpload}
         disabled={!file || uploading}
       >
         <Upload size={14} />
         {uploading ? "Uploading..." : "Upload"}
       </button>
+      </div>
     </div>
   );
 }

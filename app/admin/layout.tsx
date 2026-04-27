@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Logo from "@/assets/Aethery_black.svg";   
-import { Album, LogOut, Package, PanelLeft, ReceiptIcon, LayoutDashboard } from "lucide-react";
+import { Album, LogOut, Package, PanelLeft, ReceiptIcon, LayoutDashboard, ArchiveIcon } from "lucide-react";
 import '@/app/globals.css'
 import { useAuth } from "@/context/AuthContext";
 
@@ -27,6 +27,7 @@ export default function AdminLayout({
     { name: "Overview", href: "/admin", icon: <LayoutDashboard size={20} /> },
     { name: "Products", href: "/admin/products", icon: <Album size={20} /> },
     { name: "Orders", href: "/admin/orders", icon: <Package size={20} /> },
+    {name: "Catalog", href:"/admin/catalog", icon: <ArchiveIcon size={20} />},
     { name: "Transactions", href: "/admin/transactions", icon: <ReceiptIcon size={20} /> },
   ];
 
@@ -89,15 +90,15 @@ export default function AdminLayout({
             Log Out
           </Link>
           
-          <div className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3 border border-slate-100 shadow-sm transition-all hover:shadow-md">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-sm font-bold text-white shadow-inner">
+          <div className="flex items-center gap-3 rounded-2xl bg-primary-background/5 hover:bg-primary-background/10 p-3 transition-colors duration-300 shadow-2xs transition-all cursor-pointer">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary-background to-purple-500 text-sm font-bold text-white shadow-inner">
               {Avatar}
-            </div>
+            </div> 
             <div className="flex flex-col overflow-hidden">
-              <span className="truncate text-sm font-semibold text-slate-800">
+              <span className="truncate text-sm font-semibold text-primary-background">
                 {user?.username || "Admin User"}
               </span>
-              <span className="truncate text-xs text-slate-500">
+              <span className="truncate text-xs text-slate-500 hover:text-primary-background transition-colors duration-300">
                 {user?.email || "admin@aethery.com"}
               </span>
             </div>
@@ -106,11 +107,11 @@ export default function AdminLayout({
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex h-full flex-1 flex-col overflow-hidden rounded-[2rem] bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all">
-        <div className="h-full w-full overflow-y-auto overflow-x-hidden p-8">
+      <div className="flex h-full flex-1  overflow-hidden rounded-4xl bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all">
+        <div className="h-full w-full p-8">
           {children}
         </div>
-      </main>
+      </div>
     </div>
   );
 }

@@ -27,12 +27,8 @@ export async function getAllGoals() {
 }
 
 export async function deleteGoal(id: string) {
-  const res = await fetch("/api/goal", {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ id }),
+  const res = await fetch(`/api/goal/${id}`, {
+    method: "DELETE"
   });
   
   if (!res.ok) {
@@ -41,4 +37,14 @@ export async function deleteGoal(id: string) {
 
   const goals = await res.json();
   return goals;
+}
+
+export async function updateGoal(id: string, name: string, imageUrl?: string) {
+  const res = await fetch(`/api/goal/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, image: imageUrl }),
+  });
+  if (!res.ok) throw new Error("Failed to update goal");
+  return res.json();
 }

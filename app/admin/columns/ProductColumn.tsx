@@ -29,7 +29,7 @@ export const productColumns: ColumnDef<ProductType>[] = [
 },
 {
   accessorKey: "id",
-  header: "Procut id",
+  header: "Product ID",
   cell: ({ row }) => {
     const id = row.original._id.slice(0,8);
     return <><div><span className="text-xs font-light  text-sf-pro-text text-black hover:underline">{id}</span></div></>;

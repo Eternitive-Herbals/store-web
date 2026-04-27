@@ -13,7 +13,7 @@ type DropdownWithCreateProps = {
   allOptionsLabel?: string;
   onChange?: (value: string) => void;
   onCreate?: (value: string, imageUrl?: string) => void;
-  isImageUpload?: boolean;
+  title: string;
   className?: string;
 };
 
@@ -24,11 +24,12 @@ export default function DropdownWithCreate({
   allOptionsLabel = "All",
   onChange,
   onCreate,
-  isImageUpload = false,
+  title,
+  
   className = "",
 }: DropdownWithCreateProps) {
   const [open, setOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<string>("");
   
   // Set default selected to value if provided, else the first option
   const [selected, setSelected] = useState(value);
@@ -114,7 +115,7 @@ export default function DropdownWithCreate({
             <button
               onClick={() => {
                 setOpen(false);
-                setIsModalOpen(true);
+                setIsModalOpen(title);
               }}
               className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary-background hover:bg-primary-background/90 px-4 py-2 text-sm font-medium text-white transition-colors"
               type="button"
@@ -128,9 +129,10 @@ export default function DropdownWithCreate({
       {/* Embedded Modal */}
       <Modal
         open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => setIsModalOpen("")}
         onCreate={handleCreate}
-        isImageUpload={isImageUpload}
+        
+        title={title}
       />
     </div>
   );

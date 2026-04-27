@@ -25,13 +25,25 @@ export async function getAllCategories(){
     return categories;
 }
 
-export async function deleteCategory(id:string){
-    const res = await fetch("/api/category",{
-        method:"DELETE",
-        body:JSON.stringify({
-            id:id
-        })
-    })
-    const categories = await res.json()
+export async function deleteCategory(id: string) {
+    const res = await fetch(`/api/category/${id}`, {
+        method: "DELETE"
+    });
+    
+    if (!res.ok) {
+        throw new Error("Failed to delete category");
+    }
+
+    const categories = await res.json();
     return categories;
+}
+
+export async function updateCategory(id: string, name: string) {
+    const res = await fetch(`/api/category/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name }),
+    });
+    if (!res.ok) throw new Error("Failed to update category");
+    return res.json();
 }

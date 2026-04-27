@@ -114,22 +114,23 @@ export default function EnhancedTable<T>({
         {/* 🔹 SEARCH + SELECTION */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <TableSearch value={globalFilter} onChange={setGlobalFilter} />
+          <div className="flex items-center gap-2">
+
        {LeftSection}
           {enableRowSelection && selectedCount > 0 && (
-            <div className="flex items-center gap-3 rounded-lg bg-blue-50 px-4 py-2">
-              <span className="text-sm font-medium text-foreground">
-                {selectedCount} selected
-              </span>
+            <div className="bg-primary-background hover:bg-primary-background/90 ml-2 flex items-center gap-2 rounded-full px-4 py-2.5 text-sm text-white">
+             
               <button
                 onClick={() => setRowSelection({
                   
                 })}
-                className="text-xs text-blue-600 underline"
+                className="text- "
               >
-                Clear
+                Clear Selection
               </button>
             </div>
           )}
+          </div>
         </div>
       </div>
 
@@ -143,15 +144,28 @@ export default function EnhancedTable<T>({
                   <th
                     key={header.id}
                     colSpan={header.colSpan}
-                    onClick={header.column.getToggleSortingHandler()}
-                    className="px-6 py-3 text-left text-xs font-semibold text-foreground text-nowrap uppercase cursor-pointer"
+                   onClick={
+  header.column.getCanSort()
+    ? header.column.getToggleSortingHandler()
+    : undefined
+}
+className={`px-6 py-3 text-left text-xs font-semibold text-foreground uppercase text-nowrap ${
+  header.column.getCanSort() ? "cursor-pointer" : ""
+}`}
                   >
                     {header.isPlaceholder
                       ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                      : (<div className="flex items-center gap-2">
+  {flexRender(
+    header.column.columnDef.header,
+    header.getContext(),
+  )}
+
+  {{
+    asc: "↑",
+    desc: "↓",
+  }[header.column.getIsSorted() as string] ?? null}
+</div>)}
                   </th>
                 ))}
               </tr>
