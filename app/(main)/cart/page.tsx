@@ -1,12 +1,15 @@
-"use client";
-import { Minus, Plus, Trash2 } from "lucide-react";
+"use client"
+import { Minus, Plus, Trash2, Loader2 } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 
 export default function CartPage() {
+  const { user, loading: authLoading } = useAuth();
   const [cart, setCart] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [discount, setDiscount] = useState<number>(0);
   const [finalTotal, setFinalTotal] = useState<number>(0);
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
@@ -14,8 +17,8 @@ export default function CartPage() {
   const [isCouponOpen, setIsCouponOpen] = useState<boolean>(false);
   const { updateQuantity: updateCartQuantity, removeFromCart } = useCart();
 
-  useEffect(() => {
-    const fetchCart = async () => {
+  const fetchCart = useCallback(async () => {
+    try {
       const res = await fetch("/api/cart", {
         method: "GET",
         credentials: "include",
@@ -29,10 +32,22 @@ export default function CartPage() {
       } else {
         console.error(data.message);
       }
-    };
-
-    fetchCart(); //fetching
+    } catch (error) {
+      console.error("Cart fetch error:", error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    if (!authLoading) {
+      if (user) {
+        fetchCart();
+      } else {
+        setLoading(false);
+      }
+    }
+  }, [authLoading, user, fetchCart]);
 
   const handleDelete = async (productId: string) => {
     const data = await removeFromCart(productId);
@@ -100,6 +115,34 @@ export default function CartPage() {
     setIsCouponOpen(false);
   }
   const calculatedTotal = subTotal(cart) - discount;
+
+  if (authLoading || (loading && user)) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-white">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="text-primary-background animate-spin" size={48} />
+          <p className="font-sf-pro-text text-primary-background animate-pulse text-lg">
+            Loading your cart...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-white">
+        <div className="font-sf-pro-text flex flex-col items-center gap-6">
+          <h1 className="text-primary-background text-3xl font-bold">Please Login</h1>
+          <p className="text-gray-500">You need to be logged in to view your cart.</p>
+          <Link href="/login" className="bg-primary-background rounded-full px-8 py-3 text-white transition-all hover:scale-105">
+            Login Now
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="h-screen bg-white px-[calc(100dvw/24)] pt-41">
       <div className="font-sf-pro-text grid h-full grid-cols-[2fr_1fr] gap-16">
@@ -231,14 +274,19 @@ export default function CartPage() {
             <div className="bg-primary-background/20 h-0.5" />
             <div className="flex w-full items-center justify-between text-xl">
               <span className="text-primary-background font-semibold">
-                Estimated Total
+                Estimated Total 
               </span>
 
               <span className="text-primary-background text-righ font-semibold">
                 ₹{calculatedTotal > 0 ? calculatedTotal : 0}
               </span>
             </div>
-            <Link href="/checkout"  className="bg-primary-background my-5 flex items-center justify-center rounded-full p-4 text-2xl font-medium text-white">
+            <Link 
+              href={cart.length > 0 ? "/checkout" : "#"}  
+              className={`bg-primary-background my-5 flex items-center justify-center rounded-full p-4 text-2xl font-medium text-white transition-all ${
+                cart.length === 0 ? "opacity-50 cursor-not-allowed pointer-events-none" : "hover:scale-[1.02]"
+              }`}
+            >
               Checkout
             </Link>
             <div className="bg-primary-background/20 h-0.5" />

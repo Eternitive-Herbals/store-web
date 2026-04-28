@@ -51,18 +51,18 @@ export default function DropdownGeneric({
   };
 
   return (
-    <div ref={ref} className={`relative w-fit font-sf-pro-text text-sm ${className}`}>
+    <div ref={ref} className={`relative w-fit font-sf-pro-text text-sm `}>
       
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between gap-2 rounded-full bg-primary-background px-4 py-2.5 hover:border-foreground/60 focus:border-foreground/60 transition-colors outline-none"
+        className={`flex w-full items-center justify-between gap-2 rounded-full ${className? className : "bg-primary-background text-foreground"}  px-4 py-2.5 hover:border-foreground/60 focus:border-foreground/60 transition-colors outline-none`}
         type="button"
       >
-        <span className={selected ? "text-background" : "text-background/50 capitalize"}>
+        <span className={selected ? "" : "text-background/50 capitalize"}>
           {selected ? `${selected.charAt(0).toUpperCase() + selected.slice(1)}` : placeholder}
         </span>
         <span className={`transition-transform ease-in duration-300 ${open ? "rotate-180" : ""}`}>
-          <ChevronDown className="size-5 text-background" />
+          <ChevronDown className="size-5 " />
         </span>
       </button>
 

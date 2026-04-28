@@ -37,9 +37,10 @@ export default function Login() {
         alert(data.message);
         return;
       }
-      await refreshUser();
+      await refreshUser(); 
       setLoading(false);
-if(data.user === "admin"){
+      console.log(data)
+if(data.user === "Admin"){  
   router.push("/admin/products");
   router.refresh();
   return;
