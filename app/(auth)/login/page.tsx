@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 import Image from "next/image";
 import GoogleImage from "@/assets/Google_G_logo.svg";
 import { useRef, useState } from "react";
@@ -33,8 +34,7 @@ export default function Login() {
       const data = await res.json();
 
       if (!res.ok) {
-      
-        alert(data.message);
+        toast.error(data.message);
         return;
       }
       await refreshUser(); 

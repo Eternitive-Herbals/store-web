@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 import Image from "next/image";
 import BgImage from "@/assets/BgImage.jpg";
 import OurProd from "@/assets/our_prod.svg";
@@ -31,7 +32,7 @@ export default function Page() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message);
+        toast.error(data.message);
         return;
       }
 if(data.user === "admin"){
