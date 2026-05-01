@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 export default function Page() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -9,7 +10,7 @@ export default function Page() {
     const message = e.currentTarget.message.value;
 
     if (!email && !phonenumber) {
-      alert("Please enter either Email or Phone Number");
+      toast.warning("Please enter either Email or Phone Number");
       return;
     }
     try {
@@ -25,16 +26,16 @@ export default function Page() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || "Something went wrong");
+        toast.error(data.error || "Something went wrong");
         return;
       }
 
-      alert("Thank you, We will Reply you Shortly.");
+      toast.success("Thank you, We will Reply you Shortly.");
 
       e.currentTarget.reset();
     } catch (error) {
       console.error(error);
-      alert("Server error");
+      toast.error("Server error");
     }
   };
   return (

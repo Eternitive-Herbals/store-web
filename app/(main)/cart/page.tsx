@@ -1,5 +1,6 @@
 "use client"
 import { Minus, Plus, Trash2, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import Image from "next/image";
 import { useEffect, useState, useCallback } from "react";
 import { useCart } from "@/hooks/useCart";
@@ -81,7 +82,7 @@ export default function CartPage() {
     const couponToApply = (code || couponCode).trim().toUpperCase();
 
     if (!couponToApply) {
-      alert("Enter Coupon Code");
+      toast.warning("Enter Coupon Code");
     }
 
     const cartTotalForCheck = subTotal(cart);
@@ -100,9 +101,9 @@ export default function CartPage() {
 
     if (!data.success) {
       if (data.minimumOrder) {
-        alert(`Minimum order ₹${data.minimumOrder}`);
+        toast.error(`Minimum order ₹${data.minimumOrder}`);
       } else {
-        alert(data.message);
+        toast.error(data.message);
       }
       return;
     }
@@ -111,7 +112,7 @@ export default function CartPage() {
     setFinalTotal(data.finalTotal);
     setAppliedCoupon(couponToApply);
 
-    alert("Coupon applied!");
+    toast.success("Coupon applied!");
     setIsCouponOpen(false);
   }
   const calculatedTotal = subTotal(cart) - discount;
