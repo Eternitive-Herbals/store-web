@@ -3,16 +3,38 @@ import Dropdown from "@/components/Dropdown";
 import { Check, IndianRupee, StarIcon } from "lucide-react";
 import { useState } from "react";
 
-export default function Content() {
+import { useCart } from "@/hooks/useCart";
+import { toast } from "sonner";
+
+export default function Content({ product }: { product: any }) {
   const star = [1, 2, 3, 4, 5];
   const [sub, setSub] = useState(true);
+  const { addToCart } = useCart();
+
+  const handleAddToCart = async () => {
+    const res = await addToCart({
+      productId: product._id,
+      title: product.name,
+      price: product.price,
+      description: product.description,
+      image: product.image,
+      quantity: 1,
+    });
+
+    if (res.success) {
+      toast.success("Item added to cart");
+    }
+  };
+
+  if (!product) return null;
+
   return (
     <div>
-      <div className="font-sf-pro-text bg-red flex flex-col items-start gap-6">
+      <div className="font-sf-pro-text flex flex-col items-start gap-6">
         <div className="Title-subtitile font-sf-pro-text space-y-1 text-left">
-          <h1 className="text-4xl font-normal">Vital Strong | Daily Shield</h1>
+          <h1 className="text-4xl font-normal">{product.name}</h1>
           <p className="text-xl font-light">
-            Enhance the bone density and Health{" "}
+            {product.description}
           </p>
         </div>
         <div className="">
@@ -26,14 +48,12 @@ export default function Content() {
             ))}
           </div>
           <p className="flex place-items-baseline gap-2 text-4xl font-semibold">
-            ₹475 <span className="font-light text-[#9EA1A7]"> | </span>{" "}
+            ₹{product.price} <span className="font-light text-[#9EA1A7]"> | </span>{" "}
             <span className="text-2xl text-[#009966]">20% off</span>
           </p>
 
           <p className="text-primary-background mt-9 w-full max-w-9/10 text-xl font-light text-wrap">
-            You don’t need "energy drinks" that crash; you need sustainable
-            vitality. We blended adaptogens and immunity boosters to banish
-            fatigue and build your inner reserve.
+            {product.description}
           </p>
         </div>
 
@@ -58,7 +78,7 @@ export default function Content() {
                     20% off per serving
                   </div>
                 </div>
-                <span>₹450</span>
+                <span>₹{Math.round(product.price * 0.8)}</span>
               </div>
               <div className="items-strt font-sf-pro-text flex justify-between gap-4 p-4">
                 <div className="space-y-1">
@@ -97,23 +117,25 @@ export default function Content() {
               />
               One time
             </div>
-            <span>₹475</span>
+            <span>₹{product.price}</span>
           </label>
         </div>
 
         <div className="btns mt-11 w-9/10 space-y-4">
-          <button className="bg-primary-background w-full rounded-full py-2 text-white">
+          <button className="bg-primary-background w-full rounded-full py-2 text-white transition-all hover:opacity-90 active:scale-95">
             Buy Now
           </button>
-          <button className="w-full rounded-full bg-gray-200 py-2">
+          <button 
+            onClick={handleAddToCart}
+            className="w-full rounded-full bg-gray-200 py-2 transition-all hover:bg-gray-300 active:scale-95"
+          >
             Add to Cart
           </button>
         </div>
         <div className="flex w-9/10 flex-col items-start gap-6 border-t border-[#E5E7EB] pt-6">
           <h1 className="text-sm font-medium text-[#6A7282]">DOSAGE</h1>
           <p className="font-regular text-base text-[#364153]">
-            Take 2 capsules 30-60 minutes before bedtime with water. For best
-            results, use consistently as part of your nightly routine.
+            {product.dosage || "Take 2 capsules 30-60 minutes before bedtime with water. For best results, use consistently as part of your nightly routine."}
           </p>
         </div>
       </div>

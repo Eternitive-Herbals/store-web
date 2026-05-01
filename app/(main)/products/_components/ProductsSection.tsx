@@ -122,6 +122,7 @@ useEffect(() => {
           {products.map((product) => (
             <ProductCard
               key={product._id}
+              id={product._id}
               image={product.image}
               title={product.name}
               description={product.description}
