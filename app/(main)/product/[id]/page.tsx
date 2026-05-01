@@ -7,31 +7,36 @@ import Ingredient from "../_components/Ingredient";
 import RatingSection from "../_components/RatingSection";
 import ReviewSec from "../_components/ReviewSec";
 import Rating_Review_section from "../_components/Rating_Review_section";
-export default async function page({ params }: { params: any }) {
+export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
 
-  type propgrid = { name: string; href: StaticImageData };
+  // Use absolute URL for server-side fetch in Next.js
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const res = await fetch(`${baseUrl}/api/products/${id}`, {
+    cache: "no-store",
+  });
 
-  const ProdGrid: propgrid[] = [
-    { name: "prod 1", href: sqImage },
-    { name: "prod 2", href: sqImage },
-    { name: "prod 3", href: sqImage },
-    { name: "prod 4", href: sqImage },
-  ];
+  if (!res.ok) {
+    return (
+      <div className="flex h-screen items-center justify-center pt-41">
+        <h1 className="text-2xl font-bold">Product not found</h1>
+      </div>
+    );
+  }
 
-  if (id) return console.log({ message: "product not found" });
+  const product = await res.json();
+
   return (
     <div className="">
       <div className="mx-auto flex items-start justify-between px-[calc(100dvw/24)] pt-41 pb-6">
-        {/* Prodcuti image section */}
-        <ProductGrid prod={prod} sqImage={ProdGrid} />
+        {/* Product image section */}
+        <ProductGrid product={product} />
 
         {/* info section */}
-
-        <ProductDetail />
+        <ProductDetail product={product} />
       </div>
 
-      <Ingredient />
+      <Ingredient product={product} />
       <Rating_Review_section />
     </div>
   );
