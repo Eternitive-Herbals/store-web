@@ -176,3 +176,30 @@ export async function DELETE(req:NextRequest,{
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
+
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  try {
+    await connectDB();
+    const { id } = await params;
+
+    const product = await Product.findById(id)
+      .populate("category")
+      .populate("goal")
+      .populate("ingredients");
+
+    if (!product) {
+      return NextResponse.json(
+        { message: "Product not found" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json(product, { status: 200 });
+  } catch (error) {
+    console.log("Product GET Error:", error);
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
+  }
+}
