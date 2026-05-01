@@ -9,6 +9,17 @@ export const getOrders = async () => {
   return data.orders;
 };
 
+export const getUserOrders = async () => {
+  const res = await fetch("/api/order", { cache: "no-store" });
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data?.message || data?.error || "Failed to fetch user orders");
+  }
+
+  return data.orders;
+};
+
 export const updateOrder = async (id: string, orderData: any) => {
   const res = await fetch(`/api/orders/${id}`, {
     method: "PUT",

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Comfortaa } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import { Toaster } from "sonner";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 
@@ -123,9 +122,8 @@ export default function RootLayout({
       >
         <AuthProvider>
           <CartProvider>
-           
+            <Toaster position="top-center" richColors />
             {children}
-           
           </CartProvider>
         </AuthProvider>
       </body>

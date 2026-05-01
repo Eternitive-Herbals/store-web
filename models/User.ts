@@ -6,6 +6,16 @@ export interface IUser extends Document {
   password?: string;
   role: "Customer" | "Admin" | "Distributer";
   mobile?: string;
+  addresses?: Array<{
+    fullName: string;
+    addressLine1: string;
+    addressLine2?: string;
+    city: string;
+    state: string;
+    pincode: string;
+    country: string;
+    isDefault: boolean;
+  }>;
   emailVerified: boolean;
   emailOtp?: string | null;
   emailOtpExpiry?: Date | null;
@@ -30,6 +40,21 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
+    mobile: {
+      type: String,
+    },
+    addresses: [
+      {
+        fullName: String,
+        addressLine1: String,
+        addressLine2: String,
+        city: String,
+        state: String,
+        pincode: String,
+        country: String,
+        isDefault: { type: Boolean, default: false },
+      },
+    ],
     role: {
       type: String,
       enum: ["Customer", "Admin", "Distributer"],

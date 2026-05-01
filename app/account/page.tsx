@@ -2,11 +2,13 @@
 
 import { LogOut, MapPinHouse, ShoppingBag, User } from "lucide-react";
 import React, { useState } from "react";
-import AccountDetails from "./_components/AccountDetails";
-import OrderHistory from "./_components/OrderHistory";
-import ShippingAddress from "./_components/ShippingAddress";
+import AccountDetails from "./components/AccountDetails";
+import OrderHistory from "./components/OrderHistory";
+import ShippingAddress from "./components/ShippingAddress";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { logoutUser } from "@/lib/userAction";
+import { toast } from "sonner";
 
 
 type OptionType =
@@ -43,16 +45,13 @@ export default function Page() {
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
+      await logoutUser();
       await refreshUser(); 
-
-     router.push("/login")
+      toast.success("Logged out successfully");
+      router.push("/login");
     } catch (err) {
       console.error("Logout failed", err);
+      toast.error("Logout failed");
     }
   };
 
@@ -85,7 +84,7 @@ export default function Page() {
           <div className="w-full">
             {selectedOption === "Account Details" && <AccountDetails user={user} refreshUser={refreshUser} />}
             {selectedOption === "Order History" && <OrderHistory />}
-            {selectedOption === "Shipping Address" && <ShippingAddress />}
+            {selectedOption === "Shipping Address" && <ShippingAddress user={user} refreshUser={refreshUser} />}
             {selectedOption === "Log Out" && <h1>Log Out</h1>}
           </div>
         </div>
