@@ -1,10 +1,12 @@
 "use client";
 
 import { useCart } from "@/hooks/useCart";
+import { toast } from "sonner";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 
 type ProductCardProps = {
+  id: string;
   image: string | StaticImageData;
   title: string;
   description: string;
@@ -12,6 +14,7 @@ type ProductCardProps = {
 };
 
 export default function ProductCard({
+  id,
   image,
   title,
   description,
@@ -21,7 +24,7 @@ export default function ProductCard({
 
   const handleAddToCart = async () => {
     const res = await addToCart({
-      productId: title,
+      productId: id,
       title,
       price,
       description,
@@ -30,17 +33,28 @@ export default function ProductCard({
     });
 
     if (res.success) {
-      alert("Item added to cart");
+      toast.success("Item added to cart");
     }
   };
 
   return (
     <div className="flex w-xs flex-col gap-4">
       <Link
-        href={"/product/productId"}
+        href={`/product/${id}`}
         className="hover:outline-foreground shadow-foreground relative flex aspect-3/4 w-full items-end overflow-hidden rounded-4xl p-2 transition-all hover:shadow-2xl active:shadow-none"
       >
-        <Image src={image} alt={title} fill className="-z-10 object-cover" />
+        <Image 
+          src={
+            typeof image === 'string' 
+              ? (image.startsWith('http') 
+                  ? (image.includes('://') ? image : '/assets/products-sample-image-1.png') 
+                  : (image.startsWith('/') ? image : `/${image}`)) 
+              : image
+          } 
+          alt={title} 
+          fill 
+          className="-z-10 object-cover" 
+        />
         <div className="bg-foreground/33 flex h-fit w-full flex-col gap-0.5 rounded-3xl border border-white/10 p-4 text-white backdrop-blur-lg">
           <span className="font-comfortaa line-clamp-1 text-xl leading-none font-bold tracking-wide">
             {title}

@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 export default function page() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,16 +22,16 @@ export default function page() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || "Something went wrong");
+        toast.error(data.error || "Something went wrong");
         return;
       }
 
-      alert("Review created successfully");
+      toast.success("Review created successfully");
 
       e.currentTarget.reset();
     } catch (error) {
       console.error(error);
-      alert("Server error");
+      toast.error("Server error");
     }
   };
   return (

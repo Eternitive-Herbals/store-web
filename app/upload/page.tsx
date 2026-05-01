@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { uploadImage } from "@/lib/uploadImage";
 
 export default function UploadTest() {
@@ -12,10 +13,10 @@ export default function UploadTest() {
     try {
       const url = await uploadImage(file);
       console.log("Uploaded URL:", url);
-      alert("Uploaded successfully!");
+      toast.success("Uploaded successfully!");
     } catch (err) {
       console.error(err);
-      alert("Upload failed");
+      toast.error("Upload failed");
     }
   };
 
