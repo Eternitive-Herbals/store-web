@@ -107,7 +107,7 @@ export default function Modal({
         )}
 
         <h2 className="text-foreground mb-4 text-lg font-semibold">
-          {isEdit ? `Edit ${title}` : `Add New ${title}`}
+          {isEdit ? `Edit ${title}` : `${title} Name`}
         </h2>
 
         <input
@@ -120,6 +120,10 @@ export default function Modal({
         />
 
         {hasDescription && (
+          <>
+          <h2 className="text-foreground mb-4 text-lg font-semibold">
+          {isEdit ? `Edit ${title} Description` : `${title} Description`}
+        </h2>
           <textarea
             placeholder={`Enter ${title.toLowerCase()} description`}
             value={description}
@@ -127,6 +131,7 @@ export default function Modal({
             rows={3}
             className="border-foreground/20 focus:border-foreground/60 w-full rounded-lg border-2 px-3 py-2 text-sm outline-none mb-4"
           />
+          </>
         )}
 
         <div className="mt-5 flex justify-end">

@@ -55,7 +55,7 @@ export default function DropdownGeneric({
       
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className={`flex w-full items-center justify-between gap-2 rounded-full ${className? className : "bg-primary-background text-foreground"}  px-4 py-2.5 hover:border-foreground/60 focus:border-foreground/60 transition-colors outline-none`}
+        className={`flex w-full items-center justify-between gap-2 rounded-full ${className? className : "bg-primary-background text-background"}  px-4 py-2.5 hover:border-foreground/60 focus:border-foreground/60 transition-colors outline-none`}
         type="button"
       >
         <span className={selected ? "" : "text-background/50 capitalize"}>

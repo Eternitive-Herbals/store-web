@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/brand-logo-white.svg";
-import { Search, ShoppingBag, User } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { Search, ShoppingBag, User, UserStar  } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -12,7 +12,8 @@ import { useAuth } from "@/context/AuthContext";
 export default function Header() {
   const [searchVisiblity, setSearchVisibility] = useState(false);
   const [query, setQuery] = useState("");
-  const { isLoggedIn, loading } = useAuth();
+  const { isLoggedIn, loading, user } = useAuth();
+  const isAdmin = user?.role === "Admin";
   const searchRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -22,6 +23,7 @@ export default function Header() {
     { name: "Products", href: "/products" },
     { name: "Contact", href: "/contact" },
   ];
+
 
   useEffect(() => {
     if (searchVisiblity) {
@@ -82,7 +84,7 @@ export default function Header() {
             <span className="animate-pulse">
               <User size={20} />
             </span>
-          ) : (
+          ) : (<>
             <button
               type="button"
               onClick={() => {
@@ -93,6 +95,18 @@ export default function Header() {
             >
               <User size={20} />
             </button>
+            {isAdmin && (<button
+              type="button"
+              onClick={() => {
+                if (loading) return;
+                router.push("/admin/products");
+              }}
+              className="transition-all hover:opacity-75 active:opacity-50"
+            >
+              <UserStar size={20} />
+            </button>)}
+            </>
+            
           )}
         </div>
       </div>
@@ -101,7 +115,7 @@ export default function Header() {
         {searchVisiblity && (
           <motion.div
             initial={{ y: -5, opacity: 0 }}
-            animate={{ y: 0, opacity: 100 }}
+            animate={{ y: 0, opacity: 1 }}
             exit={{ y: -5, opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="search_bar absolute right-0 -bottom-full flex w-full max-w-2xl items-center gap-2.75 rounded-[20px] border border-white/10 bg-[#1E1E1E]/66 p-2.75 backdrop-blur-2xl"

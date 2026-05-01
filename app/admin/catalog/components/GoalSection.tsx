@@ -75,7 +75,7 @@ export default function GoalSection({
         <h2 className="text-xl font-bold text-foreground">Goals</h2>
         <button
           onClick={() => onClose("goal")}
-          className="bg-primary-background hover:bg-primary-background/90 ml-2 flex items-center gap-2 rounded-full  px-4 py-2.5 text-sm text-foreground"
+          className="bg-primary-background hover:bg-primary-background/90 ml-2 flex items-center gap-2 rounded-full  px-4 py-2.5 text-sm text-background"
         >
            Goal <Plus size={16} />
         </button>

@@ -75,7 +75,7 @@ export default function IngredientSection({
         <h2 className="text-xl font-bold text-foreground">Ingredients</h2>
         <button
           onClick={() => onClose("ingredient")}
-          className="bg-primary-background hover:bg-primary-background/90 ml-2 flex items-center gap-2 rounded-full  px-4 py-2.5 text-sm text-foreground"
+          className="bg-primary-background hover:bg-primary-background/90 ml-2 flex items-center gap-2 rounded-full  px-4 py-2.5 text-sm text-background"
         >
            Ingredient <Plus size={16} />
         </button>
