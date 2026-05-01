@@ -2,6 +2,7 @@
 
 import { X, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 import { OrderType } from "@/types/OrderType";
 
 export default function OrderModal({
@@ -61,7 +62,7 @@ export default function OrderModal({
       }
     } catch (error) {
       console.error(error);
-      alert("Failed to update order");
+      toast.error("Failed to update order");
     } finally {
       setLoading(false);
     }

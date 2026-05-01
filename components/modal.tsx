@@ -2,6 +2,7 @@
 
 import { Upload, X } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import "@/app/globals.css";
 import { uploadImage, deleteImage } from "@/lib/uploadImage";
 
@@ -39,7 +40,7 @@ export default function GenericModal({
       }
     } catch (error) {
       console.error(error);
-      alert("Upload failed");
+      toast.error("Upload failed");
     } finally {
       setUploading(false);
     }
@@ -57,7 +58,7 @@ export default function GenericModal({
       setFile(null);
     } catch (error) {
       console.error(error);
-      alert("Delete failed");
+      toast.error("Delete failed");
     } finally {
       setDeleting(false);
     }

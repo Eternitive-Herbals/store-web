@@ -2,6 +2,7 @@
 
 import { X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 import { useImageUpload } from "./genericModal/useImageUpload";
 import ImageUpload from "./genericModal/ImageUpload";
 import { getAllCategories } from "@/lib/categoryAction";
@@ -89,11 +90,11 @@ export default function ProductModal({
 
   const handleSubmit = async () => {
     if (!name || !description || !price || !dosage || !previewUrl) {
-      alert("Please fill all required fields and upload an image.");
+      toast.warning("Please fill all required fields and upload an image.");
       return;
     }
     if (selectedCategories.length === 0 || selectedGoals.length === 0 || selectedIngredients.length === 0) {
-      alert("Please select at least one category, goal, and ingredient.");
+      toast.warning("Please select at least one category, goal, and ingredient.");
       return;
     }
 
@@ -114,7 +115,7 @@ export default function ProductModal({
       handleClose();
     } catch (error) {
       console.error(error);
-      alert("Failed to create product");
+      toast.error("Failed to create product");
     } finally {
       setLoading(false);
     }
