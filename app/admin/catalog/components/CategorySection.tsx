@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 import { getAllCategories, createCategory, deleteCategory, updateCategory } from "@/lib/categoryAction";
 import { Trash2, Plus, Edit } from "lucide-react";
 import Modal from "@/components/genericModal/Modal";
@@ -46,7 +47,7 @@ export default function CategorySection({
       setSelectedCategory(null);
     } catch (error) {
       console.error(error);
-      alert(`Failed to ${selectedCategory ? "update" : "create"} category`);
+      toast.error(`Failed to ${selectedCategory ? "update" : "create"} category`);
     }
   };
 
@@ -62,7 +63,7 @@ export default function CategorySection({
       fetchCategories();
     } catch (error) {
       console.error(error);
-      alert("Failed to delete category");
+      toast.error("Failed to delete category");
     }
   };
 

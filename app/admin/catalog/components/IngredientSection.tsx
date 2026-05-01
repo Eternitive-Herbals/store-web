@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 import { getAllIngredients, createIngredient, deleteIngredient, updateIngredient } from "@/lib/ingredientAction";
 import { Trash2, Plus, Edit } from "lucide-react";
 import Modal from "@/components/genericModal/Modal";
@@ -33,7 +34,7 @@ export default function IngredientSection({
 
   const handleSubmit = async (name: string, previewUrl?: string, description?: string) => {
     if (!name.trim() || !description?.trim() || !previewUrl) {
-      alert("Please enter a name, description, and upload an image.");
+      toast.warning("Please enter a name, description, and upload an image.");
       return;
     }
     try {
@@ -47,7 +48,7 @@ export default function IngredientSection({
       setSelectedIngredient(null);
     } catch (error) {
       console.error(error);
-      alert(`Failed to ${selectedIngredient ? "update" : "create"} ingredient`);
+      toast.error(`Failed to ${selectedIngredient ? "update" : "create"} ingredient`);
     }
   };
 
@@ -65,7 +66,7 @@ export default function IngredientSection({
       fetchIngredients();
     } catch (error) {
       console.error(error);
-      alert("Failed to delete ingredient");
+      toast.error("Failed to delete ingredient");
     }
   };
 
