@@ -9,7 +9,9 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { logoutUser } from "@/lib/userAction";
 import { toast } from "sonner";
-
+import Image from "next/image";
+import Logo from "@/assets/Aethery_black.svg";
+import Link from "next/link";
 
 type OptionType =
   | "Order History"
@@ -62,10 +64,26 @@ export default function Page() {
           {/* Sidebar */}
           <div className="flex items-start justify-between gap-5 lg:gap-19">
             <div className="py-4">
+              <div className="flex items-center justify-between mb-6">
+                <Link className="group flex items-center gap-3" href={"/"}>
+                  <Image
+                    src={Logo}
+                    alt="Aethery logo"
+                    className="size-6 object-contain opacity-90 transition-opacity group-hover:opacity-100"
+                  />
+                  <span className="font-comfortaa text-2xl font-bold tracking-tight text-foreground">
+                    aethery
+                  </span>
+                </Link>
+              </div>
               {options.map((opt) => (
                 <h1
                   key={opt.name}
-                  onClick={() => (  opt.name === "Log Out" ? handleLogout() : setSelectedOption(opt.name))}
+                  onClick={() =>
+                    opt.name === "Log Out"
+                      ? handleLogout()
+                      : setSelectedOption(opt.name)
+                  }
                   className={`flex cursor-pointer items-center gap-3 pb-6 text-sm text-nowrap transition-colors duration-300 md:text-xl ${
                     selectedOption === opt.name
                       ? "text-primary-background font-semibold"
@@ -82,9 +100,13 @@ export default function Page() {
 
           {/* Content */}
           <div className="w-full">
-            {selectedOption === "Account Details" && <AccountDetails user={user} refreshUser={refreshUser} />}
+            {selectedOption === "Account Details" && (
+              <AccountDetails user={user} refreshUser={refreshUser} />
+            )}
             {selectedOption === "Order History" && <OrderHistory />}
-            {selectedOption === "Shipping Address" && <ShippingAddress user={user} refreshUser={refreshUser} />}
+            {selectedOption === "Shipping Address" && (
+              <ShippingAddress user={user} refreshUser={refreshUser} />
+            )}
             {selectedOption === "Log Out" && <h1>Log Out</h1>}
           </div>
         </div>
