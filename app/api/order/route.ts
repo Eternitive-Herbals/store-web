@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Order } from "@/models/Order";
+import { Product } from "@/models/Product"; 
 import { cookies } from "next/headers";
 
 import {verifyToken } from "@/lib/token";
@@ -49,9 +50,12 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     await connectDB();
+    
+    // Prevent tree-shaking
+    Product.init();
 
     const cookieStore = await cookies();
     const token = cookieStore.get("access_token")?.value;
