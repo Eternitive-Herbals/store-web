@@ -16,14 +16,16 @@ export default function OrderCard({ order }: OrderCardProps) {
       <div className="flex items-center gap-2">
         {displayedItems.map((item: any, i: number) => (
           <div key={i} className="size-21 overflow-hidden rounded-xl bg-gray-200">
-             {item.product?.image ? (
+             {item.product?.image || (item.product?.images && item.product.images[0]) ? (
                 <img 
-                  src={item.product.image} 
-                  alt={item.product.name} 
+                  src={item.product.image || item.product.images[0]} 
+                  alt={item.product?.name || "Product"} 
                   className="h-full w-full object-cover"
                 />
              ) : (
-                <div className="h-full w-full bg-gray-300" />
+                <div className="h-full w-full bg-gray-300 flex items-center justify-center">
+                  <span className="text-[10px] text-gray-500">No Image</span>
+                </div>
              )}
           </div>
         ))}

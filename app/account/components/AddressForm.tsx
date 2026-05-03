@@ -24,10 +24,17 @@ export default function AddressForm({
       </h2>
       <form onSubmit={onSave} className="grid grid-cols-2 gap-4">
         <input
-          className="col-span-2 p-2 rounded border bg-white outline-none focus:border-primary-background/40 transition-colors"
+          className="col-span-1 p-2 rounded border bg-white outline-none focus:border-primary-background/40 transition-colors"
           placeholder="Full Name"
           value={formData.fullName}
           onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+          required
+        />
+        <input
+          className="col-span-1 p-2 rounded border bg-white outline-none focus:border-primary-background/40 transition-colors"
+          placeholder="Phone Number"
+          value={formData.phone}
+          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
           required
         />
         <input
