@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { getAllCategories, createCategory, deleteCategory, updateCategory } from "@/lib/categoryAction";
 import { Trash2, Plus, Edit } from "lucide-react";
 import Modal from "@/components/genericModal/Modal";
+import { toast } from "sonner";
 
 export default function CategorySection({
   isOpen,
@@ -46,7 +47,7 @@ export default function CategorySection({
       setSelectedCategory(null);
     } catch (error) {
       console.error(error);
-      alert(`Failed to ${selectedCategory ? "update" : "create"} category`);
+      toast.error(`Failed to ${selectedCategory ? "update" : "create"} category`);
     }
   };
 
@@ -62,7 +63,7 @@ export default function CategorySection({
       fetchCategories();
     } catch (error) {
       console.error(error);
-      alert("Failed to delete category");
+      toast.error("Failed to delete category");
     }
   };
 

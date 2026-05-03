@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { getAllGoals, createGoal, deleteGoal, updateGoal } from "@/lib/goalAction";
 import { Trash2, Plus, Edit } from "lucide-react";
 import Modal from "@/components/genericModal/Modal";
+import { toast } from "sonner";
 export default function GoalSection({
   isOpen,
   onClose,
@@ -33,7 +34,7 @@ export default function GoalSection({
 
   const handleSubmit = async (name: string, previewUrl?: string) => {
     if (!name.trim() || !previewUrl) {
-      alert("Please enter a name and upload an image.");
+      toast.error("Please enter a name and upload an image.");
       return;
     }
     try {
@@ -47,7 +48,7 @@ export default function GoalSection({
       setSelectedGoal(null);
     } catch (error) {
       console.error(error);
-      alert(`Failed to ${selectedGoal ? "update" : "create"} goal`);
+      toast.error(`Failed to ${selectedGoal ? "update" : "create"} goal`);
     }
   };
 
@@ -65,7 +66,7 @@ export default function GoalSection({
       fetchGoals();
     } catch (error) {
       console.error(error);
-      alert("Failed to delete goal");
+      toast.error("Failed to delete goal");
     }
   };
 
