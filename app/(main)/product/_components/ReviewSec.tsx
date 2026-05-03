@@ -1,60 +1,50 @@
 import { StarIcon } from "lucide-react";
-import reviewImage from "@/assets/product/reviewImage.png";
 import Image from "next/image";
 
-export default function ReviewSec() {
-  const Reviews = [
-    {
-      content:
-        "Sufficient particular impossible by reasonable oh expression is. Yet preference connection unpleasant yet melancholy but end appearance. And excellence.",
-      href: reviewImage,
-    },
-    {
-      content:
-        "Sufficient particular impossible by reasonable oh expression is. Yet preference connection unpleasant yet melancholy but end appearance. And excellence.",
-    
-    },
-    {
-      content:
-        "Sufficient particular impossible by reasonable oh expression is. Yet preference connection unpleasant yet melancholy but end appearance. And excellence.",
-     
-    },
+type ReviewSecProps = {
+  reviews: Array<{
+    _id: string;
+    author: string;
+    rating: number;
+    content: string;
+    image?: string;
+    createdAt?: string;
+  }>;
+};
 
-    {
-      content:
-        "Sufficient particular impossible by reasonable oh expression is. Yet preference connection unpleasant yet melancholy but end appearance. And excellence.",
-       href: reviewImage,
-    },
-    {
-      content:
-        "Sufficient particular impossible by reasonable oh expression is. Yet preference connection unpleasant yet melancholy but end appearance. And excellence.",
-      
-    },
+export default function ReviewSec({ reviews }: ReviewSecProps) {
+  if (reviews.length === 0) {
+    return (
+      <div className="w-full p-9 mt-14">
+        <div className="text-center py-16">
+          <p className="text-[#9EA1A7] text-lg">No reviews yet. Be the first to review this product!</p>
+        </div>
+      </div>
+    );
+  }
 
-    {
-      content:
-        "Sufficient particular impossible by reasonable oh expression is. Yet preference connection unpleasant yet melancholy but end appearance. And excellence.",
-      href: reviewImage,
-    },
-
-    {
-      content:
-        "Sufficient particular impossible by reasonable oh expression is. Yet preference connection unpleasant yet melancholy but end appearance. And excellence.",
-      
-    },
-  ];
   return (
     <div className="w-full p-9 mt-14">
       <div className="mx-auto flex h-fit max-h-284 w-[967px] flex-col overflow-hidden flex-wrap items-center gap-5 ">
-        {Reviews.map((review, i) => (
-          <div key={i} className="flex h-fit w-[473px]">
+        {reviews.map((review) => (
+          <div key={review._id} className="flex h-fit w-[473px]">
             <div className="w-full rounded-2xl bg-white px-6 py-11">
               <div className="flex w-full items-center justify-between">
                 <div className="flex items-center gap-1.5">
-                  <div className="size-11 rounded-full bg-gray-600" />
+                  <div className="size-11 rounded-full bg-gray-600 flex items-center justify-center text-white font-bold text-lg">
+                    {review.author?.charAt(0)?.toUpperCase() || "?"}
+                  </div>
                   <div className="font-sf-pro-text">
-                    <h2 className="text-[18px] font-bold">Sidharth</h2>
-                    <h3 className="text-xs font-medium">Delhi, India</h3>
+                    <h2 className="text-[18px] font-bold">{review.author}</h2>
+                    <h3 className="text-xs font-medium text-[#9EA1A7]">
+                      {review.createdAt
+                        ? new Date(review.createdAt).toLocaleDateString("en-IN", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })
+                        : ""}
+                    </h3>
                   </div>
                 </div>
                 <div className="flex items-center">
@@ -62,7 +52,7 @@ export default function ReviewSec() {
                     <StarIcon
                       key={i}
                       size={19}
-                      className="fill-[#FFCC32] text-[#FFCC32]"
+                      className={i < review.rating ? "fill-[#FFCC32] text-[#FFCC32]" : "fill-[#E5E7EB] text-[#E5E7EB]"}
                     />
                   ))}
                 </div>
@@ -71,19 +61,22 @@ export default function ReviewSec() {
                 <p>
                   {review.content}
                 </p>
-{review.href && (
-                <Image
-                  src={review.href}
-                  alt="reviewImage"
-                  className="object-cover"
-                />)}
+                {review.image && (
+                  <div className="relative mt-3 w-full aspect-video rounded-lg overflow-hidden">
+                    <Image
+                      src={review.image}
+                      alt="Review image"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 500px"
+                      className="object-cover"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>
         ))}
       </div>
-
-      
     </div>
   );
 }

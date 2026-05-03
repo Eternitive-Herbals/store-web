@@ -1,38 +1,37 @@
-import Image, { StaticImageData } from "next/image";
-import prod from "@/assets/product/Frame 1437253859.png";
-import sqImage from "@/assets/product/Rectangle 574057249.png";
+import connectDB from "@/lib/db";
+import { Product } from "@/models/Product";
 import ProductGrid from "../_components/ProductGrid";
 import ProductDetail from "../_components/ProductDetail";
 import Ingredient from "../_components/Ingredient";
-import RatingSection from "../_components/RatingSection";
-import ReviewSec from "../_components/ReviewSec";
 import Rating_Review_section from "../_components/Rating_Review_section";
-export default async function page({ params }: { params: any }) {
-  const { id } = params;
+import { notFound } from "next/navigation";
 
-  type propgrid = { name: string; href: StaticImageData };
+export default async function Page({ params }: { params: { id: string } }) {
+  const { id } = await params;
 
-  const ProdGrid: propgrid[] = [
-    { name: "prod 1", href: sqImage },
-    { name: "prod 2", href: sqImage },
-    { name: "prod 3", href: sqImage },
-    { name: "prod 4", href: sqImage },
-  ];
+  await connectDB();
 
-  if (id) return console.log({ message: "product not found" });
+  const product = await Product.findById(id) 
+
+  if (!product) {
+    notFound();
+  }
+
+  // Serialize for client components
+  const serialized = JSON.parse(JSON.stringify(product));
+
   return (
     <div className="">
       <div className="mx-auto flex items-start justify-between px-[calc(100dvw/24)] pt-41 pb-6">
-        {/* Prodcuti image section */}
-        <ProductGrid prod={prod} sqImage={ProdGrid} />
+        {/* Product image section */}
+        <ProductGrid product={serialized} />
 
         {/* info section */}
-
-        <ProductDetail />
+        <ProductDetail product={serialized} />
       </div>
 
-      <Ingredient />
-      <Rating_Review_section />
+      <Ingredient product={serialized} />
+      <Rating_Review_section productId={serialized._id} />
     </div>
   );
 }

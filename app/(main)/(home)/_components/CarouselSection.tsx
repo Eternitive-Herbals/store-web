@@ -102,6 +102,7 @@ export default function CarouselSection() {
             src={images[currentIndex]}
             alt="cta image"
             fill
+            sizes="100vw"
             className="pointer-events-none object-cover"
             unoptimized
           />

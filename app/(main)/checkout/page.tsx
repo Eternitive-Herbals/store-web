@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { getUserAddresses } from "@/lib/addressAction";
-import { MapPinHouse, CheckCircle2, Loader2, ArrowLeft } from "lucide-react";
+import {  CheckCircle2, Loader2, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import Script from "next/script";
@@ -18,7 +18,7 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(true);
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
-  const [discount, setDiscount] = useState<number>(0); // Implement discount logic if needed
+  // const [discount, setDiscount] = useState<number>(0); // Implement discount logic if needed
   const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
@@ -129,7 +129,7 @@ export default function CheckoutPage() {
               toast.error(verifyData.message || "Payment verification failed", { id: "payment" });
             }
           } catch (err) {
-            toast.error("An error occurred during verification", { id: "payment" });
+            toast.error("An error occurred during verification", { id: "payment" },err);
           }
         },
         prefill: {

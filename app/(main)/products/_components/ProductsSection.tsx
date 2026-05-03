@@ -12,7 +12,8 @@ import DropdownGeneric from "@/components/DropdownGeneric";
 type Product = {
   _id: string;
   name: string;
-  image: string;
+  image?: string;
+  images?: string[];
   description: string;
   price: number;
   ingredients?: { name: string }[];
@@ -95,6 +96,7 @@ useEffect(() => {
         src={BackgroundTexture}
         alt="Background Texture"
         fill
+        sizes="100vw"
         className="fixed inset-0 -z-10 object-cover opacity-5"
       />
 
@@ -118,11 +120,12 @@ useEffect(() => {
        
         </div>
 
-        <div className="flex flex-wrap justify-between gap-x-4 gap-y-16 p-2">
-          {products.map((product) => (
+        <div className="flex flex-wrap justify-start  gap-x-4 gap-y-16 p-2">
+          {products.map((product, idx) => (
             <ProductCard
-              key={product._id}
-              image={product.image}
+              key={product._id || idx}
+              id={product._id}
+              image={product.images?.[0] || product.image || ""}
               title={product.name}
               description={product.description}
               price={product.price}

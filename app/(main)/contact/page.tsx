@@ -1,15 +1,17 @@
 "use client";
+import { toast } from "sonner";
 export default function Page() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const name = e.currentTarget.name.value;
-    const email = e.currentTarget.email.value;
-    const phonenumber = e.currentTarget.phonenumber.value;
-    const message = e.currentTarget.message.value;
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const phonenumber = formData.get("phonenumber") as string;
+    const message = formData.get("message") as string;
 
     if (!email && !phonenumber) {
-      alert("Please enter either Email or Phone Number");
+      toast.error("Please enter either Email or Phone Number");
       return;
     }
     try {
@@ -25,16 +27,16 @@ export default function Page() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || "Something went wrong");
+        toast.error(data.error || "Something went wrong");
         return;
       }
 
-      alert("Thank you, We will Reply you Shortly.");
+      toast.success("Thank you, We will Reply you Shortly.");
 
       e.currentTarget.reset();
     } catch (error) {
       console.error(error);
-      alert("Server error");
+      toast.error("Server error");
     }
   };
   return (

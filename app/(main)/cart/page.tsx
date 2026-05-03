@@ -5,16 +5,17 @@ import { useEffect, useState, useCallback } from "react";
 import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function CartPage() {
   const { user, loading: authLoading } = useAuth();
   const [cart, setCart] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [discount, setDiscount] = useState<number>(0);
-  const [finalTotal, setFinalTotal] = useState<number>(0);
-  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
+  // const [finalTotal, setFinalTotal] = useState<number>(0);
+  // const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [couponCode, setCouponCode] = useState<string>("");
-  const [isCouponOpen, setIsCouponOpen] = useState<boolean>(false);
+  // const [isCouponOpen, setIsCouponOpen] = useState<boolean>(false);
   const { updateQuantity: updateCartQuantity, removeFromCart } = useCart();
 
   const fetchCart = useCallback(async () => {
@@ -81,7 +82,7 @@ export default function CartPage() {
     const couponToApply = (code || couponCode).trim().toUpperCase();
 
     if (!couponToApply) {
-      alert("Enter Coupon Code");
+      toast.error("Enter Coupon Code");
     }
 
     const cartTotalForCheck = subTotal(cart);
@@ -100,19 +101,19 @@ export default function CartPage() {
 
     if (!data.success) {
       if (data.minimumOrder) {
-        alert(`Minimum order ₹${data.minimumOrder}`);
+        toast.error(`Minimum order ₹${data.minimumOrder}`);
       } else {
-        alert(data.message);
+        toast.error(data.message);
       }
       return;
     }
 
     setDiscount(data.discount);
-    setFinalTotal(data.finalTotal);
-    setAppliedCoupon(couponToApply);
+    // setFinalTotal(data.finalTotal);
+    // setAppliedCoupon(couponToApply);
 
-    alert("Coupon applied!");
-    setIsCouponOpen(false);
+    toast.success("Coupon applied!");
+    // setIsCouponOpen(false);
   }
   const calculatedTotal = subTotal(cart) - discount;
 
@@ -144,10 +145,10 @@ export default function CartPage() {
   }
 
   return (
-    <div className="h-screen bg-white px-[calc(100dvw/24)] pt-41">
+    <div className="min-h-screen bg-white px-[calc(100dvw/24)] h-fit  pt-41 overflow-y-auto ">
       <div className="font-sf-pro-text grid h-full grid-cols-[2fr_1fr] gap-16">
-        <div className="relative flex h-9/10 flex-col rounded-4xl bg-[#F9F8F6] p-8">
-          <div className="border-primary-background/50 flex w-full items-center justify-between border-b pb-4">
+        <div className="relative flex min:h-9/10 h-full flex-col rounded-4xl bg-[#F9F8F6] p-8 mb-20 ">
+          <div className="border-primary-background/50 flex w-full items-center justify-between border-b pb-4 ">
             <h1 className="font-regular text-primary-background text-xl">
               Your Cart
             </h1>
@@ -259,7 +260,7 @@ export default function CartPage() {
             </div>
             <div className="flex w-full items-center justify-between text-xl">
               <span className="text-[#4A5565]">Subscription Discount</span>
-              <span className="text-right text-[#4A5565] text-[#009966]">
+              <span className="text-right text-[#009966]">
                 ₹{discount}
               </span>
 
@@ -291,7 +292,7 @@ export default function CartPage() {
             </Link>
             <div className="bg-primary-background/20 h-0.5" />
 
-            <p className="text-center text-left text-sm font-light text-[#4A5565]">
+            <p className="text-left text-sm font-light text-[#4A5565]">
               SECURE PAYMENTS PROVIDED BY
             </p>
             <div className=""></div>
