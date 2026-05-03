@@ -8,19 +8,20 @@ export const productColumns: ColumnDef<ProductType>[] = [
   accessorKey: "image",
   header: "Image",
   cell: ({ row }) => { 
-    const image = row.original.image;
+    const imagesList = (row.original.images?.length ? row.original.images : (row.original.image ? [row.original.image] : [])).filter(Boolean);
+    const displayImage = imagesList[0] || null;
 
     return (
       <div className="flex items-center">
-        {image ? (
+        {displayImage ? (
           <img
-            src={image}
+            src={displayImage}
             alt="product"
-            className="h-8 w-8 rounded-full object-cover place-self-center"
+            className="h-8 w-8 rounded-full object-cover place-self-center border border-gray-200"
           />
         ) : (
-          <div className="h-12 w-12 flex items-center justify-center bg-gray-100 text-xs text-gray-400 rounded-md">
-            No Image
+          <div className="h-8 w-8 flex items-center justify-center bg-gray-100 text-[8px] text-gray-400 rounded-full border border-gray-200">
+            None
           </div>
         )}
       </div>

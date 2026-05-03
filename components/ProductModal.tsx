@@ -2,12 +2,13 @@
 
 import { X } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useImageUpload } from "./genericModal/useImageUpload";
-import ImageUpload from "./genericModal/ImageUpload";
+import { useProductImagesUpload } from "./genericModal/useProductImagesUpload";
+import ProductImagesUpload from "./genericModal/ProductImagesUpload";
 import { getAllCategories } from "@/lib/categoryAction";
 import { getAllGoals } from "@/lib/goalAction";
 import { getAllIngredients } from "@/lib/ingredientAction";
 import { ProductType } from "@/types/ProductType";
+import { toast } from "sonner";
 
 export default function ProductModal({
   open,
@@ -38,15 +39,16 @@ export default function ProductModal({
   const [loading, setLoading] = useState(false);
 
   const {
-    file,
-    setFile,
-    previewUrl,
-    setPreviewUrl,
+    files,
+    setFiles,
+    previewUrls,
+    setPreviewUrls,
     uploading,
-    deleting,
+    deletingUrl,
     handleUpload,
     handleDelete,
-  } = useImageUpload();
+    handleRemoveFile
+  } = useProductImagesUpload();
 
   useEffect(() => {
     if (open) {
@@ -55,7 +57,7 @@ export default function ProductModal({
         setDescription(initialData.description);
         setPrice(initialData.price.toString());
         setDosage(initialData.dosage);
-        setPreviewUrl(initialData.image);
+        setPreviewUrls(initialData.images?.length ? initialData.images : (initialData.image ? [initialData.image] : []));
         setSelectedCategories(initialData.category.map((c: any) => c._id));
         setSelectedGoals(initialData.goal.map((g: any) => g._id));
         setSelectedIngredients(initialData.ingredients.map((i: any) => i._id));
@@ -64,8 +66,8 @@ export default function ProductModal({
         setDescription("");
         setPrice("");
         setDosage("");
-        setPreviewUrl(null);
-        setFile(null);
+        setPreviewUrls([]);
+        setFiles([]);
         setSelectedCategories([]);
         setSelectedGoals([]);
         setSelectedIngredients([]);
@@ -88,12 +90,12 @@ export default function ProductModal({
   if (!open) return null;
 
   const handleSubmit = async () => {
-    if (!name || !description || !price || !dosage || !previewUrl) {
-      alert("Please fill all required fields and upload an image.");
+    if (!name || !description || !price || !dosage || previewUrls.length === 0) {
+      toast.error("Please fill all required fields and upload at least one image.");
       return;
     }
     if (selectedCategories.length === 0 || selectedGoals.length === 0 || selectedIngredients.length === 0) {
-      alert("Please select at least one category, goal, and ingredient.");
+      toast.error("Please select at least one category, goal, and ingredient.");
       return;
     }
 
@@ -105,7 +107,7 @@ export default function ProductModal({
           description,
           price: Number(price),
           dosage,
-          image: previewUrl,
+          images: previewUrls,
           category: selectedCategories,
           goal: selectedGoals,
           ingredients: selectedIngredients
@@ -114,7 +116,7 @@ export default function ProductModal({
       handleClose();
     } catch (error) {
       console.error(error);
-      alert("Failed to create product");
+      toast.error("Failed to create product");
     } finally {
       setLoading(false);
     }
@@ -128,8 +130,8 @@ export default function ProductModal({
     setSelectedCategories([]);
     setSelectedGoals([]);
     setSelectedIngredients([]);
-    setFile(null);
-    setPreviewUrl(null);
+    setFiles([]);
+    setPreviewUrls([]);
     onClose();
   };
 
@@ -210,24 +212,29 @@ export default function ProductModal({
               </div>
             </div>
             <div>
-              <label className="text-sm font-semibold text-foreground mb-2 block">Product Image</label>
+              <label className="text-sm font-semibold text-foreground mb-2 block">Product Images (1 to 4)</label>
               {isView ? (
-                previewUrl ? (
-                  <div className="relative w-32 h-32 rounded-xl overflow-hidden border-2 border-foreground/20">
-                    <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
+                previewUrls.length > 0 ? (
+                  <div className="flex relative items-center w-full h-fit gap-4 mb-4 flex-wrap">
+                    {previewUrls.map((url, idx) => (
+                      <div key={idx} className="relative w-32 h-32 rounded-xl overflow-hidden border-2 border-foreground/20">
+                        <img src={url} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
+                      </div>
+                    ))}
                   </div>
                 ) : (
-                  <div className="w-32 h-32 rounded-xl bg-gray-100 flex items-center justify-center text-gray-400 text-sm border-2 border-foreground/20">No Image</div>
+                  <div className="w-32 h-32 rounded-xl bg-gray-100 flex items-center justify-center text-gray-400 text-sm border-2 border-foreground/20">No Images</div>
                 )
               ) : (
-                <ImageUpload
-                  file={file}
-                  setFile={setFile}
-                  previewUrl={previewUrl}
+                <ProductImagesUpload
+                  files={files}
+                  setFiles={setFiles}
+                  previewUrls={previewUrls}
                   uploading={uploading}
-                  deleting={deleting}
+                  deletingUrl={deletingUrl}
                   onUpload={handleUpload}
                   onDelete={handleDelete}
+                  onRemoveFile={handleRemoveFile}
                 />
               )}
             </div>
@@ -238,8 +245,8 @@ export default function ProductModal({
             <div>
               <label className="text-sm font-semibold text-foreground mb-2 block">Categories</label>
               <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border-2 border-foreground/10 rounded-lg">
-                {categories.map((cat) => (
-                  <label key={cat._id} className="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
+                {categories.map((cat, idx) => (
+                  <label key={cat._id || idx} className="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
                     <input
                       type="checkbox"
                       checked={selectedCategories.includes(cat._id)}
@@ -256,8 +263,8 @@ export default function ProductModal({
             <div>
               <label className="text-sm font-semibold text-foreground mb-2 block">Goals</label>
               <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border-2 border-foreground/10 rounded-lg">
-                {goals.map((goal) => (
-                  <label key={goal._id} className="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
+                {goals.map((goal, idx) => (
+                  <label key={goal._id || idx} className="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
                     <input
                       type="checkbox"
                       checked={selectedGoals.includes(goal._id)}
@@ -274,8 +281,8 @@ export default function ProductModal({
             <div>
               <label className="text-sm font-semibold text-foreground mb-2 block">Ingredients</label>
               <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border-2 border-foreground/10 rounded-lg">
-                {ingredients.map((ing) => (
-                  <label key={ing._id} className="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
+                {ingredients.map((ing, idx) => (
+                  <label key={ing._id || idx} className="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
                     <input
                       type="checkbox"
                       checked={selectedIngredients.includes(ing._id)}
@@ -288,10 +295,7 @@ export default function ProductModal({
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="mt-8 flex justify-end gap-3 border-t pt-4">
+             <div className="mt-8 flex justify-end gap-3 border-t pt-4 mt-auto">
           <button
             onClick={handleClose}
             className="px-5 py-2 text-sm font-medium text-foreground hover:bg-gray-100 rounded-lg transition-colors"
@@ -301,13 +305,18 @@ export default function ProductModal({
           {!isView && (
             <button
               onClick={handleSubmit}
-              disabled={loading || uploading || deleting}
+              disabled={loading || uploading || deletingUrl !== null}
               className="bg-primary-background hover:bg-primary-background/90 disabled:opacity-50 flex items-center gap-2 rounded-lg px-6 py-2 text-sm font-medium text-white transition-colors"
             >
               {loading ? (mode === "edit" ? "Updating..." : "Creating...") : (mode === "edit" ? "Update Product" : "Create Product")}
             </button>
           )}
         </div>
+          </div>
+          
+        </div>
+
+       
       </div>
     </div>
   );
