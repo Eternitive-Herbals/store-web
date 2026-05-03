@@ -1,4 +1,4 @@
-import { Schema, Document,model, models}from "mongoose";
+import { Schema, Document, model, models, Types } from "mongoose";
 
 export interface IUser extends Document {
   username: string;
@@ -6,16 +6,7 @@ export interface IUser extends Document {
   password?: string;
   role: "Customer" | "Admin" | "Distributer";
   mobile?: string;
-  addresses?: Array<{
-    fullName: string;
-    addressLine1: string;
-    addressLine2?: string;
-    city: string;
-    state: string;
-    pincode: string;
-    country: string;
-    isDefault: boolean;
-  }>;
+  primaryAddress?: Types.ObjectId | null;
   emailVerified: boolean;
   emailOtp?: string | null;
   emailOtpExpiry?: Date | null;
@@ -43,18 +34,11 @@ const userSchema = new Schema<IUser>(
     mobile: {
       type: String,
     },
-    addresses: [
-      {
-        fullName: String,
-        addressLine1: String,
-        addressLine2: String,
-        city: String,
-        state: String,
-        pincode: String,
-        country: String,
-        isDefault: { type: Boolean, default: false },
-      },
-    ],
+    primaryAddress: {
+      type: Schema.Types.ObjectId,
+      ref: "Address",
+      default: null,
+    },
     role: {
       type: String,
       enum: ["Customer", "Admin", "Distributer"],

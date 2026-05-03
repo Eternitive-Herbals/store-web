@@ -47,6 +47,12 @@ const OrderSchema = new Schema(
       type: String,
       required: true,
     },
+    
+    status: {
+      type: String,
+      enum: ["pending", "paid", "failed", "delivered", "shipped"],
+      default: "pending",
+    },
   },
   { timestamps: true },
 );
