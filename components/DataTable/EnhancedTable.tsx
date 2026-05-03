@@ -94,6 +94,7 @@ export default function EnhancedTable<T>({
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    autoResetPageIndex: false,
   });
 
   const totalRows = table.getFilteredRowModel().rows.length;
