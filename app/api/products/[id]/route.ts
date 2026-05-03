@@ -6,7 +6,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     await connectDB();
@@ -32,7 +32,7 @@ export async function PUT(
       description,
       ingredients,
       price,
-      image,
+      images,
       category,
       dosage,
       goal,
@@ -72,11 +72,14 @@ export async function PUT(
       updateProduct.price = price;
     }
 
-    if (image) {
-      if (typeof image !== "string") {
-        return NextResponse.json({ message: "Invalid image" }, { status: 400 });
+    if (images) {
+      if (!Array.isArray(images) || images.length === 0) {
+        return NextResponse.json(
+          { message: "Invalid images array" },
+          { status: 400 },
+        );
       }
-      updateProduct.image = image;
+      updateProduct.images = images;
     }
 
     if (category) {
@@ -133,6 +136,36 @@ export async function PUT(
   }
 }
 
+
+export async function GET(req:NextRequest,{
+  params}:{params:Promise<{id:string}>}){
+
+  try {
+    await connectDB();
+    const { id } = await params;
+
+    const product = await Product.findById(id)
+      .populate("ingredients")
+      .populate("category")
+      .populate("goal");
+
+    if (!product) {
+      return NextResponse.json(
+        { message: "Product not found" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Product found", product },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.log("Product GET Error:", error);
+
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
+  }
+}
 
 export async function DELETE(req:NextRequest,{
   params}:{params:Promise<{id:string}>}){

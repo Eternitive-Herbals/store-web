@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       description,
       ingredients,
       price,
-      image,
+      images,
       category,
       dosage,
       goal,
@@ -67,14 +67,17 @@ export async function POST(req: NextRequest) {
       !description ||
       !ingredients ||
       !price ||
-      !image ||
+      !images ||
+      !Array.isArray(images) ||
+      images.length === 0 ||
+      images.length > 4 ||
       !category ||
       !dosage ||
       !goal
     ) {
       return NextResponse.json(
         {
-          message: "All Fields required",
+          message: "All Fields required. Images must be between 1 and 4.",
         },
         { status: 400 },
       );
@@ -88,7 +91,7 @@ export async function POST(req: NextRequest) {
       category,
       goal,
       dosage,
-      image,
+      images,
     });
 
     return NextResponse.json(
