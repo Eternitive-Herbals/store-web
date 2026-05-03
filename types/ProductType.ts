@@ -21,7 +21,8 @@ export type ProductType = {
 
   price: number;
   dosage: string;
-  image: string;
+  image?: string;
+  images?: string[];
 
   createdAt: Date;
   updatedAt: Date;

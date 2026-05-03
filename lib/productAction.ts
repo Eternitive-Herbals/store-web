@@ -49,3 +49,16 @@ export const deleteProduct = async (id: string) => {
 
   return data;
 };
+
+export const getProductById = async (id: string) => {
+  const res = await fetch(`/api/products/${id}`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch product");
+  }
+
+  const data = await res.json();
+  return data.product;
+};
