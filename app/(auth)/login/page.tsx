@@ -6,6 +6,7 @@ import Link from "next/link";
 import { CheckSquare2, Eye, EyeClosed, Square } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { toast } from "sonner";
 
 export default function Login() {
   const [loginData, setLoginData] = useState({
@@ -34,7 +35,7 @@ export default function Login() {
 
       if (!res.ok) {
       
-        alert(data.message);
+        toast.error(data.message);
         return;
       }
       await refreshUser(); 
