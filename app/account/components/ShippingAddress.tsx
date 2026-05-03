@@ -1,10 +1,10 @@
-import { Plus } from "lucide-react";
-import React, { useState } from "react";
+import { Plus, CheckCircle2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import { IUser } from "@/models/User";
-import { updateUserProfile } from "@/lib/userAction";
 import { toast } from "sonner";
 import AddressForm from "./AddressForm";
 import AddressCard from "./AddressCard";
+import { getUserAddresses, createAddress, updateAddress, deleteAddress, setPrimaryAddress } from "@/lib/addressAction";
 
 type ShippingAddressProps = {
   user: IUser | null;
@@ -15,10 +15,15 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  
+  const [addresses, setAddresses] = useState<any[]>([]);
+  const [primaryAddressId, setPrimaryAddressId] = useState<string | null>(null);
+  const [fetching, setFetching] = useState(true);
 
   // Form State
   const [formData, setFormData] = useState({
     fullName: "",
+    phone: "",
     addressLine1: "",
     addressLine2: "",
     city: "",
@@ -27,23 +32,35 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
     country: "India",
   });
 
-  const addresses = user?.addresses || [];
+  const fetchAddresses = async () => {
+    try {
+      setFetching(true);
+      const data = await getUserAddresses();
+      setAddresses(data.addresses);
+      setPrimaryAddressId(data.primaryAddress);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchAddresses();
+    }
+  }, [user]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setLoading(true);
-      let newAddresses = [...addresses];
-      
       if (editingId) {
-        newAddresses = newAddresses.map((addr: any) => 
-          addr._id === editingId ? { ...formData, _id: editingId } : addr
-        );
+        await updateAddress(editingId, formData);
       } else {
-        newAddresses.push(formData as any);
+        await createAddress(formData);
       }
-
-      await updateUserProfile({ addresses: newAddresses });
+      await fetchAddresses();
       await refreshUser();
       resetForm();
       toast.success(editingId ? "Address updated" : "Address added");
@@ -58,8 +75,8 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
     if (!confirm("Are you sure you want to delete this address?")) return;
     try {
       setLoading(true);
-      const newAddresses = addresses.filter((addr: any) => addr._id !== id);
-      await updateUserProfile({ addresses: newAddresses });
+      await deleteAddress(id);
+      await fetchAddresses();
       await refreshUser();
       toast.success("Address deleted");
     } catch (error: any) {
@@ -69,16 +86,31 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
     }
   };
 
+  const handleSetPrimary = async (id: string) => {
+    try {
+      setLoading(true);
+      await setPrimaryAddress(id);
+      await fetchAddresses();
+      await refreshUser();
+      toast.success("Primary address updated");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to set primary address");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const startEdit = (address: any) => {
     setEditingId(address._id);
     setFormData({
-      fullName: address.fullName,
-      addressLine1: address.addressLine1,
+      fullName: address.fullName || "",
+      phone: address.phone || "",
+      addressLine1: address.addressLine1 || "",
       addressLine2: address.addressLine2 || "",
-      city: address.city,
-      state: address.state,
-      pincode: address.pincode,
-      country: address.country,
+      city: address.city || "",
+      state: address.state || "",
+      pincode: address.pincode || "",
+      country: address.country || "India",
     });
     setIsAdding(true);
   };
@@ -88,6 +120,7 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
     setEditingId(null);
     setFormData({
       fullName: "",
+      phone: "",
       addressLine1: "",
       addressLine2: "",
       city: "",
@@ -96,6 +129,10 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
       country: "India",
     });
   };
+
+  if (fetching) {
+     return <div className="p-10 text-center animate-pulse text-gray-500">Loading your addresses...</div>;
+  }
 
   return (
     <div className="mx-auto grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
@@ -111,12 +148,20 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
           />
         ) : (
           addresses.map((address: any) => (
-            <AddressCard
-              key={address._id}
-              address={address}
-              onEdit={startEdit}
-              onDelete={handleDelete}
-            />
+            <div key={address._id} className="relative">
+              {primaryAddressId === address._id && (
+                <div className="absolute top-4 right-4 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 z-10">
+                  <CheckCircle2 size={14} /> Primary
+                </div>
+              )}
+              <AddressCard
+                address={address}
+                onEdit={startEdit}
+                onDelete={handleDelete}
+                onSetPrimary={() => handleSetPrimary(address._id)}
+                isPrimary={primaryAddressId === address._id}
+              />
+            </div>
           ))
         )}
         {addresses.length === 0 && !isAdding && (

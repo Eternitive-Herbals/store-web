@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { uploadImage } from "@/lib/uploadImage";
+import { toast } from "sonner";
 
 export default function UploadTest() {
   const [file, setFile] = useState<File | null>(null);
@@ -12,10 +13,10 @@ export default function UploadTest() {
     try {
       const url = await uploadImage(file);
       console.log("Uploaded URL:", url);
-      alert("Uploaded successfully!");
+      toast.success("Uploaded successfully!");
     } catch (err) {
       console.error(err);
-      alert("Upload failed");
+      toast.error("Upload failed");
     }
   };
 
