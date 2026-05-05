@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 15,
+      maxAge: 60 * 60 * 24 * 30,
     });
 
     const newRefreshToken = jwt.sign(

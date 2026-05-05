@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/token";
 import connectDB from "@/lib/db";
@@ -32,5 +32,36 @@ export async function GET() {
   } catch (error) {
     console.error("AUTH /me ERROR:", error);
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    await connectDB();
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get("access_token")?.value;
+
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const decoded = verifyToken(token);
+    const body = await req.json();
+
+    const updatedUser = await User.findByIdAndUpdate(
+      decoded.userId,
+      { $set: body },
+      { new: true, runValidators: true }
+    ).select("-password");
+
+    if (!updatedUser) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ user: updatedUser }, { status: 200 });
+  } catch (error) {
+    console.error("AUTH /me PUT ERROR:", error);
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }

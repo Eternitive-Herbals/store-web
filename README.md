@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aethery Store Web
 
-## Getting Started
+Aethery is a modern, high-performance E-commerce web application built for the health and wellness industry. It features a beautifully designed customer storefront, an intelligent AI concierge chatbot, and a robust admin dashboard for seamless store management.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Customer Storefront
+- **Dynamic Product Catalog**: Browse products based on specific Health Goals, Ingredients, and Categories.
+- **Rich Product Pages**: Detailed product views featuring ingredient breakdowns, dosages, and transparent customer reviews.
+- **Aethery AI Concierge**: An integrated floating chatbot (powered by Groq API) to answer customer queries in real-time.
+- **Cart & Checkout**: A persistent shopping cart with secure checkout powered by **Razorpay**.
+- **User Authentication**: Secure user accounts with JWT-based authentication and email OTP verification.
+- **Coupons & Discounts**: Dynamic discount code application (percentage or fixed).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Admin Dashboard
+- **Data Management**: Full CRUD capabilities for Products, Orders, Users, Categories, Goals, and Ingredients.
+- **Data Tables**: High-performance, sortable, and filterable data tables powered by `@tanstack/react-table`.
+- **Media Uploads**: Direct-to-S3 secure image uploads using AWS SDK pre-signed URLs.
+- **Order Processing**: Track transactions and manage order statuses (pending, shipped, delivered).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Technology Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: [Next.js](https://nextjs.org/) (App Router, v16+)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Database**: MongoDB with [Mongoose](https://mongoosejs.com/)
+- **Authentication**: JWT (JSON Web Tokens), `jose`, and `bcryptjs`
+- **Cloud Storage**: AWS S3 (`@aws-sdk/client-s3`)
+- **Payments**: Razorpay
+- **AI Integration**: Groq SDK
+- **Icons & UI**: Lucide React, Framer Motion, Sonner (Toasts)
 
-## Learn More
+## 📦 Installation & Setup
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd store-web
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Environment Variables:**
+   Create a `.env` file in the root directory and add the following keys:
+   ```env
+   # Database
+   MONGODB_URI=your_mongodb_connection_string
 
-## Deploy on Vercel
+   # Authentication
+   JWT_SECRET=your_jwt_secret_key
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   # AWS S3 (for image uploads)
+   AWS_REGION=your_aws_region
+   AWS_ACCESS_KEY_ID=your_access_key
+   AWS_SECRET_ACCESS_KEY=your_secret_key
+   AWS_BUCKET_NAME=your_bucket_name
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   # Payments
+   RAZORPAY_KEY_ID=your_razorpay_key
+   RAZORPAY_KEY_SECRET=your_razorpay_secret
+
+   # AI Integration
+   GROQ_API_KEY=your_groq_api_key
+   ```
+
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+   The application will be available at [http://localhost:3000](http://localhost:3000).
+
+## 🗄️ Database Architecture
+
+The application is built on a highly relational MongoDB schema structure:
+- **User**: Base model for Customers, Admins, and Distributors.
+- **Product**: Links to `Ingredient`, `Category`, and `Goal` collections.
+- **Order & Transaction**: Tracks financial exchanges and embeds `OrderItem`s for immutable historical records.
+- **Review**: Associates user feedback directly with `Product`s.
+- **Cart & Coupon**: Manages active shopping sessions and promotional pricing.
+
+## 🤝 Contributing
+Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
+
+## 📝 License
+This project is proprietary and confidential.

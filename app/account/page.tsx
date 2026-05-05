@@ -2,9 +2,16 @@
 
 import { LogOut, MapPinHouse, ShoppingBag, User } from "lucide-react";
 import React, { useState } from "react";
-import AccountDetails from "./_components/AccountDetails";
-import OrderHistory from "./_components/OrderHistory";
-import ShippingAddress from "./_components/ShippingAddress";
+import AccountDetails from "./components/AccountDetails";
+import OrderHistory from "./components/OrderHistory";
+import ShippingAddress from "./components/ShippingAddress";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { logoutUser } from "@/lib/userAction";
+import { toast } from "sonner";
+import Image from "next/image";
+import Logo from "@/assets/Aethery_black.svg";
+import Link from "next/link";
 
 type OptionType =
   | "Order History"
@@ -18,8 +25,17 @@ type Option = {
 };
 
 export default function Page() {
+    const router = useRouter();
   const [selectedOption, setSelectedOption] =
     useState<OptionType>("Account Details");
+  
+    const {loading, refreshUser, user} = useAuth();
+
+     if (loading) {
+    return <div className="">Loading...</div>;
+  }
+
+
 
   const options: Option[] = [
     { name: "Order History", icon: <ShoppingBag /> },
@@ -28,6 +44,19 @@ export default function Page() {
     { name: "Log Out", icon: <LogOut /> },
   ];
 
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      await refreshUser(); 
+      toast.success("Logged out successfully");
+      router.push("/login");
+    } catch (err) {
+      console.error("Logout failed", err);
+      toast.error("Logout failed");
+    }
+  };
+
   return (
     <div className="p-12 pt-42">
       <div className="border-primary-background/20 min-h-141 w-fit max-w-312 place-self-center rounded-4xl border bg-white p-18 md:w-10/11">
@@ -35,10 +64,26 @@ export default function Page() {
           {/* Sidebar */}
           <div className="flex items-start justify-between gap-5 lg:gap-19">
             <div className="py-4">
+              <div className="flex items-center justify-between mb-6">
+                <Link className="group flex items-center gap-3" href={"/"}>
+                  <Image
+                    src={Logo}
+                    alt="Aethery logo"
+                    className="size-6 object-contain opacity-90 transition-opacity group-hover:opacity-100"
+                  />
+                  <span className="font-comfortaa text-2xl font-bold tracking-tight text-foreground">
+                    aethery
+                  </span>
+                </Link>
+              </div>
               {options.map((opt) => (
                 <h1
                   key={opt.name}
-                  onClick={() => setSelectedOption(opt.name)}
+                  onClick={() =>
+                    opt.name === "Log Out"
+                      ? handleLogout()
+                      : setSelectedOption(opt.name)
+                  }
                   className={`flex cursor-pointer items-center gap-3 pb-6 text-sm text-nowrap transition-colors duration-300 md:text-xl ${
                     selectedOption === opt.name
                       ? "text-primary-background font-semibold"
@@ -55,9 +100,13 @@ export default function Page() {
 
           {/* Content */}
           <div className="w-full">
-            {selectedOption === "Account Details" && <AccountDetails />}
+            {selectedOption === "Account Details" && (
+              <AccountDetails user={user} refreshUser={refreshUser} />
+            )}
             {selectedOption === "Order History" && <OrderHistory />}
-            {selectedOption === "Shipping Address" && <ShippingAddress />}
+            {selectedOption === "Shipping Address" && (
+              <ShippingAddress user={user} refreshUser={refreshUser} />
+            )}
             {selectedOption === "Log Out" && <h1>Log Out</h1>}
           </div>
         </div>

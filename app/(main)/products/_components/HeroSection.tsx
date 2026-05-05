@@ -8,6 +8,8 @@ export default function HeroSection() {
         src={ProductBgImage}
         alt="product-image"
         fill
+        priority
+        sizes="100vw"
         className="-z-10 object-cover object-right"
       />
       <div className="absolute inset-0 -z-10 bg-linear-to-br from-transparent to-black/90" />

@@ -1,11 +1,13 @@
 "use client";
+import { toast } from "sonner";
 export default function page() {
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const title = e.target.title.value;
-    const content = e.target.content.value;
-    const image = e.target.image.value;
+    const formData = new FormData(e.currentTarget);
+    const title = formData.get("title") as string;
+    const content = formData.get("content") as string;
+    const image = formData.get("image") as string;
 
     try {
       const res = await fetch("/api/blog", {
@@ -20,16 +22,16 @@ export default function page() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || "Something went wrong");
+        toast.error(data.error || "Something went wrong");
         return;
       }
 
-      alert("Blog created successfully");
+      toast.success("Blog created successfully");
 
-      e.target.reset();
+      e.currentTarget.reset();
     } catch (error) {
       console.error(error);
-      alert("Server error");
+      toast.error("Server error");
     }
   };
   return (

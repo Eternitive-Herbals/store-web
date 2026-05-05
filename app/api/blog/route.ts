@@ -1,5 +1,5 @@
 import connectDB from "@/lib/db";
-import { Blogs } from "@/models/Blog";
+import { Blog } from "@/models/Blog";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 
     await connectDB();
 
-    const blog = await Blogs.create({ title, content, image });
+    const blog = await Blog.create({ title, content, image });
 
     return NextResponse.json(blog, { status: 201 });
   } catch (error) {
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   try {
     await connectDB();
-    const blogs = await Blogs.find().sort();
+    const blogs = await Blog.find().sort();
     return NextResponse.json(blogs, { status: 200 });
   } catch (error) {
     return NextResponse.json(

@@ -45,8 +45,9 @@ export async function POST(req: Request) {
 
     const body = razorpay_order_id + "|" + razorpay_payment_id;
 
+    const secret = process.env.RAZORPAY_KEY_SECRET || process.env.NEXT_PUBLIC_RAZORPAY_KEY_SECRET || "";
     const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
+      .createHmac("sha256", secret)
       .update(body)
       .digest("hex");
 
@@ -75,6 +76,7 @@ export async function POST(req: Request) {
 
     await Order.findByIdAndUpdate(orderId, {
       status: "paid",
+      $set: { "items.$[].status": "paid" }
     });
 
     await Cart.findOneAndUpdate({ userId: userId }, { $set: { items: [] } });

@@ -102,6 +102,7 @@ export default function CarouselSection() {
             src={images[currentIndex]}
             alt="cta image"
             fill
+            sizes="100vw"
             className="pointer-events-none object-cover"
             unoptimized
           />
@@ -144,7 +145,7 @@ export default function CarouselSection() {
         ))}
       </div>
 
-      <div className="absolute right-20 bottom-12 z-10 flex gap-4">
+      <div className="absolute right-28 bottom-12 z-10 flex gap-4">
         <button
           type="button"
           onClick={togglePause}

@@ -27,7 +27,14 @@ const ProductItemSchema = new Schema(
         required: true,
       },
     ],
-    image: { type: String, require: true },
+    images: {
+      type: [String],
+      validate: [
+        (val: string[]) => val.length <= 4,
+        "A product must have a maximum of 4 images",
+      ],
+    },
+    image: { type: String }, // For backwards compatibility
   },
   { timestamps: true },
 );

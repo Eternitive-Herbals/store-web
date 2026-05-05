@@ -6,6 +6,7 @@ import Link from "next/link";
 import { CheckSquare2, Eye, EyeClosed, Square } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { toast } from "sonner";
 
 export default function Login() {
   const [loginData, setLoginData] = useState({
@@ -34,17 +35,19 @@ export default function Login() {
 
       if (!res.ok) {
       
-        alert(data.message);
+        toast.error(data.message);
         return;
       }
-      await refreshUser();
+      await refreshUser(); 
       setLoading(false);
-if(data.user === "Admin"){
-  router.push("/Admin/products");
- 
+      console.log(data)
+if(data.user === "Admin"){  
+  router.push("/admin/products");
+  router.refresh();
   return;
 }
       router.push("/");
+      router.refresh();
       
     } catch (error) {
       console.error("Login error:", error);
