@@ -6,12 +6,19 @@ import Ingredient from "../_components/Ingredient";
 import Rating_Review_section from "../_components/Rating_Review_section";
 import { notFound } from "next/navigation";
 
+import "@/models/Ingredient";
+import "@/models/Category";
+import "@/models/Goal";
+
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = await params;
 
   await connectDB();
 
-  const product = await Product.findById(id) 
+  const product = await Product.findById(id)
+    .populate("ingredients")
+    .populate("category")
+    .populate("goal"); 
 
   if (!product) {
     notFound();

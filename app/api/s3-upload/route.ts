@@ -6,31 +6,22 @@ import { v4 as uuidv4 } from "uuid";
 
 export async function POST(req: NextRequest) {
   try {
-    const { fileType } = await req.json();
-
-   
+    const { fileType } = await req.json(); 
     if (!fileType.startsWith("image/")) {
       return NextResponse.json(
         { error: "Only images allowed" },
         { status: 400 },
       );
     }
-
-    
     const fileName = `${uuidv4()}`;
-
     const command = new PutObjectCommand({
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: fileName,
       ContentType: fileType,
-    });
-
-   
+    });   
     const signedUrl = await getSignedUrl(s3, command, {
       expiresIn: 60, 
     });
-
-    
     const fileUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
 
     return NextResponse.json({

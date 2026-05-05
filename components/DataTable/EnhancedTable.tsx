@@ -136,9 +136,9 @@ export default function EnhancedTable<T>({
       </div>
 
       {/* 🔹 TABLE */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto pb-16">
         <table className="w-full ">
-          <thead className="sticky top-0 bg-white py-30  ">
+          <thead className="sticky top-0 bg-white z-40 shadow-sm border-b border-gray-100">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="">
                 {headerGroup.headers.map((header) => (

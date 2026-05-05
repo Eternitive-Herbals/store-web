@@ -25,8 +25,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       const data = await res.json();
       setUser(data.user ?? null);
-    } catch {
-      setUser(null);
+    } catch (err: any) {
+      console.error("AuthContext fetch error:", err);
+      if (err.name !== "AbortError") {
+        setUser(null);
+      }
     } finally {
       setLoading(false);
     }

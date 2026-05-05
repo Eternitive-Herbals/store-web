@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Logo from "@/assets/Aethery_black.svg";   
-import { Album, LogOut, Package, PanelLeft, ReceiptIcon, LayoutDashboard, ArchiveIcon } from "lucide-react";
+import { Album, LogOut, Package, ReceiptIcon, ArchiveIcon } from "lucide-react";
 import '@/app/globals.css'
 import { useAuth } from "@/context/AuthContext";
 
@@ -24,7 +24,7 @@ export default function AdminLayout({
   };
 
   const links: LinkType[] = [
-    { name: "Overview", href: "/admin", icon: <LayoutDashboard size={20} /> },
+  
     { name: "Products", href: "/admin/products", icon: <Album size={20} /> },
     { name: "Orders", href: "/admin/orders", icon: <Package size={20} /> },
     {name: "Catalog", href:"/admin/catalog", icon: <ArchiveIcon size={20} />},
@@ -48,9 +48,9 @@ export default function AdminLayout({
                 aethery
               </span>
             </Link>
-            <button className="rounded-lg p-2 text-primary-background/60">
+            {/* <button className="rounded-lg p-2 text-primary-background/60">
               <PanelLeft size={22} strokeWidth={2} />
-            </button>
+            </button> */}
           </div>
 
           {/* Navigation Links */}

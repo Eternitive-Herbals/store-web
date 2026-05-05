@@ -1,4 +1,4 @@
-import { MoreVertical, Eye, Trash, Trash2Icon, Edit2Icon } from "lucide-react";
+import { MoreHorizontal, Eye, Trash, Trash2Icon, Edit2Icon } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { ProductType } from "@/types/ProductType";
 
@@ -18,12 +18,12 @@ export default function ProductRowActions({ row, onAction }: { row: ProductType,
 
   return (
     <div className="relative" ref={ref}>
-      <button onClick={() => setOpen(!open)} className="outline-none">
-        <MoreVertical size={16} />
+      <button onClick={(e) => { e.stopPropagation(); setOpen(!open); }} className="outline-none p-2 cursor-pointer rounded-full hover:bg-primary-background/10 transition-colors">
+        <MoreHorizontal size={22} />
       </button>
 
       {open && (
-        <div className="absolute right-0 z-10 mt-1 flex flex-col items-start text-left rounded-md bg-white p-2 text-left shadow border border-gray-100">
+        <div className="absolute right-0 z-50 mt-1 flex flex-col items-start text-left rounded-md bg-white p-2 text-left shadow border border-gray-100">
           <button
             onClick={() => onAction?.("view", row)}
             className="text-foreground flex items-center gap-2 hover:bg-primary-background/20 w-full  rounded-md px-4 py-2 text-left text-sm transition-colors"

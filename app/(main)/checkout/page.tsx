@@ -18,7 +18,7 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(true);
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
-  // const [discount, setDiscount] = useState<number>(0); // Implement discount logic if needed
+  const [discount, setDiscount] = useState<number>(0); // Implement discount logic if needed
   const [processing, setProcessing] = useState(false);
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
+import ChatbotWidget from "@/components/ChatbotWidget";
 
 const comfortaa = Comfortaa({
   variable: "--font-comfortaa",
@@ -124,6 +125,7 @@ export default function RootLayout({
           <CartProvider>
             <Toaster position="top-center" richColors />
             {children}
+            <ChatbotWidget />
           </CartProvider>
         </AuthProvider>
       </body>
