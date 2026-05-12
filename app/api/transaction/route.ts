@@ -45,12 +45,32 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const orderId = searchParams.get("orderId");
 
-    const payment = await Transaction.findOne({ order: orderId });
+    if (orderId) {
+      const payment = await Transaction.findOne({ order: orderId });
+      return NextResponse.json(payment);
+    }
 
-    return NextResponse.json(payment);
+    // Admin overview: Fetch all transactions
+    const cookieStore = await cookies();
+    const token = cookieStore.get("access_token")?.value;
+
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    if (decoded.role !== "Admin") {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+
+    const transactions = await Transaction.find()
+      .sort({ createdAt: -1 })
+      .populate("user", "username email")
+      .populate("order", "_id");
+
+    return NextResponse.json(transactions);
   } catch (error) {
     console.log("Payment error:", error);
-
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }

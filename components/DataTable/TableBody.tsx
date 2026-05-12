@@ -3,9 +3,11 @@ import { flexRender, Table } from "@tanstack/react-table";
 export default function TableBody<T>({
   table,
   columnCount,
+  onRowClick,
 }: {
   table: Table<T>;
   columnCount: number;
+  onRowClick?: (row: T) => void;
 }) {
   const rows = table.getRowModel().rows;
   
@@ -25,9 +27,9 @@ export default function TableBody<T>({
   return (
     <tbody className="">
       {rows.map((row, index) => (
-        <tr key={row.id} className={`hover:bg-primary-background/20 text-foreground font-sf-pro-text font-medium ${row.getIsSelected() ? "bg-primary-background/20" : ""} ${index % 2 === 0 ? "bg-primary-background/5" : ""}`}>
+        <tr key={row.id}  onClick={()=>onRowClick?.(row.original)} className={`hover:bg-primary-background/20  transition-colors duration-400 ease-in-out text-foreground font-sf-pro-text font-medium ${row.getIsSelected() ? "bg-primary-background/20" : ""} ${index % 2 === 0 ? "bg-primary-background/5" : ""}`}>
           {row.getVisibleCells().map((cell) => (
-            <td key={cell.id} className="px-6 py-4 text-sm">
+            <td key={cell.id} className="px-6 py-4 text-sm cursor-pointer" >
               {flexRender(cell.column.columnDef.cell, cell.getContext())}
             </td>
           ))}

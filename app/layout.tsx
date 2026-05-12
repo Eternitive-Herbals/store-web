@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Comfortaa } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import { Toaster } from "sonner";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
+import ChatbotWidget from "@/components/ChatbotWidget";
 
 const comfortaa = Comfortaa({
   variable: "--font-comfortaa",
@@ -123,9 +123,9 @@ export default function RootLayout({
       >
         <AuthProvider>
           <CartProvider>
-           
+            <Toaster position="top-center" richColors />
             {children}
-           
+            <ChatbotWidget />
           </CartProvider>
         </AuthProvider>
       </body>

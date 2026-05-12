@@ -1,29 +1,44 @@
 import { ChevronsRight, SlidersHorizontal, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getAllCategories } from "@/lib/categoryAction";
+import { getAllGoals } from "@/lib/goalAction";
 
 type SidebarProps = {
+  filters: { goals: string[]; categories: string[] };
   onFilterChange: (filters: { goals: string[]; categories: string[] }) => void;
 };
-export default function Sidebar({ onFilterChange }: SidebarProps) {
-  const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+export default function Sidebar({ filters, onFilterChange }: SidebarProps) {
+  const [dbCategories, setDbCategories] = useState<any[]>([]);
+  const [dbGoals, setDbGoals] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const categories = await getAllCategories();
+        const goals = await getAllGoals();
+        setDbCategories(categories || []);
+        setDbGoals(goals || []);
+      } catch (error) {
+        console.error("Failed to fetch filters:", error);
+      }
+    };
+    fetchData();
+  }, []);
   
   const handleGoalChange = (value: string) => {
-    const updated = selectedGoals.includes(value)
-      ? selectedGoals.filter((g) => g !== value)
-      : [...selectedGoals, value];
+    const updated = filters.goals.includes(value)
+      ? filters.goals.filter((g) => g !== value)
+      : [...filters.goals, value];
 
-    setSelectedGoals(updated);
-    onFilterChange({ goals: updated, categories: selectedCategories });
+    onFilterChange({ ...filters, goals: updated });
   };
 
   const handleCategoryChange = (value: string) => {
-    const updated = selectedCategories.includes(value)
-      ? selectedCategories.filter((c) => c !== value)
-      : [...selectedCategories, value];
+    const updated = filters.categories.includes(value)
+      ? filters.categories.filter((c) => c !== value)
+      : [...filters.categories, value];
 
-    setSelectedCategories(updated);
-    onFilterChange({ goals: selectedGoals, categories: updated });
+    onFilterChange({ ...filters, categories: updated });
   };
   return (
     <div className="sticky top-33 flex h-[calc(100dvh-11.25rem)] w-xs flex-col gap-2 rounded-[20px] border border-white/10 bg-[#E2DED3] p-4 backdrop-blur-2xl">
@@ -34,77 +49,51 @@ export default function Sidebar({ onFilterChange }: SidebarProps) {
 
       <div className="bg-foreground/25 min-h-0.5 w-full rounded-full" />
 
-      <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col items-start gap-2 overflow-y-auto pr-2 custom-scrollbar">
         <div className="flex items-center gap-2">
           <ChevronsRight size={20} />
-          <span className="text-lg">Type</span>
+          <span className="text-lg">Categories</span>
         </div>
 
-        <div className="mx-4 flex flex-col">
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="supplement"
-              id="supplement"
-              onChange={() => handleCategoryChange("Supplement")}
-            />
-            <span>Supplement</span>
-          </label>
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="supplement"
-              id="supplement"
-              onChange={() => handleCategoryChange("Powder")}
-            />
-            <span>Powder</span>
-          </label>
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="supplement"
-              id="supplement"
-              onChange={() => handleCategoryChange("Gummies")}
-            />
-            <span>Gummies</span>
-          </label>
+        <div className="mx-4 flex flex-col gap-1">
+          {dbCategories.map((category) => (
+            <label key={category._id} className="flex items-center gap-2 cursor-pointer hover:text-primary-background transition-colors">
+              <input
+                type="checkbox"
+                name={`cat-${category.name}`}
+                id={`cat-${category._id}`}
+                checked={filters.categories.includes(category.name)}
+                onChange={() => handleCategoryChange(category.name)}
+                className="cursor-pointer"
+              />
+              <span className="text-sm font-medium">{category.name}</span>
+            </label>
+          ))}
+          {dbCategories.length === 0 && <span className="text-xs text-slate-500 italic">No categories</span>}
         </div>
 
-        <div className="bg-foreground/25 min-h-0.5 w-full rounded-full" />
+        <div className="bg-foreground/25 my-2 min-h-0.5 w-full rounded-full" />
 
         <div className="flex items-center gap-2">
           <ChevronsRight size={20} />
-          <span className="text-lg">Category</span>
+          <span className="text-lg">Goals</span>
         </div>
 
-        <div className="mx-4 flex flex-col">
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="supplement"
-              id="supplement"
-              onChange={() => handleGoalChange("General-Health")}
-            />
-            <span>General Health</span>
-          </label>
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="supplement"
-              id="supplement"
-              onChange={() => handleGoalChange("Fitness")}
-            />
-            <span>Fitness</span>
-          </label>
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="supplement"
-              id="supplement"
-              onChange={() => handleGoalChange("Heart")}
-            />
-            <span>Heart</span>
-          </label>
+        <div className="mx-4 flex flex-col gap-1">
+          {dbGoals.map((goal) => (
+            <label key={goal._id} className="flex items-center gap-2 cursor-pointer hover:text-primary-background transition-colors">
+              <input
+                type="checkbox"
+                name={`goal-${goal.name}`}
+                id={`goal-${goal._id}`}
+                checked={filters.goals.includes(goal.name)}
+                onChange={() => handleGoalChange(goal.name)}
+                className="cursor-pointer"
+              />
+              <span className="text-sm font-medium">{goal.name}</span>
+            </label>
+          ))}
+          {dbGoals.length === 0 && <span className="text-xs text-slate-500 italic">No goals</span>}
         </div>
       </div>
     </div>

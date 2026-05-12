@@ -8,9 +8,9 @@ export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
-    const { title, price, image, description } = await req.json();
+    const { productId, title, price, image, description } = await req.json();
 
-    if (!title || price === undefined || !image || !description) {
+    if (!productId || !title || price === undefined || !image || !description) {
       return NextResponse.json(
         { message: "All Fields required" },
         { status: 400 },
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       cart = await Cart.create({
         userId,
         items: [
-          { title, price: Number(price), image, description, quantity: 1 },
+          { productId, title, price: Number(price), image, description, quantity: 1 },
         ],
       });
     } else {
@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
         existingItem.quantity += 1;
       } else {
         cart.items.push({
+          productId,
           title,
           price: Number(price),
           image,

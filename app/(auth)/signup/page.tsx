@@ -7,6 +7,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function Page() {
   const [username, setUserName] = useState("");
@@ -31,7 +32,7 @@ export default function Page() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message);
+        toast.error(data.message);
         return;
       }
 if(data.user === "admin"){

@@ -1,12 +1,14 @@
 import React from 'react'
 import Content from './Content'
 
-export default function ProductDetail() {
+type ProductDetailProps = {
+  product: any;
+};
+
+export default function ProductDetail({ product }: ProductDetailProps) {
   return (
     <div className=' max-w-141 w-full'>
-
-
-        <Content />
+        <Content product={product} />
     </div>
   )
 }

@@ -118,11 +118,11 @@ function BasicTable({
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    autoResetPageIndex: false,
   });
 
   const isRowHighlighted = (row: Row<OrderType>) => {
-    const id = row.original.order_id;
-    return id % 2 !== 0;
+    return row.index % 2 !== 0;
   };
 
   return (

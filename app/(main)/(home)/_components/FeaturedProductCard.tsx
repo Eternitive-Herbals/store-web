@@ -23,6 +23,7 @@ export default function FeaturedProductCard({
           src={image}
           alt="Featured Product Image"
           fill
+          sizes="(max-width: 768px) 100vw, 500px"
           className="object-cover"
         />
       </div>

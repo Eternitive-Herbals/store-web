@@ -14,6 +14,7 @@ export const selectionColumn = {
       type="checkbox"
       checked={row.getIsSelected()}
       onChange={row.getToggleSelectedHandler()}
+      className="cursor-pointer"
     />
   ),
 };

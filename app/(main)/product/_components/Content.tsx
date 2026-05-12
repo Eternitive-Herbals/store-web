@@ -1,18 +1,54 @@
 "use client";
 import Dropdown from "@/components/Dropdown";
-import { Check, IndianRupee, StarIcon } from "lucide-react";
+import { useCart } from "@/hooks/useCart";
+import { useRouter } from "next/navigation";
+import { Check, StarIcon } from "lucide-react";
 import { useState } from "react";
 
-export default function Content() {
+type ContentProps = {
+  product: {
+    _id: string;
+    name: string;
+    description: string;
+    price: number;
+    dosage: string;
+    image?: string;
+    images?: string[];
+  };
+};
+
+export default function Content({ product }: ContentProps) {
   const star = [1, 2, 3, 4, 5];
   const [sub, setSub] = useState(true);
+  const { addToCart } = useCart();
+  const router = useRouter();
+
+  const discountedPrice = Math.round(product.price * 0.8);
+  const discountPercent = 20;
+
+  const handleAddToCart = async () => {
+    await addToCart({
+      productId: product._id,
+      title: product.name,
+      price: sub ? discountedPrice : product.price,
+      description: product.description,
+      image: product.images?.[0] || product.image || "",
+      quantity: 1,
+    });
+  };
+
+  const handleBuyNow = async () => {
+    await handleAddToCart();
+    router.push("/cart");
+  };
+
   return (
     <div>
       <div className="font-sf-pro-text bg-red flex flex-col items-start gap-6">
         <div className="Title-subtitile font-sf-pro-text space-y-1 text-left">
-          <h1 className="text-4xl font-normal">Vital Strong | Daily Shield</h1>
+          <h1 className="text-4xl font-normal">{product.name}</h1>
           <p className="text-xl font-light">
-            Enhance the bone density and Health{" "}
+            {product.description}
           </p>
         </div>
         <div className="">
@@ -26,21 +62,19 @@ export default function Content() {
             ))}
           </div>
           <p className="flex place-items-baseline gap-2 text-4xl font-semibold">
-            ₹475 <span className="font-light text-[#9EA1A7]"> | </span>{" "}
-            <span className="text-2xl text-[#009966]">20% off</span>
+            ₹{sub ? discountedPrice : product.price} <span className="font-light text-[#9EA1A7]"> | </span>{" "}
+            {sub && <span className="text-2xl text-[#009966]">{discountPercent}% off</span>}
           </p>
 
           <p className="text-primary-background mt-9 w-full max-w-9/10 text-xl font-light text-wrap">
-            You don’t need "energy drinks" that crash; you need sustainable
-            vitality. We blended adaptogens and immunity boosters to banish
-            fatigue and build your inner reserve.
+            {product.description}
           </p>
         </div>
 
         <div className="flex w-full flex-col items-start gap-1">
           <label className="relative w-9/10 cursor-pointer rounded-lg border border-[#AE8363]/50">
             <div className="inset-0 top-0 rounded-t-lg bg-[#AE8363]/50 p-2 text-center text-xl font-medium text-black">
-              Save 20% on every delivery
+              Save {discountPercent}% on every delivery
             </div>
             <div className="">
               <div className="flex items-start justify-between p-4">
@@ -55,10 +89,10 @@ export default function Content() {
                     Subscribe & Save
                   </div>
                   <div className="ml-10 flex w-fit items-center justify-center rounded-lg bg-[#07A763]/20 p-1 px-2 text-xl text-black">
-                    20% off per serving
+                    {discountPercent}% off per serving
                   </div>
                 </div>
-                <span>₹450</span>
+                <span>₹{discountedPrice}</span>
               </div>
               <div className="items-strt font-sf-pro-text flex justify-between gap-4 p-4">
                 <div className="space-y-1">
@@ -97,23 +131,28 @@ export default function Content() {
               />
               One time
             </div>
-            <span>₹475</span>
+            <span>₹{product.price}</span>
           </label>
         </div>
 
         <div className="btns mt-11 w-9/10 space-y-4">
-          <button className="bg-primary-background w-full rounded-full py-2 text-white">
+          <button
+            onClick={handleBuyNow}
+            className="bg-primary-background w-full rounded-full py-2 text-white cursor-pointer hover:opacity-90 transition-opacity"
+          >
             Buy Now
           </button>
-          <button className="w-full rounded-full bg-gray-200 py-2">
+          <button
+            onClick={handleAddToCart}
+            className="w-full rounded-full bg-gray-200 py-2 cursor-pointer hover:bg-gray-300 transition-colors"
+          >
             Add to Cart
           </button>
         </div>
         <div className="flex w-9/10 flex-col items-start gap-6 border-t border-[#E5E7EB] pt-6">
           <h1 className="text-sm font-medium text-[#6A7282]">DOSAGE</h1>
           <p className="font-regular text-base text-[#364153]">
-            Take 2 capsules 30-60 minutes before bedtime with water. For best
-            results, use consistently as part of your nightly routine.
+            {product.dosage}
           </p>
         </div>
       </div>

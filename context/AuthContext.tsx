@@ -20,12 +20,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(true);
     try {
       const res = await fetch("/api/auth/me", {
+        cache: "no-store",
         credentials: "include",
       });
       const data = await res.json();
       setUser(data.user ?? null);
-    } catch {
-      setUser(null);
+    } catch (err: any) {
+      console.error("AuthContext fetch error:", err);
+      if (err.name !== "AbortError") {
+        setUser(null);
+      }
     } finally {
       setLoading(false);
     }

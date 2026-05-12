@@ -37,6 +37,7 @@ export default function FeaturedProductsSection() {
         src={BackgroundTexture}
         alt="Background Texture"
         fill
+        sizes="100vw"
         className="-z-10 object-cover opacity-5"
       />
 

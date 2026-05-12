@@ -6,7 +6,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     await connectDB();
@@ -63,6 +63,48 @@ export async function PUT(
     return NextResponse.json(
       { message: "Something went wrong", error },
       { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    await connectDB();
+    const { id } = await params;
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get("access_token")?.value;
+
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET!
+    ) as JwtPayload;
+
+    if (decoded.role !== "Admin") {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+
+    const category = await Category.findByIdAndDelete(id);
+
+    if (!category) {
+      return NextResponse.json({ message: "Category not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(
+      { message: "Category deleted", category },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Something went wrong", error },
+      { status: 500 }
     );
   }
 }

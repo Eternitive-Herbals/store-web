@@ -1,14 +1,20 @@
-export type OrderType = 
-   {
-  order_id: number;
-  customer_id: number;
-  product_id: number;
+import { IUser } from "@/models/User";
+import { ProductType } from "./ProductType";
+
+export type OrderItemType = {
+  product: ProductType;
   quantity: number;
-  unit_price: number;
-  total_price: number;
-  order_date: string; // consider Date if you parse it
-  shipping_address: string;
-  payment_method: "PayPal" | string; // can expand to enum if needed
-  status: "Shipped" | "Pending" | "Delivered" | "Cancelled" | string;
+  price: number;
+  status: "pending" | "paid" | "failed";
+};
+
+export type OrderType = {
+  _id: string;
+  user: IUser;
+  items: OrderItemType[];
+  totalAmount: number;
+  shippingAddress: string;
+  createdAt: string;
+  updatedAt: string;
 };
 

@@ -4,7 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
     await connectDB();
 
@@ -18,14 +21,21 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     jwt.verify(token, process.env.JWT_SECRET!);
 
     const body = await req.json();
+    const { id } = await params;
 
-    const review = await Review.findByIdAndUpdate(params.id, body, { new: true });
+    const review = await Review.findByIdAndUpdate(id, body, { new: true });
 
     if (!review) {
-      return NextResponse.json({ message: "Review not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Review not found" },
+        { status: 404 },
+      );
     }
 
-    return NextResponse.json({ message: "Review updated", review }, { status: 200 });
+    return NextResponse.json(
+      { message: "Review updated", review },
+      { status: 200 },
+    );
   } catch (error) {
     return NextResponse.json({ message: "Something went wrong" }, { status: 500 });
   }

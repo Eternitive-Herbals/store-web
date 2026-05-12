@@ -1,9 +1,24 @@
 import ReviewCard, { ReviewCardProps } from "@/components/ReviewCard";
 import { ArrowLeft, ArrowRight, Star, StarHalf } from "lucide-react";
 import Avatar from "@/assets/bone.svg";
+import { Review } from "@/models/Review";
+import connectDB from "@/lib/db";
 
-export default function FeedBackSection() {
-  const reviews: ReviewCardProps[] = [
+export default async function FeedBackSection() {
+  await connectDB();
+  
+  // Fetch actual reviews from the database
+  const dbReviews = await Review.find().sort({ createdAt: -1 }).lean();
+
+  const reviews: ReviewCardProps[] = dbReviews.map((r: any) => ({
+    authorName: r.author || "Anonymous",
+    authorAvatar: Avatar, // Using default avatar as db doesn't store user photos
+    rating: r.rating || 5,
+    reviewText: r.content || "",
+  }));
+
+  // Fallback reviews if DB is empty to maintain layout
+  const displayReviews = reviews.length > 0 ? reviews : [
     {
       authorName: "Palak Sachdeva",
       authorAvatar: Avatar,
@@ -20,6 +35,15 @@ export default function FeedBackSection() {
     },
   ];
 
+  // Split into two columns for the UI
+  const leftCol = displayReviews.filter((_, i) => i % 2 === 0);
+  const rightCol = displayReviews.filter((_, i) => i % 2 === 1);
+
+  // Calculate dynamic stats
+  const totalReviews = displayReviews.length;
+  const avgRating = totalReviews > 0 ? (displayReviews.reduce((acc, curr) => acc + curr.rating, 0) / totalReviews).toFixed(1) : "0.0";
+  const numRating = parseFloat(avgRating);
+
   return (
     <section className="relative flex h-dvh snap-start flex-col items-center justify-between gap-8 py-40">
       <span className="font-comfortaa text-4xl font-semibold">
@@ -28,18 +52,22 @@ export default function FeedBackSection() {
 
       <div className="flex w-full max-w-6xl items-center justify-between gap-16">
         <div className="flex items-baseline gap-4">
-          <span className="font-comfortaa text-8xl font-semibold">4.5</span>
-          <span>2134 reviews</span>
+          <span className="font-comfortaa text-8xl font-semibold">{avgRating}</span>
+          <span>{totalReviews} review{totalReviews !== 1 ? 's' : ''}</span>
         </div>
         <div className="flex gap-4 text-[#EDC06F]">
-          <Star size={64} className="fill-[#EDC06F]" />
-          <Star size={64} className="fill-[#EDC06F]" />
-          <Star size={64} className="fill-[#EDC06F]" />
-          <Star size={64} className="fill-[#EDC06F]" />
-          <span className="relative">
-            <Star size={64} />
-            <StarHalf size={64} className="absolute inset-0 fill-[#EDC06F]" />
-          </span>
+          {Array.from({ length: Math.floor(numRating) }).map((_, index) => (
+            <Star key={`full-${index}`} size={64} className="fill-[#EDC06F]" />
+          ))}
+          {numRating % 1 !== 0 && (
+            <span className="relative">
+              <Star size={64} />
+              <StarHalf size={64} className="absolute inset-0 fill-[#EDC06F]" />
+            </span>
+          )}
+          {Array.from({ length: 5 - Math.ceil(numRating) }).map((_, index) => (
+            <Star key={`empty-${index}`} size={64} />
+          ))}
         </div>
       </div>
 
@@ -51,15 +79,15 @@ export default function FeedBackSection() {
           <ArrowLeft size={24} className="text-[#4F5C39]" />
         </button>
 
-        <div className="flex w-full max-w-6xl gap-8 place-self-center">
+        <div className="flex w-full max-w-6xl gap-8 place-self-center overflow-y-auto max-h-[45vh] scrollbar-thin scrollbar-thumb-primary-background/10 pr-2">
           <div className="flex flex-1 flex-col gap-8">
-            {reviews.map((review, index) => (
-              <ReviewCard key={index} {...review} />
+            {leftCol.map((review, index) => (
+              <ReviewCard key={`left-${index}`} {...review} />
             ))}
           </div>
           <div className="flex flex-1 flex-col gap-8">
-            {reviews.map((review, index) => (
-              <ReviewCard key={index} {...review} />
+            {rightCol.map((review, index) => (
+              <ReviewCard key={`right-${index}`} {...review} />
             ))}
           </div>
         </div>
@@ -71,6 +99,7 @@ export default function FeedBackSection() {
           <ArrowRight size={24} className="text-[#4F5C39]" />
         </button>
       </div>
+      
       <div className="flex gap-2">
         <div className="size-2 rounded-full bg-[#33556E]" />
         <div className="size-2 rounded-full bg-[#ADBBC5]" />

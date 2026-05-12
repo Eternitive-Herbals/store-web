@@ -28,7 +28,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
 
       try {
-        const res = await fetch("/api/cart");
+        const res = await fetch("/api/cart", {
+          cache: "no-store",
+          credentials: "include",
+        });
         const data = await res.json();
 
         const items = data.cart || [];

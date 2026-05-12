@@ -1,77 +1,66 @@
-// columns/OrderColumn.ts
 import { ColumnDef } from "@tanstack/react-table";
 import { OrderType } from "@/types/OrderType";
 
+
 export const orderColumns: ColumnDef<OrderType>[] = [
   {
-    accessorKey: "order_id",
+    accessorKey: "id",
     header: "Order ID",
-    enableSorting: true,
-  },
-  {
-    accessorKey: "customer_id",
-    header: "Customer ID",
-    enableSorting: true,
-  },
-  {
-    accessorKey: "product_id",
-    header: "Product ID",
-  },
-  {
-    accessorKey: "quantity",
-    header: "Quantity",
-    enableSorting: true,
-  },
-  {
-    accessorKey: "unit_price",
-    header: "Unit Price",
-    enableSorting: true,
-    cell: ({ getValue }) => `₹${getValue<number>().toFixed(2)}`,
-  },
-  {
-    accessorKey: "total_price",
-    header: "Total Price",
-    enableSorting: true,
-    cell: ({ getValue }) => `₹${getValue<number>().toFixed(2)}`,
-  },
-  {
-    accessorKey: "order_date",
-    header: "Order Date",
-    cell: ({ getValue }) => {
-      const date = new Date(getValue<string>());
-      return date.toLocaleDateString("en-IN");
+    cell: ({ row }) => {
+      const id = row.original._id.slice(-8);
+      return <span className="text-xs font-light text-sf-pro-text text-black hover:underline">{id}</span>;
     },
   },
+
   {
-    accessorKey: "shipping_address",
-    header: "Address",
+    accessorKey: "username",
+    header: "Customer",
+    cell: ({ row }) => {
+      const user = row.original.user.username || row.original.user.email;
+      
+      
+      return ( 
+        <div>
+          <span className="font-medium text-foreground">{user}</span>
+        </div>
+      );
+    },
   },
+ 
   {
-    accessorKey: "payment_method",
-    header: "Payment",
+    accessorKey: "totalAmount",
+    header: "Total Amount",
+    cell: ({ row }) => (
+      <div className="font-semibold text-foreground">
+        ₹{row.original.totalAmount?.toFixed(2) || "0.00"}
+      </div>
+    ),
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ getValue }) => {
-      const status = getValue<string>();
-
-      const colorMap: Record<string, string> = {
-        Shipped: "bg-green-100 text-green-700",
-        Pending: "bg-yellow-100 text-yellow-700",
-        Delivered: "bg-blue-100 text-blue-700",
-        Cancelled: "bg-red-100 text-red-700",
-      };
+    cell: ({ row }) => {
+      const status = row.original.items?.[0]?.status || "unknown";
+      
+      let colorClass = "bg-gray-100 text-gray-800";
+      if (status === "paid") colorClass = "bg-green-100 text-green-800";
+      if (status === "pending") colorClass = "bg-yellow-100 text-yellow-800";
+      if (status === "failed") colorClass = "bg-red-100 text-red-800";
 
       return (
-        <span
-          className={`rounded px-2 py-1 text-xs font-medium ${
-            colorMap[status] ?? "bg-gray-100 text-gray-700"
-          }`}
-        >
-          {status}
+        <span className={`px-2 py-1 rounded-full text-xs font-medium ${colorClass}`}>
+          {status.charAt(0).toUpperCase() + status.slice(1)}
         </span>
       );
     },
   },
+  {
+    accessorKey: "createdAt",
+    header: "Order Date",
+    cell: ({ row }) => {
+      const date = new Date(row.original.createdAt || new Date());
+      return <span className="text-sm">{date.toLocaleDateString("en-IN")}</span>;
+    },
+  },
+ 
 ];

@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Order } from "@/models/Order";
+import { Product } from "@/models/Product"; 
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+
+import {verifyToken } from "@/lib/token";
+
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,7 +18,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded= verifyToken(token);
     const userId = decoded.userId;
 
     const { items, totalAmount, shippingAddress } = await req.json();
@@ -47,9 +50,12 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     await connectDB();
+    
+    // Prevent tree-shaking
+    Product.init();
 
     const cookieStore = await cookies();
     const token = cookieStore.get("access_token")?.value;
@@ -58,14 +64,14 @@ export async function GET() {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded= verifyToken(token);
     const userId = decoded.userId;
 
     const orders = await Order.find({ user: userId })
       .populate("items.product")
       .sort({ createdAt: -1 });
 
-    return NextResponse.json(orders);
+    return NextResponse.json({ orders }, { status: 200 });
   } catch (error) {
     console.log("Fetch orders error:", error);
 

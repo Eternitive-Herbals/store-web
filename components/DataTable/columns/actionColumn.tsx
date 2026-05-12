@@ -1,8 +1,20 @@
-"use client"
+"use client";
+
+import { ColumnDef } from "@tanstack/react-table";
 import RowActions from "../RowActions";
-export const actionColumn = (onRowAction: any) => ({
+
+export const actionColumn = <T,>(
+  onRowAction?: (action: string, row: T) => void
+): ColumnDef<T> => ({
   id: "actions",
-  cell: ({ row }: any) => (
-    <RowActions row={row.original} onAction={onRowAction} />
+
+  cell: ({ row }) => (
+    <div onClick={(e)=>e.stopPropagation()}>
+    <RowActions
+   className="cursor-pointer"
+      row={row.original as T}
+      onAction={onRowAction}
+    />
+    </div>
   ),
 });

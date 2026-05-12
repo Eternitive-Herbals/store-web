@@ -12,8 +12,13 @@ export async function GET(req: NextRequest) {
     const author = searchParams.get("author");
     const rating = searchParams.get("rating");
     const image = searchParams.get("image");
+    const productId = searchParams.get("productId");
 
     const filter: any = {};
+
+    if (productId) {
+      filter.productId = productId;
+    }
 
     if (author) {
       filter.author = author;
@@ -32,15 +37,7 @@ export async function GET(req: NextRequest) {
       ];
     }
 
-    const reviews = await Review.find(filter);
-    if (reviews.length === 0) {
-      return NextResponse.json(
-        {
-          message: "Reviews not found",
-        },
-        { status: 404 },
-      );
-    }
+    const reviews = await Review.find(filter).sort({ createdAt: -1 });
 
     return NextResponse.json(
       {
@@ -65,7 +62,7 @@ export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
-    const { author, rating, content, image } = await req.json();
+    const { author, rating, content, image, productId } = await req.json();
 
     if (!author || !rating || !content) {
       return NextResponse.json(
@@ -81,6 +78,7 @@ export async function POST(req: NextRequest) {
       rating,
       content,
       image,
+      productId,
     });
 
     return NextResponse.json(

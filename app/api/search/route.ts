@@ -69,7 +69,7 @@ export async function GET(req: NextRequest) {
           },
         },
         {
-          type: {
+          category: {
             $in: categoryDocs.map((i) => i._id),
           },
         },
@@ -103,7 +103,7 @@ export async function GET(req: NextRequest) {
       });
 
       if (categoryDocs.length > 0) {
-        filter.type = {
+        filter.category = {
           $in: categoryDocs.map((c) => c._id),
         };
       }

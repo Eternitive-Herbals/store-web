@@ -1,10 +1,24 @@
 import React from "react";
 import { Star } from "lucide-react";
 
-export default function RatingSection() {
-  const ratings = [85, 15, 0, 0, 0]; // 5⭐ → 1⭐
-  const average = 4.8;
+type RatingSectionProps = {
+  reviews: Array<{ rating: number }>;
+};
+
+export default function RatingSection({ reviews }: RatingSectionProps) {
+  // Calculate average and distribution from real reviews
+  const totalReviews = reviews.length;
   
+  const average = totalReviews > 0
+    ? Math.round((reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews) * 10) / 10
+    : 0;
+
+  // Calculate percentage for each star rating (5 → 1)
+  const ratings = [5, 4, 3, 2, 1].map((star) => {
+    if (totalReviews === 0) return 0;
+    const count = reviews.filter((r) => r.rating === star).length;
+    return Math.round((count / totalReviews) * 100);
+  });
 
   return (
     <div className="font-sf-pro-text mx-auto h-64 w-241.75 rounded-xl bg-white p-12">
@@ -18,12 +32,15 @@ export default function RatingSection() {
               <Star
                 key={i}
                 size={36}
-                className={`pr-1${i < Math.floor(average) ? "fill-[#FFCC32] text-[#FFCC32]" : "fill=[#E5E7EB] text-[#E5E7EB]"}`}
+                className={`pr-1${i < Math.floor(average) ? " fill-[#FFCC32] text-[#FFCC32]" : " fill-[#E5E7EB] text-[#E5E7EB]"}`}
               />
             ))}
           </div>
 
           <p className="text-xl font-medium">{average} out of 5</p>
+          {totalReviews > 0 && (
+            <p className="text-sm text-[#6A7282]">{totalReviews} review{totalReviews !== 1 ? "s" : ""}</p>
+          )}
         </div>
 
         {/* Right */}
