@@ -8,6 +8,7 @@ export type FeaturedProductCardProps = {
   description: string;
   price: number;
   reverse?: boolean;
+  href: string;
 };
 
 export default function FeaturedProductCard({
@@ -15,6 +16,7 @@ export default function FeaturedProductCard({
   image,
   description,
   price,
+  href
 }: FeaturedProductCardProps) {
   return (
     <div className="flex h-96 w-full max-w-6xl items-center overflow-hidden rounded-4xl bg-[#E2DED3]">
@@ -41,7 +43,7 @@ export default function FeaturedProductCard({
         </div>
         <span className="text-3xl">₹ {price}</span>
         <Link
-          href={"/product/alskdjfhlkajsdhflkajsdf"}
+          href={href}
           className="mt-auto flex items-center gap-2 self-end rounded-full bg-[#1B1B1B] px-6 py-2 text-white transition-all hover:opacity-75 active:opacity-50"
         >
           <span className="text-2xl">View Product</span>
