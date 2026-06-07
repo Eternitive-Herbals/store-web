@@ -14,20 +14,21 @@ export default function FeaturedProductsSection() {
       image: Prod1,
       description: "Essential for the bone density and health.",
       price: 1000,
+      href: "/product/immunohigh",
     },
-
     {
       title: "Immunohigh",
       image: Prod2,
       description: "Essential for the bone density and health.",
       price: 1000,
+      href: "/product/immunohigh",
     },
-
     {
       title: "Immunohigh",
       image: Prod3,
       description: "Essential for the bone density and health.",
       price: 1000,
+      href: "/product/immunohigh",
     },
   ];
 
