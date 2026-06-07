@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Product } from "@/models/Product";
+import { CarouselItem } from "@/models/CarouselItem";
 import { cookies } from "next/headers";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
@@ -36,6 +37,8 @@ export async function PUT(
       category,
       dosage,
       goal,
+      addToCarousel,
+      carouselImage,
     } = await req.json();
     const updateProduct: Record<string, any> = {};
     if (name) {
@@ -125,8 +128,32 @@ export async function PUT(
       );
     }
 
+    if (addToCarousel !== undefined) {
+      if (addToCarousel) {
+        if (carouselImage) {
+          await CarouselItem.findOneAndUpdate(
+            { product: id },
+            { carouselImage, isActive: true },
+            { upsert: true, new: true }
+          );
+        }
+      } else {
+        await CarouselItem.findOneAndDelete({ product: id });
+      }
+    }
+
+    const carouselItem = await CarouselItem.findOne({ product: id });
+    const productObj = product.toObject();
+    if (carouselItem) {
+      productObj.addToCarousel = true;
+      productObj.carouselImage = carouselItem.carouselImage;
+    } else {
+      productObj.addToCarousel = false;
+      productObj.carouselImage = "";
+    }
+
     return NextResponse.json(
-      { message: "Product updated", product },
+      { message: "Product updated", product: productObj },
       { status: 200 },
     );
   } catch (error) {
@@ -156,8 +183,18 @@ export async function GET(req:NextRequest,{
       );
     }
 
+    const carouselItem = await CarouselItem.findOne({ product: id });
+    const productObj = product.toObject();
+    if (carouselItem) {
+      productObj.addToCarousel = true;
+      productObj.carouselImage = carouselItem.carouselImage;
+    } else {
+      productObj.addToCarousel = false;
+      productObj.carouselImage = "";
+    }
+
     return NextResponse.json(
-      { message: "Product found", product },
+      { message: "Product found", product: productObj },
       { status: 200 },
     );
   } catch (error) {
@@ -198,6 +235,8 @@ export async function DELETE(req:NextRequest,{
         { status: 404 },
       );
     }
+
+    await CarouselItem.findOneAndDelete({ product: id });
 
     return NextResponse.json(
       { message: "Product deleted", product },

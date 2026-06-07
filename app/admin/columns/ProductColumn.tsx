@@ -51,10 +51,39 @@ export const productColumns: ColumnDef<ProductType>[] = [
     accessorKey: "dosage",
     header: "Dosage",
   },
-  
-{
-  accessorKey: "category",
-  header: "Category",
+  {
+    accessorKey: "addToCarousel",
+    header: "Carousel",
+    cell: ({ row }) => {
+      const addToCarousel = row.original.addToCarousel;
+      const carouselImage = row.original.carouselImage;
+      return (
+        <div className="flex items-center gap-2">
+          {addToCarousel ? (
+            <>
+              <span className="inline-flex items-center rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                Yes
+              </span>
+              {carouselImage && (
+                <img
+                  src={carouselImage}
+                  alt="carousel preview"
+                  className="h-6 w-10 object-cover rounded border border-gray-200"
+                />
+              )}
+            </>
+          ) : (
+            <span className="inline-flex items-center rounded-full bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              No
+            </span>
+          )}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "category",
+    header: "Category",
   cell: ({ row }) => {
     const categories = row.original.category;
 

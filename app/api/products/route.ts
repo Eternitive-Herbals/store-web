@@ -1,4 +1,5 @@
 import { Product } from "@/models/Product";
+import { CarouselItem } from "@/models/CarouselItem";
 import connectDB from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
@@ -60,6 +61,8 @@ export async function POST(req: NextRequest) {
       category,
       dosage,
       goal,
+      addToCarousel,
+      carouselImage,
     } = await req.json();
 
     if (
@@ -93,6 +96,14 @@ export async function POST(req: NextRequest) {
       dosage,
       images,
     });
+
+    if (addToCarousel && carouselImage) {
+      await CarouselItem.create({
+        product: product._id,
+        carouselImage,
+        isActive: true,
+      });
+    }
 
     return NextResponse.json(
       {

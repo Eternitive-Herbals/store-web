@@ -24,6 +24,9 @@ export type ProductType = {
   image?: string;
   images?: string[];
 
+  addToCarousel?: boolean;
+  carouselImage?: string;
+
   createdAt: Date;
   updatedAt: Date;
 };
