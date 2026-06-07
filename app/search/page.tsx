@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 type Product = {
@@ -14,11 +14,9 @@ type Product = {
   price: number;
 };
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
-
   const query = searchParams.get("query") || "";
-
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -81,5 +79,17 @@ export default function SearchPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center text-gray-500">
+        Loading Search Results...
+      </div>
+    }>
+      <SearchContent />
+    </Suspense>
   );
 }

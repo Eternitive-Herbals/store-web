@@ -129,7 +129,8 @@ export default function CheckoutPage() {
               toast.error(verifyData.message || "Payment verification failed", { id: "payment" });
             }
           } catch (err) {
-            toast.error("An error occurred during verification", { id: "payment" },err);
+            console.error(err);
+            toast.error("An error occurred during verification", { id: "payment" });
           }
         },
         prefill: {
