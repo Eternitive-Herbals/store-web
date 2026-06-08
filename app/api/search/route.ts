@@ -4,6 +4,7 @@ import { Product } from "@/models/Product";
 import { Ingredients } from "@/models/Ingredient";
 import { Category } from "@/models/Category";
 import { Goal } from "@/models/Goal";
+import { CarouselItem } from "@/models/CarouselItem";
 
 export async function GET(req: NextRequest) {
   try {
@@ -115,7 +116,27 @@ export async function GET(req: NextRequest) {
       .populate("category")
       .populate("goal");
 
-    return NextResponse.json({ products: products || [] }, { status: 200 });
+    const carouselItems = await CarouselItem.find({
+      product: { $in: products.map((p) => p._id) },
+    });
+    const carouselMap = new Map(
+      carouselItems.map((item) => [item.product.toString(), item.carouselImage])
+    );
+
+    const productsWithCarousel = products.map((product) => {
+      const productObj = product.toObject();
+      const carouselImage = carouselMap.get(product._id.toString());
+      if (carouselImage) {
+        productObj.addToCarousel = true;
+        productObj.carouselImage = carouselImage;
+      } else {
+        productObj.addToCarousel = false;
+        productObj.carouselImage = "";
+      }
+      return productObj;
+    });
+
+    return NextResponse.json({ products: productsWithCarousel }, { status: 200 });
   } catch (error) {
     console.log("Search error:", error);
     return NextResponse.json(

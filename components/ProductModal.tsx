@@ -9,6 +9,7 @@ import { getAllGoals } from "@/lib/goalAction";
 import { getAllIngredients } from "@/lib/ingredientAction";
 import { ProductType } from "@/types/ProductType";
 import { toast } from "sonner";
+import { uploadImage, deleteImage } from "@/lib/uploadImage";
 
 export default function ProductModal({
   open,
@@ -36,6 +37,10 @@ export default function ProductModal({
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
 
+  const [addToCarousel, setAddToCarousel] = useState(false);
+  const [carouselImage, setCarouselImage] = useState("");
+  const [uploadingCarousel, setUploadingCarousel] = useState(false);
+
   const [loading, setLoading] = useState(false);
 
   const {
@@ -61,6 +66,8 @@ export default function ProductModal({
         setSelectedCategories(initialData.category.map((c: any) => c._id));
         setSelectedGoals(initialData.goal.map((g: any) => g._id));
         setSelectedIngredients(initialData.ingredients.map((i: any) => i._id));
+        setAddToCarousel(initialData.addToCarousel || false);
+        setCarouselImage(initialData.carouselImage || "");
       } else {
         setName("");
         setDescription("");
@@ -71,6 +78,8 @@ export default function ProductModal({
         setSelectedCategories([]);
         setSelectedGoals([]);
         setSelectedIngredients([]);
+        setAddToCarousel(false);
+        setCarouselImage("");
       }
 
       Promise.all([
@@ -98,6 +107,10 @@ export default function ProductModal({
       toast.error("Please select at least one category, goal, and ingredient.");
       return;
     }
+    if (addToCarousel && !carouselImage) {
+      toast.error("Please upload a carousel image if adding this product to the carousel.");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -110,7 +123,9 @@ export default function ProductModal({
           images: previewUrls,
           category: selectedCategories,
           goal: selectedGoals,
-          ingredients: selectedIngredients
+          ingredients: selectedIngredients,
+          addToCarousel,
+          carouselImage: addToCarousel ? carouselImage : ""
         });
       }
       handleClose();
@@ -132,6 +147,8 @@ export default function ProductModal({
     setSelectedIngredients([]);
     setFiles([]);
     setPreviewUrls([]);
+    setAddToCarousel(false);
+    setCarouselImage("");
     onClose();
   };
 
@@ -236,6 +253,84 @@ export default function ProductModal({
                   onDelete={handleDelete}
                   onRemoveFile={handleRemoveFile}
                 />
+              )}
+            </div>
+
+            {/* Carousel settings */}
+            <div className="pt-4 border-t border-gray-100 space-y-3">
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="addToCarousel"
+                  checked={addToCarousel}
+                  onChange={(e) => setAddToCarousel(e.target.checked)}
+                  disabled={isView}
+                  className="rounded border-gray-300 disabled:opacity-50 h-4 w-4 text-primary-background focus:ring-primary-background cursor-pointer"
+                />
+                <label htmlFor="addToCarousel" className="text-sm font-semibold text-foreground cursor-pointer">
+                  Add this product to Home Carousel
+                </label>
+              </div>
+
+              {addToCarousel && (
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-foreground block">
+                    Carousel Banner Image
+                  </label>
+                  {carouselImage ? (
+                    <div className="relative w-full max-w-xs h-32 rounded-lg overflow-hidden border-2 border-foreground/20">
+                      <img src={carouselImage} alt="Carousel Banner" className="w-full h-full object-cover" />
+                      {!isView && (
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            if (confirm("Delete carousel image?")) {
+                              try {
+                                await deleteImage(carouselImage);
+                                setCarouselImage("");
+                                toast.success("Carousel image deleted");
+                              } catch (err) {
+                                toast.error("Failed to delete image");
+                              }
+                            }
+                          }}
+                          className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full p-1 cursor-pointer"
+                        >
+                          <X size={14} />
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    !isView && (
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={async (e) => {
+                            if (e.target.files?.[0]) {
+                              const file = e.target.files[0];
+                              setUploadingCarousel(true);
+                              try {
+                                const url = await uploadImage(file);
+                                setCarouselImage(url);
+                                toast.success("Carousel image uploaded");
+                              } catch (err) {
+                                toast.error("Failed to upload carousel image");
+                              } finally {
+                                setUploadingCarousel(false);
+                              }
+                            }
+                          }}
+                          className="border-foreground/20 focus:border-foreground/60 rounded-lg border px-3 py-1.5 text-xs outline-none bg-gray-50 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-primary-background/10 file:text-primary-background hover:file:bg-primary-background/20"
+                        />
+                        {uploadingCarousel && <span className="text-xs text-gray-500 animate-pulse">Uploading...</span>}
+                      </div>
+                    )
+                  )}
+                  {isView && !carouselImage && (
+                    <span className="text-xs text-gray-400 italic">No carousel image uploaded</span>
+                  )}
+                </div>
               )}
             </div>
           </div>
