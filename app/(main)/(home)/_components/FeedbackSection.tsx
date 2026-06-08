@@ -60,14 +60,19 @@ export default async function FeedBackSection() {
 
   return (
     <section className="relative flex min-h-dvh snap-start flex-col items-center justify-center gap-12 py-24 bg-[#FAF9F6] overflow-visible ">
+    {/* <section className="relative flex min-h-dvh snap-start flex-col items-center justify-center gap-12  py-24"> */}
       <span className="font-comfortaa text-4xl font-semibold text-stone-800">
         What Our Customers Say
       </span>
 
-      <div className="flex w-full max-w-6xl items-center justify-between gap-16 px-6">
+      <div className="flex w-full max-w-6xl items-center justify-between gap-16 px-6  ">
         <div className="flex items-baseline gap-4">
-          <span className="font-comfortaa text-8xl font-semibold text-stone-800">{avgRating}</span>
-          <span className="text-stone-500 font-light">{totalReviews} review{totalReviews !== 1 ? 's' : ''} with photos</span>
+          <span className="font-comfortaa text-8xl font-semibold text-stone-800">
+            {avgRating}
+          </span>
+          <span className="font-light text-stone-500">
+            {totalReviews} review{totalReviews !== 1 ? "s" : ""} with photos
+          </span>
         </div>
         <div className="flex gap-4 text-[#EDC06F]">
           {Array.from({ length: Math.floor(numRating) }).map((_, index) => (

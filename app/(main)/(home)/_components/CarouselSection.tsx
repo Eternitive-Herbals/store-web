@@ -10,8 +10,65 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
 
+const DEFAULT_CAROUSEL_ITEMS = [
+  {
+    carouselImage: SampleImage1,
+    product: {
+      name: "Immunohigh",
+      description: "Supports your body's natural immune defence to help you stay protected every day.",
+      _id: "alskdjfhlkajsdhflkajsdf",
+    },
+  },
+  {
+    carouselImage: SampleImage2,
+    product: {
+      name: "Product Two",
+      description: "Description for sample product two.",
+      _id: "alskdjfhlkajsdhflkajsdf",
+    },
+  },
+  {
+    carouselImage: SampleImage3,
+    product: {
+      name: "Product Three",
+      description: "Description for sample product three.",
+      _id: "alskdjfhlkajsdhflkajsdf",
+    },
+  },
+  {
+    carouselImage: SampleImage4,
+    product: {
+      name: "Banner Image",
+      description: "Elegant background banner.",
+      _id: "alskdjfhlkajsdhflkajsdf",
+    },
+  },
+];
+
 export default function CarouselSection() {
-  const images = [SampleImage1, SampleImage2, SampleImage3, SampleImage4];
+  const [carouselItems, setCarouselItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCarousel() {
+      try {
+        const res = await fetch("/api/carousel");
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setCarouselItems(data);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch carousel items:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchCarousel();
+  }, []);
+
+  const items = loading ? [] : (carouselItems.length > 0 ? carouselItems : DEFAULT_CAROUSEL_ITEMS);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -30,27 +87,27 @@ export default function CarouselSection() {
   };
 
   useEffect(() => {
-    if (isPaused) {
+    if (isPaused || items.length === 0) {
       return;
     }
 
     const timer = setInterval(() => {
       setDirection(1);
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
     }, 7000);
 
     return () => clearInterval(timer);
-  }, [currentIndex, images.length, isPaused]);
+  }, [currentIndex, items.length, isPaused]);
 
   function handleNext() {
     setDirection(1);
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
   }
 
   function handlePrev() {
     setDirection(-1);
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length,
+      (prevIndex) => (prevIndex - 1 + items.length) % items.length,
     );
   }
 
@@ -58,7 +115,7 @@ export default function CarouselSection() {
     if (isPaused) {
       setDirection(1);
       setIsPaused(false);
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
       return;
     }
     setIsPaused(true);
@@ -75,6 +132,10 @@ export default function CarouselSection() {
       setCurrentIndex(index);
       return;
     }
+  }
+
+  if (items.length === 0) {
+    return <div className="bg-foreground relative h-dvh snap-start" />;
   }
 
   return (
@@ -99,8 +160,8 @@ export default function CarouselSection() {
           className="absolute inset-0 h-full w-full"
         >
           <Image
-            src={images[currentIndex]}
-            alt="cta image"
+            src={items[currentIndex]?.carouselImage}
+            alt={items[currentIndex]?.product?.name || "cta image"}
             fill
             sizes="100vw"
             className="pointer-events-none object-cover"
@@ -110,21 +171,34 @@ export default function CarouselSection() {
       </AnimatePresence>
 
       <div className="bg-foreground/66 absolute bottom-12 left-20 z-10 flex h-40 w-3xl flex-col justify-between rounded-2xl border border-white/10 px-6 py-4 text-white backdrop-blur-2xl transition-all">
-        <AnimatePresence initial={false}>
-          <motion.span className="font-comfortaa text-[2.5rem]">
-            Immunohigh
+        <AnimatePresence initial={false} mode="wait">
+          <motion.span
+            key={`title-${currentIndex}`}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="font-comfortaa text-[2.5rem]"
+          >
+            {items[currentIndex]?.product?.name || "Immunohigh"}
           </motion.span>
         </AnimatePresence>
-        <AnimatePresence initial={false}>
-          <motion.p className="text-2xl font-light">
-            Supports your body&apos;s natural immune defence to help you stay
-            protected every day.
+        <AnimatePresence initial={false} mode="wait">
+          <motion.p
+            key={`desc-${currentIndex}`}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="text-2xl font-light line-clamp-2"
+          >
+            {items[currentIndex]?.product?.description || ""}
           </motion.p>
         </AnimatePresence>
       </div>
 
       <div className="absolute bottom-8 left-20 z-10 flex h-2 w-3xl gap-2 rounded-full p-0.5">
-        {Array.from({ length: images.length }).map((_, index) => (
+        {Array.from({ length: items.length }).map((_, index) => (
           <button
             key={index}
             onClick={() => handleImageButton(index)}
@@ -159,7 +233,7 @@ export default function CarouselSection() {
         </button>
 
         <Link
-          href={"/product/alskdjfhlkajsdhflkajsdf"}
+          href={`/product/${items[currentIndex]?.product?._id || "alskdjfhlkajsdhflkajsdf"}`}
           className="bg-foreground/66 flex items-center gap-2 rounded-2xl border border-white/10 px-6 py-2 text-white backdrop-blur-2xl transition-all hover:opacity-75 active:opacity-50"
         >
           <span className="text-2xl">View Product</span>

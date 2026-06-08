@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Groq } from "groq-sdk";
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+// We will initialize the Groq client inside the POST handler to avoid build failures if GROQ_API_KEY is not defined.
 
 const SYSTEM_PROMPT = `You are Aethery AI Concierge, a premium ecommerce shopping assistant for the Aethery wellness store.
 Your primary role is to assist customers with everything related to the Aethery website, including:
@@ -26,6 +24,17 @@ Keep replies under 120 words unless detail is genuinely needed.`;
 
 export async function POST(req: NextRequest) {
   try {
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) {
+      console.error("GROQ_API_KEY is not defined in environment variables.");
+      return NextResponse.json(
+        { error: "AI Concierge is not configured. Please check server settings." },
+        { status: 500 }
+      );
+    }
+
+    const groq = new Groq({ apiKey });
+
     const body = await req.json();
     const { messages } = body;
 

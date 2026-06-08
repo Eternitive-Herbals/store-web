@@ -1,6 +1,8 @@
-import { Star } from "lucide-react";
+"use client"
+import { Loader, Star } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
-
+import { useState } from "react";
+import {motion} from "motion/react"
 export type ReviewCardProps = {
   authorName: string;
   authorAvatar: StaticImageData | string;
@@ -18,14 +20,16 @@ export default function ReviewCard({
   image,
   location,
 }: ReviewCardProps) {
+
+  const [seeMore, setSeeMore] = useState(false)
   return (
-    <div className="flex flex-col w-[300px] sm:w-[350px] md:w-[380px] h-fit rounded-3xl bg-white border border-stone-200/80 p-6 shadow-md shadow-stone-100/50 snap-start shrink-0 justify-between">
+    <div className="flex h-fit w-3xs shrink-0 snap-start flex-col justify-between rounded-3xl border border-stone-200/80 bg-white p-2 shadow-md shadow-stone-100/50 sm:w-[350px] md:w-[380px]">
       <div>
         {/* Header Section */}
-        <div className="flex items-center justify-between w-full mb-4">
+        <div className="mb-2 flex w-full items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Avatar */}
-            <div className="relative size-12 rounded-full overflow-hidden bg-stone-200 shrink-0">
+            <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-stone-200">
               <Image
                 src={authorAvatar}
                 alt={authorName}
@@ -35,8 +39,12 @@ export default function ReviewCard({
             </div>
             {/* Name and Location */}
             <div className="flex flex-col">
-              <span className="text-base font-bold text-[#142B3B]">{authorName}</span>
-              <span className="text-xs text-stone-400 font-medium">{location || "Delhi, India"}</span>
+              <span className="text-base font-bold text-[#142B3B]">
+                {authorName}
+              </span>
+              <span className="text-xs font-medium text-stone-400">
+                {location || "Delhi, India"}
+              </span>
             </div>
           </div>
 
@@ -57,21 +65,30 @@ export default function ReviewCard({
         </div>
 
         {/* Review Text */}
-        <p className="text-stone-700 text-sm leading-relaxed line-clamp-4 font-normal">
+        <motion.p
+          className={`${seeMore ? "line-clamp-none" : "line-clamp-1"}  text-sm leading-relaxed font-normal text-stone-700`}
+        >
           {reviewText}
-        </p>
+        </motion.p>
+        <button className="text-blue-500 text-xs font-light" onClick={() => setSeeMore(!seeMore)}>
+          {seeMore ? "less -" : "See more +"}
+        </button>
       </div>
 
       {/* Review Image */}
-      {image && (
-        <div className="relative w-full h-[220px] rounded-2xl overflow-hidden bg-stone-50 shrink-0">
+      {image ? (
+        <div className="relative mt-1 h-[110px] w-full shrink-0 overflow-hidden rounded-2xl bg-stone-50">
           <Image
             src={image}
             alt="Customer review photo"
             fill
-            sizes="(max-width: 768px) 100vw, 380px"
-            className="object-cover"
+            unoptimized
+            className="mx-auto h-full w-full object-cover"
           />
+        </div>
+      ) : (
+        <div className="relative h-[110px] w-full shrink-0 overflow-hidden rounded-2xl bg-stone-50">
+          <Loader h-32 w-32 />
         </div>
       )}
     </div>
