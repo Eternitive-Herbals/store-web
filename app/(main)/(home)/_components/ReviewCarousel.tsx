@@ -83,7 +83,7 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
   };
 
   return (
-    <div className="relative w-full flex flex-col items-center gap-12 overflow-visible">
+    <div className="relative flex w-full flex-col items-center">
       {/* Left/Right Buttons and Carousel Container */}
       <div className="relative flex w-full items-center justify-center">
         {/* Left Scroll Button */}
@@ -91,7 +91,7 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
           type="button"
           onClick={() => handleScroll("left")}
           disabled={!canScrollLeft}
-          className="absolute left-4 md:left-12 z-20 cursor-pointer rounded-full bg-[#E2DED3] p-3 text-[#4F5C39] shadow-md transition-all hover:bg-[#d5d0c3] hover:scale-105 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+          className="absolute left-4 z-20 cursor-pointer rounded-full bg-[#E2DED3] p-3 text-[#4F5C39] shadow-md transition-all hover:scale-105 hover:bg-[#d5d0c3] active:scale-95 disabled:pointer-events-none disabled:opacity-30 md:left-12"
           aria-label="Previous reviews"
         >
           <ArrowLeft size={24} strokeWidth={2.5} />
@@ -101,14 +101,17 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
         <div className="relative w-full max-w-6xl overflow-visible px-4">
           <div
             ref={scrollContainerRef}
-            className="flex w-full gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-none py-6 px-2 overflow-visible"
+            className="scrollbar-none relative flex w-full snap-x snap-mandatory gap-6 overflow-visible overflow-x-auto scroll-smooth px-2 py-6"
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
           >
+            {/* <div className="from-background to-background/0 absolute inset-0 z-10 w-10 bg-linear-to-r " />
+            <div className="from-background to-background/0 absolute inset-0 z-10 w-10 ml-auto  translate-x-2 bg-linear-to-l" /> */}
+
             {reviews.map((review, index) => (
-              <div key={index} className="snap-start shrink-0 overflow-visible">
+              <div key={index} className="shrink-0 snap-start overflow-visible">
                 <ReviewCard {...review} />
               </div>
             ))}
@@ -120,7 +123,7 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
           type="button"
           onClick={() => handleScroll("right")}
           disabled={!canScrollRight}
-          className="absolute right-4 md:right-12 z-20 cursor-pointer rounded-full bg-[#E2DED3] p-3 text-[#4F5C39] shadow-md transition-all hover:bg-[#d5d0c3] hover:scale-105 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+          className="absolute right-4 z-20 cursor-pointer rounded-full bg-[#E2DED3] p-3 text-[#4F5C39] shadow-md transition-all hover:scale-105 hover:bg-[#d5d0c3] active:scale-95 disabled:pointer-events-none disabled:opacity-30 md:right-12"
           aria-label="Next reviews"
         >
           <ArrowRight size={24} strokeWidth={2.5} />
