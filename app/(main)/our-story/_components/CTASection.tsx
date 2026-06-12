@@ -1,11 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
+
 import { ArrowRight } from "lucide-react";
 import WellnessJourneyBg from "@/assets/wellnessjourney.jpg";
+import WhyAethery from "@/assets/Why aethery.svg"
+
 
 export default function CTASection() {
   return (
-    <section className="bg-primary-background px-[calc(100dvw/24)] xl:h-[1024px] flex items-center justify-center py-12 xl:py-0">
+    <section className="relative bg-primary-background h-[1024px] flex items-center justify-center py-12 xl:py-0">
+      <Image
+        src={WhyAethery}
+        alt="footer spiral"
+        fill
+        sizes="100vw"
+        className="object-cover"
+      />
       <div className="relative w-full max-w-[1276px] h-[439px] overflow-hidden rounded-[60px] border border-white/10">
         <Image
           src={WellnessJourneyBg}
