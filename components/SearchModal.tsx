@@ -19,10 +19,8 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  // Handle auto-focus when modal opens
   useEffect(() => {
     if (isOpen) {
-      // Small timeout to ensure input is mounted and visible
       const timer = setTimeout(() => {
         inputRef.current?.focus();
       }, 50);
@@ -33,7 +31,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     }
   }, [isOpen]);
 
-  // Handle debounced search
   useEffect(() => {
     if (!query.trim()) {
       setResults([]);
@@ -64,7 +61,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     return () => clearTimeout(delayDebounceFn);
   }, [query]);
 
-  // Close modal on Escape press
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -93,7 +89,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-24 md:pt-32">
-        {/* Backdrop overlay */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -102,7 +97,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           className="fixed inset-0 bg-black/70 backdrop-blur-md cursor-pointer"
         />
 
-        {/* Modal Container */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: -20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -110,7 +104,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           transition={{ duration: 0.2 }}
           className="relative w-full max-w-2xl bg-zinc-900/90 border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[70vh] backdrop-blur-xl"
         >
-          {/* Header Search Input */}
           <div className="flex items-center gap-3 px-4 py-3.5 border-b border-white/10">
             <Search className="text-zinc-400 shrink-0" size={20} />
             <input
@@ -130,17 +123,8 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 <X size={16} />
               </button>
             )}
-            <div className="w-px h-6 bg-white/10" />
-            <button
-              onClick={onClose}
-              className="text-xs font-medium text-zinc-400 hover:text-white transition-colors px-2 py-1 rounded-md hover:bg-white/5 border border-white/5"
-              type="button"
-            >
-              ESC
-            </button>
           </div>
 
-          {/* Body Section */}
           <div className="flex-1 overflow-y-auto p-4 min-h-[150px] max-h-[50vh] scrollbar-thin">
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-12 text-zinc-400 gap-3">
@@ -148,7 +132,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 <span className="text-sm font-light">Searching products...</span>
               </div>
             ) : query.trim() === "" ? (
-              /* Initial state / suggestions */
               <div className="space-y-6">
                 <div>
                   <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">
@@ -175,13 +158,11 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 </div>
               </div>
             ) : results.length > 0 ? (
-              /* Search results */
               <div className="space-y-1.5">
                 <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2 px-2">
                   Products ({results.length})
                 </div>
                 {results.map((product) => {
-                  // Fallback for image mapping
                   const imageSrc =
                     product.images && product.images.length > 0
                       ? product.images[0]
@@ -245,7 +226,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 })}
               </div>
             ) : (
-              /* No results state */
               <div className="flex flex-col items-center justify-center py-12 text-zinc-500 gap-2">
                 <span className="text-lg">😕</span>
                 <span className="text-sm font-medium text-zinc-400">No products found</span>
