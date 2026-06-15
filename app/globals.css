@@ -37,6 +37,7 @@
 
   --spacing-screen-1: 100dvh;
   --spacing-screen-2: 200dvh;
+  --blur-2xs: 2px;
 }
 
 body {

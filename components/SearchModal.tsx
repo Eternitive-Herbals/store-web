@@ -94,7 +94,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/70 backdrop-blur-md cursor-pointer"
+          className="fixed inset-0 bg-black/40 backdrop-blur-2xs cursor-pointer"
         />
 
         <motion.div
