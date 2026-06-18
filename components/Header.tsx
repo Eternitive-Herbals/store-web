@@ -4,17 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/brand-logo-white.svg";
 import { Search, ShoppingBag, User, UserStar  } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import SearchModal from "@/components/SearchModal";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
-  const [searchVisiblity, setSearchVisibility] = useState(false);
-  const [query, setQuery] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { isLoggedIn, loading, user } = useAuth();
   const isAdmin = user?.role === "Admin";
-  const searchRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const links = [
@@ -23,23 +21,6 @@ export default function Header() {
     { name: "Products", href: "/products" },
     { name: "Contact", href: "/contact" },
   ];
-
-
-  useEffect(() => {
-    if (searchVisiblity) {
-      searchRef.current?.focus();
-    }
-  }, [searchVisiblity]);
-
-  function toggleSearchVisibility() {
-    setSearchVisibility((prev) => !prev);
-  }
-  const handleSearch = () => {
-    if (!query.trim()) return;
-
-    router.push(`/search?query=${encodeURIComponent(query)}`);
-    setSearchVisibility(false);
-  };
 
   return (
     <header className="fixed top-12 z-50 min-w-[calc(100%-10rem)] place-self-center text-white">
@@ -69,7 +50,7 @@ export default function Header() {
         <div className="flex gap-3">
           <button
             type="button"
-            onClick={toggleSearchVisibility}
+            onClick={() => setIsSearchOpen(true)}
             className="cursor-pointer transition-all hover:opacity-75 active:opacity-50"
           >
             <Search size={20} />
@@ -111,37 +92,7 @@ export default function Header() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {searchVisiblity && (
-          <motion.div
-            initial={{ y: -5, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -5, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="search_bar absolute right-0 -bottom-full flex w-full max-w-2xl items-center gap-2.75 rounded-[20px] border border-white/10 bg-[#1E1E1E]/66 p-2.75 backdrop-blur-2xl"
-          >
-            <input
-              type="text"
-              name="search"
-              id="search"
-              ref={searchRef}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              className="bg-background/10 w-full rounded-[10px] px-4 py-2 text-white outline-none"
-            />
-            <button
-              type="button"
-              onClick={handleSearch}
-              className="bg-background cursor-pointer rounded-[10px] px-4 py-2 transition-all hover:opacity-75 active:opacity-50"
-            >
-              <span className="text-foreground font-comfortaa font-bold">
-                Search
-              </span>
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </header>
   );
 }
