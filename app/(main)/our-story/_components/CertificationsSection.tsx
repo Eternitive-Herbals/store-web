@@ -19,7 +19,8 @@ export default function CertificationsSection() {
             alt={`${cert} certificate`}
             src={cert}
             key={idx}
-            size={100}
+            // size={100}
+            unoptimized
             priority
           />
         ))}

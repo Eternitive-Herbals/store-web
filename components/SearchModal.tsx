@@ -94,7 +94,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/40 backdrop-blur-2xs cursor-pointer"
+          className="fixed inset-0 bg-primary-background/1 backdrop-blur-2xs cursor-pointer"
         />
 
         <motion.div
@@ -102,17 +102,17 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: -20 }}
           transition={{ duration: 0.2 }}
-          className="relative w-full max-w-2xl bg-zinc-900/90 border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[70vh] backdrop-blur-xl"
+          className="relative w-full max-w-2xl bg-primary-background/60 border border-white/20 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[70vh] backdrop-blur-xl"
         >
           <div className="flex items-center gap-3 px-4 py-3.5 border-b border-white/10">
-            <Search className="text-zinc-400 shrink-0" size={20} />
+            <Search className="text-foreground shrink-0" size={20} />
             <input
               ref={inputRef}
               type="text"
               placeholder="Search by name, ingredients, or goals..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full bg-transparent text-white placeholder-zinc-500 text-base border-none outline-none focus:ring-0 focus:outline-none"
+              className="w-full bg-transparent text-white placeholder-white/70 text-base border-none outline-none focus:ring-0 focus:outline-none"
             />
             {query && (
               <button
@@ -127,14 +127,14 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
           <div className="flex-1 overflow-y-auto p-4 min-h-[150px] max-h-[50vh] scrollbar-thin">
             {isLoading ? (
-              <div className="flex flex-col items-center justify-center py-12 text-zinc-400 gap-3">
+              <div className="flex flex-col items-center justify-center py-12 text-background gap-3">
                 <Loader2 className="animate-spin text-zinc-300" size={32} />
                 <span className="text-sm font-light">Searching products...</span>
               </div>
             ) : query.trim() === "" ? (
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">
+                  <h4 className="text-xs font-semibold text-background uppercase tracking-wider mb-3">
                     Popular Searches
                   </h4>
                   <div className="flex flex-wrap gap-2">
@@ -145,15 +145,15 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                         className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-800/50 hover:bg-zinc-800 text-zinc-300 hover:text-white text-sm rounded-full transition-all border border-white/5"
                         type="button"
                       >
-                        <Search size={12} className="text-zinc-400" />
+                        <Search size={12} className="text-background" />
                         {item.label}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="border-t border-white/5 pt-4 text-xs text-zinc-500 font-light flex items-center gap-2">
-                  <span className="inline-block w-2 h-2 rounded-full bg-zinc-600 animate-pulse" />
+                <div className="border-t border-white/5 pt-4 text-xs text-background font-light flex items-center gap-2">
+                  <span className="inline-block w-2 h-2 rounded-full bg-foreground animate-pulse" />
                   Tip: You can search directly by ingredients (e.g. &apos;creatine&apos;) or health goals (e.g. &apos;weight loss&apos;).
                 </div>
               </div>
