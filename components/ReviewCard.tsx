@@ -5,20 +5,26 @@ import { useState } from "react";
 import {motion} from "motion/react"
 export type ReviewCardProps = {
   authorName: string;
+  author: string;
   authorAvatar: StaticImageData | string;
   rating: number;
   reviewText: string;
   image?: string;
   location?: string;
+  createdAt: number;
+  content: string;
 };
 
 export default function ReviewCard({
   authorName,
+  author,
   authorAvatar,
   rating,
   reviewText,
   image,
   location,
+  createdAt,
+  content,
 }: ReviewCardProps) {
 
   const [seeMore, setSeeMore] = useState(false)
@@ -32,7 +38,7 @@ export default function ReviewCard({
             <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-stone-200">
               <Image
                 src={authorAvatar}
-                alt={authorName}
+                alt={authorName ||author}
                 fill
                 className="object-cover"
               />
@@ -40,10 +46,20 @@ export default function ReviewCard({
             {/* Name and Location */}
             <div className="flex flex-col">
               <span className="text-base font-bold text-[#142B3B]">
-                {authorName}
+                {authorName || author}
               </span>
               <span className="text-xs font-medium text-stone-400">
-                {location || "Delhi, India"}
+                {location? location : (
+                   <h3 className="text-xs font-medium text-[#9EA1A7]">
+                      {createdAt
+                      ? new Date(createdAt).toLocaleDateString("en-IN", {
+                             year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })
+                        : ""}
+                   </h3>
+                )}
               </span>
             </div>
           </div>
@@ -66,9 +82,9 @@ export default function ReviewCard({
 
         {/* Review Text */}
         <motion.p
-          className={`${seeMore ? "line-clamp-none" : "line-clamp-1"}  text-sm leading-relaxed font-normal text-stone-700`}
+          className={`${seeMore ? "line-clamp-none" : "line-clamp-2"}  text-sm leading-relaxed font-normal text-stone-700`}
         >
-          {reviewText}
+          {reviewText || content}
         </motion.p>
         <button className="text-blue-500 text-xs font-light" onClick={() => setSeeMore(!seeMore)}>
           {seeMore ? "less -" : "See more +"}
