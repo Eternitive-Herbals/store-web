@@ -25,7 +25,7 @@ export default function ReviewSec({ reviews }: ReviewSecProps) {
 
   return (
     <div className="w-full p-9 mt-14">
-      <div className="mx-auto flex h-fit max-h-284 w-[967px] flex-col overflow-hidden flex-wrap items-center gap-5 ">
+      <div className="mx-auto flex h-fit max-h-284 w-[967px] flex-row overflow-hidden flex-wrap items-start gap-5 ">
         {reviews.map((review) => (
           <div key={review._id} className="flex h-fit w-[473px]">
             <div className="w-full rounded-2xl bg-white px-6 py-11">
