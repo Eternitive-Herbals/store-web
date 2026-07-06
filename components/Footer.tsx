@@ -1,7 +1,6 @@
-import { Copyright } from "lucide-react";
+import { Copyright, Instagram } from "lucide-react";
 import Image from "next/image";
 import XLogo from "@/assets/x-logo.svg";
-import InstagramLogo from "@/assets/instagram-logo.svg";
 import FooterFirstImage from "@/assets/spiral_footer.svg";
 import FooterElementalIcons from "../assets/footer-elemental-icons.svg";
 import FooterAetheryText from "@/assets/footer-aethery-text.svg";
@@ -69,7 +68,7 @@ export default function Footer() {
             target="_blank"
             className="transition-all hover:opacity-75 active:opacity-50"
           >
-            <Image src={InstagramLogo} alt="X Logo" className="size-6" />
+            <Instagram className="size-6" />
           </Link>
         </div>
       </div>
