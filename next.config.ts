@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
       //   hostname: "**", // Fallback for any other domains, though specific is better
       // }
     ],
-    unoptimized: true,
+    // unoptimized: true,
   },
 };
 
