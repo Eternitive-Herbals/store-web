@@ -9,10 +9,11 @@ export type ReviewCardProps = {
   authorAvatar: StaticImageData | string;
   rating: number;
   reviewText: string;
-  image?: string;
+  image?: StaticImageData | string;
   location?: string;
   createdAt: number;
   content: string;
+  
 };
 
 export default function ReviewCard({
@@ -37,7 +38,7 @@ export default function ReviewCard({
             {/* Avatar */}
             <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-stone-200">
               <Image
-                src={authorAvatar}
+                src={authorAvatar|| image}
                 alt={authorName ||author}
                 fill
                 className="object-cover"
