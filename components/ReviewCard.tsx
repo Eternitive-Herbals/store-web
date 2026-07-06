@@ -3,16 +3,18 @@ import { Loader, Star } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import { useState } from "react";
 import {motion} from "motion/react"
+import defaultAvatar from "@/assets/bone.svg";
+
 export type ReviewCardProps = {
-  authorName: string;
-  author: string;
-  authorAvatar: StaticImageData | string;
+  authorName?: string;
+  author?: string;
+  authorAvatar?: StaticImageData | string;
   rating: number;
-  reviewText: string;
-  image?: string;
+  reviewText?: string;
+  image?: StaticImageData | string;
   location?: string;
-  createdAt: number;
-  content: string;
+  createdAt?: number | string;
+  content?: string;
 };
 
 export default function ReviewCard({
@@ -37,8 +39,8 @@ export default function ReviewCard({
             {/* Avatar */}
             <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-stone-200">
               <Image
-                src={authorAvatar}
-                alt={authorName ||author}
+                src={authorAvatar || image || defaultAvatar}
+                alt={authorName || author || "User avatar"}
                 fill
                 className="object-cover"
               />
