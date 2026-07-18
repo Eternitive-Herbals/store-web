@@ -20,6 +20,7 @@ export default function CertificationsSection() {
             src={cert}
             key={idx}
             // size={100}
+            className="h-[72px] w-[72px] md:h-fit md:w-fit object-contain"
             unoptimized
             priority
           />

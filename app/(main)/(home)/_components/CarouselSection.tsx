@@ -4,7 +4,7 @@ import SampleImage1 from "@/assets/product-sample-image-1.png";
 import SampleImage2 from "@/assets/prod2.png";
 import SampleImage3 from "@/assets/prod3.png";
 import SampleImage4 from "@/assets/BgImage.jpg";
-import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight, Pause, Play,Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
@@ -135,11 +135,13 @@ export default function CarouselSection() {
   }
 
   if (items.length === 0) {
-    return <div className="bg-foreground relative h-dvh snap-start" />;
+    return <div className="bg-foreground relative h-dvh snap-start" >
+      <Loader2/>
+    </div>;
   }
 
   return (
-    <div className="bg-foreground relative flex h-dvh snap-start">
+    <div className="bg-foreground relative flex h-[66dvh] snap-start md:h-dvh">
       <button
         type="button"
         onClick={handlePrev}
@@ -170,7 +172,7 @@ export default function CarouselSection() {
         </motion.div>
       </AnimatePresence>
 
-      <div className="bg-foreground/66 absolute bottom-12 left-20 z-10 flex h-40 w-3xl flex-col justify-between rounded-2xl border border-white/10 px-6 py-4 text-white backdrop-blur-2xl transition-all">
+      <div className="bg-foreground/66 absolute  bottom-12 left-4 sm:left-20 z-10 flex h-fit min-h-20 w-fit max-w-3xl flex-col justify-between rounded-2xl border border-white/10 px-6 py-4 text-white backdrop-blur-2xl transition-all  md:w-full md:h-40">
         <AnimatePresence initial={false} mode="wait">
           <motion.span
             key={`title-${currentIndex}`}
@@ -178,7 +180,7 @@ export default function CarouselSection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="font-comfortaa text-[2.5rem]"
+            className="font-comfortaa text-[1rem] md:text-[1.75rem] lg:text-[2.5rem]"
           >
             {items[currentIndex]?.product?.name || "Immunohigh"}
           </motion.span>
@@ -190,14 +192,14 @@ export default function CarouselSection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="text-2xl font-light line-clamp-2"
+            className="line-clamp-2 text-[0.5rem] font-light md:text-[1rem] lg:text-[1.5rem]"
           >
             {items[currentIndex]?.product?.description || ""}
           </motion.p>
         </AnimatePresence>
       </div>
 
-      <div className="absolute bottom-8 left-20 z-10 flex h-2 w-3xl gap-2 rounded-full p-0.5">
+      <div className="absolute bottom-8 sm:left-20 left-4 z-10 flex h-2 w-xs gap-2 rounded-full p-0.5 md:w-xl lg:w-3xl">
         {Array.from({ length: items.length }).map((_, index) => (
           <button
             key={index}
@@ -219,11 +221,11 @@ export default function CarouselSection() {
         ))}
       </div>
 
-      <div className="absolute right-28 bottom-12 z-10 flex gap-4">
+      <div className="absolute right-6 sm:right-28 bottom-12 z-10 gap-4 flex">
         <button
           type="button"
           onClick={togglePause}
-          className="bg-foreground/66 cursor-pointer rounded-2xl border border-white/10 p-4 text-white backdrop-blur-2xl transition-all hover:opacity-75 active:opacity-50"
+          className="bg-foreground/66  hidden  sm:cursor-pointer rounded-2xl border border-white/10 p-4 text-white backdrop-blur-2xl transition-all hover:opacity-75 active:opacity-50"
         >
           {isPaused ? (
             <Play size={20} className="fill-white" />
@@ -236,8 +238,8 @@ export default function CarouselSection() {
           href={`/product/${items[currentIndex]?.product?._id || "alskdjfhlkajsdhflkajsdf"}`}
           className="bg-foreground/66 flex items-center gap-2 rounded-2xl border border-white/10 px-6 py-2 text-white backdrop-blur-2xl transition-all hover:opacity-75 active:opacity-50"
         >
-          <span className="text-2xl">View Product</span>
-          <ArrowRight size={24} />
+          <span className="text-[.5rem] sm:text-2xl">View Product</span>
+          <ArrowRight className="text-white size-3 sm:size-4 nd:size-25 lg:size-6" />
         </Link>
       </div>
 
