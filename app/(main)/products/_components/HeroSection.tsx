@@ -13,7 +13,7 @@ export default function HeroSection() {
         className="-z-10 object-cover object-right"
       />
       <div className="absolute inset-0 -z-10 bg-linear-to-br from-transparent to-black/90" />
-      <span className="text-background font-comfortaa z-10 w-full max-w-4xl text-right text-7xl leading-tight">
+      <span className="text-background font-comfortaa z-10 w-full max-w-4xl text-right text-2xl sm:text-4xl md:text-5xl lg:text-7xl leading-tight">
         Nourish you body, Elevate your life
       </span>
     </div>

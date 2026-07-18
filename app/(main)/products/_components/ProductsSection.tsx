@@ -102,7 +102,7 @@ useEffect(() => {
 
       <Sidebar filters={filters} onFilterChange={setFilters} />
 
-      <div className="flex min-h-full flex-1 flex-col gap-4">
+      <div className="flex min-h-full flex-1 flex-col gap-4 -translate-x-2/7">
         <div className="sticky top-33 z-20 flex items-center place-self-end rounded-2xl bg-[#E2DED3] transition-all ">
           <DropdownGeneric 
           options={[
@@ -123,7 +123,7 @@ useEffect(() => {
         <div className="flex flex-wrap justify-start  gap-x-4 gap-y-16 p-2">
           {products.map((product, idx) => (
             <ProductCard
-              key={product._id || idx}
+              key={product._id || idx}                                 
               id={product._id}
               image={product.images?.[0] || product.image || ""}
               title={product.name}
