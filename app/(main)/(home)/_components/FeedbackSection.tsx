@@ -5,11 +5,7 @@ import Avatar from "@/assets/bone.svg";
 import { Review } from "@/models/Review";
 import connectDB from "@/lib/db";
 import ReviewCarousel from "./ReviewCarousel";
-export interface ReviewCardProps {
-  author: string;
-  rating: number;
-  image: string;
-}
+
 export default async function FeedBackSection() {
   
   await connectDB();
