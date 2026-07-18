@@ -25,7 +25,7 @@ export default function USPSection() {
   ];
 
   return (
-    <section className="relative flex min-h-dvh snap-start flex-col items-center justify-between overflow-hidden bg-[#1B1B1B] px-[calc(100dvw/24)] py-48 text-white">
+    <section className="relative flex min-h-dvh snap-start flex-col items-center justify-between overflow-hidden bg-[#1B1B1B] px-[calc(100dvw/24)] py-20 text-white">
       <Image
         src={BackgroundTexture}
         alt="Background Texture"
@@ -40,7 +40,7 @@ export default function USPSection() {
         </span>
       </div>
 
-      <div className="z-10 flex gap-16">
+      <div className="z-10 flex flex-col mt-10 md:flex-row gap-16">
         {cards.map((card, index) => (
           <USPCard key={index} {...card} />
         ))}
