@@ -9,7 +9,7 @@ import ProductCard from "@/components/ProductCard";
 import { useEffect, useState } from "react";
 import DropdownGeneric from "@/components/DropdownGeneric";
 
-type Product = {
+export type Product = {
   _id: string;
   name: string;
   image?: string;

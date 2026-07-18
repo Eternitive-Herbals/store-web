@@ -4,9 +4,9 @@ import Logo from "@/assets/Aethery_black.svg";
 export default function DiscoverSection() {
   return (
     <section className="bg-background px-[calc(100dvw/24)] py-24">
-      <div className="mx-auto grid max-w-[1280px] w-full grid-cols-1 items-center gap-[46px] md:grid-cols-2 md:h-[424px]">
+      <div className="mx-auto grid max-w-[1280px] w-full grid-cols-1 items-center gap-[46px] lg:grid-cols-2 md:h-[424px]">
         {/* Logo Card */}
-        <div className="flex w-full md:w-[617px] h-[300px] md:h-[424px] items-center justify-center rounded-[32px] bg-[#F3F4F0] p-6">
+        <div className="flex w-full md:w-fit h-[300px] md:h-[424px] items-center justify-center rounded-[32px] bg-[#F3F4F0] p-6">
           <div className="flex items-center gap-4 md:gap-[35px] w-fit max-w-full md:w-[564.37px] md:h-[121px]">
             <Image
               src={Logo}
@@ -24,7 +24,7 @@ export default function DiscoverSection() {
           <h2 className="font-comfortaa text-2xl md:text-[32px] font-bold text-primary-background leading-tight md:leading-[40px]">
             Discover Eternitive
           </h2>
-          <p className="text-sm md:text-base leading-relaxed text-stone-600">
+          <p className="text-sm md:text-base leading-relaxed text-wrap text-stone-600">
             Eternitive Herbals is an international organization based in New
             Delhi India, involved in Manufacturing and Export of Herbal Food
             supplements &amp; Ayurveda medicines.
