@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
 
         await connectDB()
 
-        const featuredReviews = await Review.find().sort({createdAt:-1}).limit(10).lean()
+        const featuredReviews = await Review.find().sort({createdAt:-1}).limit(10).lean();
 
         return NextResponse.json(featuredReviews);
 

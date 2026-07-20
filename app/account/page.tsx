@@ -66,7 +66,7 @@ export default function Page() {
             <div className="py-4">
               <div className="flex items-center justify-between mb-6">
                 <Link className="group flex items-center gap-3" href={"/"}>
-                  <Image
+                  <Image loading="lazy"
                     src={Logo}
                     alt="Aethery logo"
                     className="size-6 object-contain opacity-90 transition-opacity group-hover:opacity-100"

@@ -29,7 +29,7 @@ export default function ProductsSection() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
+  const [isLoading,setisLoading] = useState(false);
   const [sortBy, setSortBy] = useState(searchParams.get("sortBy") || "featured");
   const [filters, setFilters] = useState<Filters>({
     goals: searchParams.get("goals")?.split(",").filter(Boolean) || [],
@@ -62,7 +62,9 @@ useEffect(() => {
 
 
   useEffect(() => {
+   
     const fetchProducts = async () => {
+       setisLoading(false);
       const params = new URLSearchParams();
 
       if (filters.goals.length > 0) {
@@ -81,6 +83,7 @@ useEffect(() => {
       const data = await res.json();
 
       setProducts(data.products || []);
+      setisLoading(true)
     };
 
     fetchProducts();
@@ -91,48 +94,59 @@ useEffect(() => {
 }
 
   return (
-    <section className="relative flex w-full gap-4 px-[calc(100dvw/24)] py-24">
-      <Image
-        src={BackgroundTexture}
-        alt="Background Texture"
-        fill
-        sizes="100vw"
-        className="fixed inset-0 -z-10 object-cover opacity-5"
-      />
+    <>
+      <section className="relative flex w-full px-2 py-24 md:gap-4">
+        <Image
+          loading="lazy"
+          src={BackgroundTexture}
+          alt="Background Texture"
+          fill
+          sizes="100vw"
+          className="fixed inset-0 -z-10 object-cover opacity-5"
+        />
 
-      <Sidebar filters={filters} onFilterChange={setFilters} />
+        <Sidebar filters={filters} onFilterChange={setFilters} />
 
-      <div className="flex min-h-full flex-1 flex-col gap-4 -translate-x-2/7">
-        <div className="sticky top-33 z-20 flex items-center place-self-end rounded-2xl bg-[#E2DED3] transition-all ">
-          <DropdownGeneric 
-          options={[
-  "featured",
-  "best_selling",
-  "price_low_high",
-  "price_high_low",
-]}
-          value={sortBy}
-          onChange={handleSortChange}
-          className="bg-[#E2DED3]"
-           
-          />
-          
-       
-        </div>
-
-        <div className="flex flex-wrap justify-start  gap-x-4 gap-y-16 p-2">
-          {products.map((product, idx) => (
-            <ProductCard
-              key={product._id || idx}                                 
-              id={product._id}
-              image={product.images?.[0] || product.image || ""}
-              title={product.name}
-              description={product.description}
-              price={product.price}
+        <div className="z-0 flex min-h-full w-fit flex-1 -translate-x-[20%] flex-col gap-4 md:translate-0">
+          <div className="sticky top-33 z-20 flex items-center place-self-end rounded-2xl bg-[#E2DED3] transition-all">
+            <DropdownGeneric
+              options={[
+                "featured",
+                "best_selling",
+                "price_low_high",
+                "price_high_low",
+              ]}
+              value={sortBy}
+              onChange={handleSortChange}
+              className="bg-[#E2DED3]"
             />
-          ))}
+          </div>
+
+          {!isLoading ? (
+            <div className="flex w-sm flex-wrap justify-between gap-x-1 gap-y-4 md:w-full md:justify-start md:gap-x-4 md:gap-y-16">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`md:rounded-4xl aspect-2/3  max-h-[25rem]  w-[48%] animate-pulse flex-col overflow-hidden rounded-xl border border-white/10 bg-zinc-400 transition-transform duration-300 ease-initial md:aspect-3/4 md:w-2xs  delay-${i * 0.4} rounded-4xl`}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex w-sm flex-wrap justify-between gap-x-1 gap-y-4 md:w-full md:justify-start md:gap-x-4 md:gap-y-16">
+              {products.map((product, idx) => (
+                <ProductCard
+                  key={product._id || idx}
+                  id={product._id}
+                  image={product.images?.[0] || product.image || ""}
+                  title={product.name}
+                  description={product.description}
+                  price={product.price}
+                />
+              ))}
+            </div>
+          )}
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

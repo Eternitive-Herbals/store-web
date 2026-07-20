@@ -53,7 +53,7 @@ export default function MobileMenu({ open, setOpen, onSearch }: Props) {
 
   return (
     <>
-      <div className="flex items-center gap-1 lg:hidden">
+      <div className="flex items-center gap-1 lg:hidden text-background">
         <button
           onClick={onSearch}
           className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-white/10"

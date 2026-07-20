@@ -161,7 +161,7 @@ export default function CarouselSection() {
           transition={{ duration: 0.6, ease: "easeInOut" }}
           className="absolute inset-0 h-full w-full"
         >
-          <Image
+          <Image loading="lazy"
             src={items[currentIndex]?.carouselImage}
             alt={items[currentIndex]?.product?.name || "cta image"}
             fill

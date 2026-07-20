@@ -15,6 +15,7 @@ export type FeaturedProductCardProps = {
 };
 
 export default function FeaturedProductCard({
+  
   name,
   image,
   description,
@@ -37,12 +38,14 @@ export default function FeaturedProductCard({
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <Image
+          <Image 
+          loading="lazy"
             src={image}
             alt="Featured Product Image"
             fill
             sizes="(max-width: 768px) 100vw, 500px"
             className="object-cover"
+            unoptimized
           />
         </motion.div>
       </div>

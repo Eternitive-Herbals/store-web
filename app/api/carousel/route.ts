@@ -8,7 +8,7 @@ export async function GET() {
     await connectDB();
     const items = await CarouselItem.find({ isActive: true })
       .populate("product")
-      .sort({ order: 1, createdAt: -1 });
+      .sort({ order: 1, createdAt: -1 }).lean();
 
     return NextResponse.json(items, { status: 200 });
   } catch (err) {

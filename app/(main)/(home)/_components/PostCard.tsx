@@ -24,7 +24,7 @@ const PostCard = async ({ products }: { products: prod[] }) => {
         >
           {/* Image */}
           <div className="relative h-full w-[40%] min-w-62.5 shrink-0">
-            <Image
+            <Image loading="lazy"
               alt="prod"
               src={product.image}
               fill

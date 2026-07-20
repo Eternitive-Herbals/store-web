@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   try {
     await connectDB();
-    const blogs = await Blog.find().sort();
+    const blogs = await Blog.find().sort().lean();
     return NextResponse.json(blogs, { status: 200 });
   } catch (error) {
     return NextResponse.json(

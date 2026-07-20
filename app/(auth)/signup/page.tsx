@@ -158,7 +158,7 @@ if(data.user === "admin"){
         </button>
 
         <button className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border border-[#C4C4C4] py-1">
-          <Image src={GoogleImage} alt="Google-G-Logo" className="size-7" />
+          <Image loading="lazy" src={GoogleImage} alt="Google-G-Logo" className="size-7" />
           <span className="font-sf-pro-text text-sm text-black">
             Sign up with Google
           </span>

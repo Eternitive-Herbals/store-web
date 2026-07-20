@@ -46,7 +46,7 @@ export async function PUT(
     const category = await Category.findByIdAndUpdate(id, updateCategory, {
       new: true,
       runValidators: true,
-    });
+    }).lean();
 
     if (!category) {
       return NextResponse.json(
@@ -91,7 +91,7 @@ export async function DELETE(
       return NextResponse.json({ message: "Forbidden" }, { status: 403 });
     }
 
-    const category = await Category.findByIdAndDelete(id);
+    const category = await Category.findByIdAndDelete(id).lean;
 
     if (!category) {
       return NextResponse.json({ message: "Category not found" }, { status: 404 });

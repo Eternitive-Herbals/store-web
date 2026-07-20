@@ -26,13 +26,14 @@ export default function ProductGrid({ product }: ProductGridProps) {
       <div className="image-grid flex h-[720px]  gap-12 flex-row-reverse items-start justify-start pr-12">
         {selectedImage ? (
           <div className="relative aspect-[3/4] w-9/10 h-7/8 overflow-hidden rounded-2xl">
-            <Image
+            <Image 
               alt={product.name || "Product image"}
               src={selectedImage}
               fill
               priority
               sizes="(max-width: px) 100vw, 150vw"
               className="object-contain bg-zinc-200"
+              unoptimized
             />
           </div>
         ) : (
@@ -53,12 +54,13 @@ export default function ProductGrid({ product }: ProductGridProps) {
                     : "border-transparent hover:border-gray-300"
                 }`}
               >
-                <Image
+                <Image loading="lazy"
                   src={imgUrl}
                   alt={`${product.name || "Product"} thumbnail ${idx + 1}`}
                   fill
                   sizes="(max-width: 768px) 25vw, 120px"
                   className="object-cover"
+                  unoptimized
                 />
               </button>
             ))}

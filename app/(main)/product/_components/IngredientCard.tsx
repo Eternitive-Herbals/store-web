@@ -26,7 +26,7 @@ export default function IngredientCard({ ingredients }: IngredientCardProps) {
               <div key={ingredient._id || idx} className="flex items-center justify-between gap-5">
                 <div className="relative size-22 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
                   {ingredient.image ? (
-                    <Image
+                    <Image loading="lazy"
                       src={ingredient.image}
                       alt={ingredient.name || "Ingredient"}
                       fill

@@ -176,7 +176,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     >
                       <div className="flex items-center gap-3.5 min-w-0">
                         <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-zinc-800 shrink-0 border border-white/10">
-                          <Image
+                          <Image loading="lazy"
                             src={imageSrc}
                             alt={product.name}
                             fill

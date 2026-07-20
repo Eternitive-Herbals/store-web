@@ -29,7 +29,7 @@ const [products,setProducts] = useState<Product[]>([])
 
   return (
     <section className=" h-fit md:h-[230dvh] relative flex snap-start flex-col items-start sm:items-center text-left sm:text-center gap-6 sm:gap-16 px-4 sm:px-24 py-20 sm:py-48">
-      <Image
+      <Image loading="lazy"
         src={BackgroundTexture}
         alt="Background Texture"
         fill
@@ -50,7 +50,7 @@ const [products,setProducts] = useState<Product[]>([])
           price={product.price}
           href={`/product/${product._id}`}
         />
-      ))}
+      ))} 
     </section>
   );
 }

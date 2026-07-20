@@ -4,7 +4,7 @@ import ProductBgImage from "@/assets/products-sample-image-1.png";
 export default function HeroSection() {
   return (
     <div className="relative flex justify-end px-24 pt-42 pb-24">
-      <Image
+      <Image 
         src={ProductBgImage}
         alt="product-image"
         fill

@@ -38,7 +38,7 @@ export default function ReviewCard({
           <div className="flex items-center gap-3">
             {/* Avatar */}
             <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-stone-200">
-              <Image
+              <Image loading="lazy"
                 src={authorAvatar || image || defaultAvatar}
                 alt={authorName || author || "User avatar"}
                 fill
@@ -96,7 +96,7 @@ export default function ReviewCard({
       {/* Review Image */}
       {image ? (
         <div className="relative mt-1 h-[110px] w-full shrink-0 overflow-hidden rounded-2xl bg-stone-50">
-          <Image
+          <Image loading="lazy"
             src={image}
             alt="Customer review photo"
             fill

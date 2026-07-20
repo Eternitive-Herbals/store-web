@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { ImagePlus, StarIcon, X } from "lucide-react";
+import { ImagePlus, Plus, StarIcon, X } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { createReview } from "@/lib/reviewAction";
 import { uploadImage } from "@/lib/uploadImage";
@@ -130,7 +130,7 @@ export default function CreateReview({ productId, onReviewCreated }: CreateRevie
             />
             {imagePreview ? (
               <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-[#E5E7EB]">
-                <Image
+                <Image loading="lazy"
                   src={imagePreview}
                   alt="Review preview"
                   fill
@@ -151,7 +151,7 @@ export default function CreateReview({ productId, onReviewCreated }: CreateRevie
                 onClick={() => fileInputRef.current?.click()}
                 className="flex items-center gap-2 text-[#4A5565] hover:text-[#1B1B1B] transition-colors cursor-pointer text-sm"
               >
-                <ImagePlus size={20} />
+                <Plus size={20} />
                 Add a photo
               </button>
             )}

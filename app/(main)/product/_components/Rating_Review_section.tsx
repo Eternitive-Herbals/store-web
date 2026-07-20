@@ -27,7 +27,7 @@ export default function Rating_Review_section({ productId }: Props) {
 
   return (
     <section className="min-h-screen-2 relative flex snap-start flex-col items-center gap-16 px-24 py-48">
-      <Image
+      <Image loading="lazy"
         src={BackgroundTexture}
         alt="Background Texture"
         fill
@@ -42,7 +42,7 @@ export default function Rating_Review_section({ productId }: Props) {
         <RatingSection reviews={reviews} />
 
         <CreateReview productId={productId} onReviewCreated={fetchReviews} />
-        <Image
+        <Image loading="lazy"
           src={FooterElementalIcons}
           alt="Elemental Icons"
           className="mx-auto"

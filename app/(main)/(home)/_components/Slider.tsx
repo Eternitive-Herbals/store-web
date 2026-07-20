@@ -56,7 +56,7 @@ const Slider = ({ slides }: { slides: Slide[] }) => {
       >
         {extendedSlides.map((slide, idx) => (
           <div key={idx} className="relative h-screen min-w-full">
-            <Image
+            <Image loading="lazy"
               src={slide.href}
               alt={slide.name}
               fill

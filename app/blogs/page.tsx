@@ -36,7 +36,7 @@ export default function Page() {
               key={index}
               className="mt-2 rounded-2xl bg-white p-5 shadow-2xl duration-300 hover:scale-105"
             >
-              <Image
+              <Image loading="lazy"
                 src={blog.image}
                 alt="blog image"
                 width={400}

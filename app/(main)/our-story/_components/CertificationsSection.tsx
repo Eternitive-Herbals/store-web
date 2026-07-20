@@ -15,14 +15,14 @@ export default function CertificationsSection() {
       </h2>
       <div className="flex flex-wrap items-center justify-center gap-7">
         {certs.map((cert, idx) => (
-          <Image
+          <Image loading="lazy"
             alt={`${cert} certificate`}
             src={cert}
             key={idx}
             // size={100}
             className="h-[72px] w-[72px] md:h-fit md:w-fit object-contain"
             unoptimized
-            priority
+            
           />
         ))}
       </div>

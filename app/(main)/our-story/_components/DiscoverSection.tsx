@@ -8,7 +8,7 @@ export default function DiscoverSection() {
         {/* Logo Card */}
         <div className="flex w-full md:w-fit h-[300px] md:h-[424px] items-center justify-center rounded-[32px] bg-[#F3F4F0] p-6">
           <div className="flex items-center gap-4 md:gap-[35px] w-fit max-w-full md:w-[564.37px] md:h-[121px]">
-            <Image
+            <Image loading="lazy"
               src={Logo}
               alt="Aethery logo"
               className="w-[80px] h-[80px] md:w-[121px] md:h-[121px] object-contain"

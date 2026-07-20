@@ -159,7 +159,7 @@ export default function CartPage() {
           {cart.map((item, index) => (
             <div className="w-full rounded-t-4xl px-8 pt-8" key={index}>
               <div className="flex h-fit items-start gap-6 p-4">
-                <Image
+                <Image loading="lazy"
                   src={item.image}
                   alt="items-image"
                   width={200}

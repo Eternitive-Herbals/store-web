@@ -114,7 +114,7 @@ export default function ChatbotWidget() {
         }`}
       >
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-[2rem]">
-            <Image
+            <Image loading="lazy"
             src={BackgroundTexture}
             alt="Background Texture"
             fill

@@ -3,7 +3,7 @@ import StoryBg from "@/assets/our-story-bg.png";
 export default function HeroSection() {
   return (
     <section className="relative flex h-[567px] items-center justify-center overflow-hidden bg-primary-background">
-      <Image
+      <Image loading="lazy"
         src={StoryBg}
         alt="Background Texture"
         fill

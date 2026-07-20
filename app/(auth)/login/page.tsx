@@ -159,7 +159,7 @@ if(data.user === "Admin"){
           disabled={loading}
           className="shadow-foreground/25 flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border border-[#747775] bg-white px-3 py-1.5 transition-all hover:-translate-y-px hover:shadow-md active:translate-y-0 active:shadow-none disabled:translate-y-0 disabled:cursor-not-allowed disabled:shadow-none"
         >
-          <Image src={GoogleImage} alt="Google-G-Logo" className="size-6" />
+          <Image loading="lazy" src={GoogleImage} alt="Google-G-Logo" className="size-6" />
           <span className="text-lg text-black">Sign in with Google</span>
         </button>
 

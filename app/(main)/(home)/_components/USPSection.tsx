@@ -26,7 +26,7 @@ export default function USPSection() {
 
   return (
     <section className="relative flex min-h-dvh snap-start flex-col items-center justify-between overflow-hidden bg-[#1B1B1B] px-[calc(100dvw/24)] py-20 text-white">
-      <Image
+      <Image loading="lazy"
         src={BackgroundTexture}
         alt="Background Texture"
         fill

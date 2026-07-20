@@ -35,7 +35,7 @@ export default function ShopByGoal() {
           {goals.map((goal, idx) => (
             <div key={idx} className="flex flex-col items-center gap-3">
               <div className="relative h-37 w-37 overflow-hidden rounded-full">
-                <Image
+                <Image loading="lazy"
                   src={goal.image}
                   alt={goal.title}
                   fill

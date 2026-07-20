@@ -17,7 +17,7 @@ export default function HeaderActions({ onSearch }: Props) {
   const isAdmin = user?.role === "Admin";
 
   return (
-    <div className="hidden items-center gap-2 lg:flex">
+    <div className="hidden items-center gap-2 lg:flex  text-background">
       <button
         aria-label="Search"
         onClick={onSearch}

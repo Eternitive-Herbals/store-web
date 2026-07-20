@@ -54,7 +54,7 @@ export default function AdminLayout({
           {/* Header / Logo */}
           <div className="flex items-center justify-between  ">
             <Link className="flex items-center gap-3 group" href={"/"}>
-                <Image
+                <Image loading="lazy"
                   src={Logo}
                   alt="Aethery logo"
                   className="size-6 object-contain opacity-90 transition-opacity group-hover:opacity-100"

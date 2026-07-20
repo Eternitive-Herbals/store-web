@@ -118,7 +118,7 @@ export default function ContactPage() {
           </form>
         </div>
       </div>
-       <Image
+       <Image loading="lazy"
         src={BackgroundTexture}
         alt="Background Texture" 
         fill

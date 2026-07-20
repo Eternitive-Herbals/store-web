@@ -7,7 +7,7 @@ export default function AuthLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <main className="relative flex min-h-screen">
-      <Image
+      <Image loading="lazy"
         src={BackgroundTexture}
         alt="background texture"
         fill
@@ -15,7 +15,7 @@ export default function AuthLayout({
       />
 
       <div className="relative flex-1">
-        <Image src={BgImage} alt="Product" fill className="object-cover" />
+        <Image loading="lazy" src={BgImage} alt="Product" fill className="object-cover" />
         <div
           className="absolute inset-0 rounded-tr-4xl rounded-br-4xl"
           style={{

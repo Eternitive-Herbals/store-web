@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 export default function NotFound() {
   return (
     <main className="relative flex min-h-dvh flex-col items-center justify-center">
-      <Image
+      <Image loading="lazy"
         src={BackgroundTexture}
         alt="background texture"
         fill
