@@ -1,15 +1,11 @@
 "use client";
-
 import { useState } from "react";
 import { uploadImage } from "@/lib/uploadImage";
 import { toast } from "sonner";
-
 export default function UploadTest() {
   const [file, setFile] = useState<File | null>(null);
-
   const handleUpload = async () => {
     if (!file) return;
-
     try {
       const url = await uploadImage(file);
       console.log("Uploaded URL:", url);
@@ -19,7 +15,6 @@ export default function UploadTest() {
       toast.error("Upload failed");
     }
   };
-
   return (
     <div>
       <input

@@ -1,5 +1,4 @@
 "use client";
-
 import {  useMemo, useState } from "react";
 import {
   useReactTable,
@@ -13,15 +12,12 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 import { rankItem } from "@tanstack/match-sorter-utils";
-
 import "../../app/globals.css";
-
 import TableSearch from "./TableSearch";
 import TablePagination from "./TablePagination";
 import { selectionColumn } from "./columns/selectionColumn";
 import { actionColumn } from "./columns/actionColumn";
 import TableBody from "./TableBody";
-
 type Props<T> = {
   data: T[];
   columns: ColumnDef<T>[];
@@ -34,14 +30,12 @@ type Props<T> = {
   LeftSection?: React.ReactNode;
   onRowClick?: (row: T) => void;
 };
-
 // ✅ Fuzzy filter stays here (logic layer)
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   const itemRank = rankItem(String(row.getValue(columnId)), value);
   addMeta({ itemRank });
   return itemRank.passed;
 };
-
 export default function EnhancedTable<T>({
   data,
   columns,
@@ -61,9 +55,7 @@ export default function EnhancedTable<T>({
     pageIndex: 0,
     pageSize,
   });
-
   const selectedCount = Object.keys(rowSelection).length;
-
   // ✅ COLUMNS COMPOSITION
   const finalColumns = useMemo(() => {
   return [
@@ -72,8 +64,6 @@ export default function EnhancedTable<T>({
     ...(enableActions ? [actionColumn<T>(onRowAction)] : []),
   ];
 }, [columns, enableRowSelection, enableActions, onRowAction]);
-
-
   const table = useReactTable<T>({
     data,
     columns: finalColumns,
@@ -96,9 +86,7 @@ export default function EnhancedTable<T>({
     getPaginationRowModel: getPaginationRowModel(),
     autoResetPageIndex: false,
   });
-
   const totalRows = table.getFilteredRowModel().rows.length;
-
   return (
     <div className="flex h-full flex-col rounded-xl  bg-none font-sf-pro-text ">
       {/* 🔹 HEADER */}
@@ -111,12 +99,10 @@ export default function EnhancedTable<T>({
             <p className="mt-1 text-sm text-foreground/60 font-sf-pro-text">{description}</p>
           )}
         </div>
-
         {/* 🔹 SEARCH + SELECTION */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <TableSearch value={globalFilter} onChange={setGlobalFilter} />
           <div className="flex items-center gap-2">
-
        {LeftSection}
           {enableRowSelection && selectedCount > 0 && (
             <div className="bg-primary-background hover:bg-primary-background/90 ml-2 flex items-center gap-2 rounded-full px-4 py-2.5 text-sm text-white">
@@ -134,7 +120,6 @@ export default function EnhancedTable<T>({
           </div>
         </div>
       </div>
-
       {/* 🔹 TABLE */}
       <div className="flex-1 overflow-auto pb-16">
         <table className="w-full ">
@@ -161,7 +146,6 @@ className={`px-6 py-3 text-left text-xs font-semibold text-foreground uppercase 
     header.column.columnDef.header,
     header.getContext(),
   )}
-
   {{
     asc: "↑",
     desc: "↓",
@@ -172,11 +156,9 @@ className={`px-6 py-3 text-left text-xs font-semibold text-foreground uppercase 
               </tr>
             ))}
           </thead>
-
           <TableBody table={table} columnCount={finalColumns.length} onRowClick={onRowClick} />
         </table>
       </div>
-
       {/* 🔹 PAGINATION */}
       <div className="bg-primary-background/10 text-foreground px-6 py-4">
         <TablePagination table={table} totalRows={totalRows} />

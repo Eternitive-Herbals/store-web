@@ -1,7 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { OrderType } from "@/types/OrderType";
-
-
 export const orderColumns: ColumnDef<OrderType>[] = [
   {
     accessorKey: "id",
@@ -11,7 +9,6 @@ export const orderColumns: ColumnDef<OrderType>[] = [
       return <span className="text-xs font-light text-sf-pro-text text-black hover:underline">{id}</span>;
     },
   },
-
   {
     accessorKey: "username",
     header: "Customer",
@@ -46,7 +43,6 @@ export const orderColumns: ColumnDef<OrderType>[] = [
       if (status === "paid") colorClass = "bg-green-100 text-green-800";
       if (status === "pending") colorClass = "bg-yellow-100 text-yellow-800";
       if (status === "failed") colorClass = "bg-red-100 text-red-800";
-
       return (
         <span className={`px-2 py-1 rounded-full text-xs font-medium ${colorClass}`}>
           {status.charAt(0).toUpperCase() + status.slice(1)}

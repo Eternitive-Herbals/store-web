@@ -1,9 +1,7 @@
 "use client";
-
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import "@/app/globals.css";
-
 type DropdownGenericProps = {
   options: string[];
   value?: string;
@@ -12,7 +10,6 @@ type DropdownGenericProps = {
   onChange?: (value: string) => void;
   className?: string;
 };
-
 export default function DropdownGeneric({
   options,
   value,
@@ -26,14 +23,12 @@ export default function DropdownGeneric({
   // Set default selected to value if provided, else the first option
   const [selected, setSelected] = useState(value);
   const ref = useRef<HTMLDivElement>(null);
-
   // Sync internal state if the value prop changes from outside
   useEffect(() => {
     if (value !== undefined) {
       setSelected(value);
     }
   }, [value]);
-
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -43,13 +38,11 @@ export default function DropdownGeneric({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
   const handleSelect = (item: string) => {
     setSelected(item);
     onChange?.(item);
     setOpen(false);
   };
-
   return (
     <div ref={ref} className={`relative w-fit font-sf-pro-text text-sm `}>
       
@@ -65,7 +58,6 @@ export default function DropdownGeneric({
           <ChevronDown className="size-5 " />
         </span>
       </button>
-
       {/* Menu */}
       {open && (
         <div className="absolute z-10 mt-1.5 w-fit left-1/2 -translate-x-1/2 rounded-xl text-nowrap p-1 border border-foreground/10 bg-white overflow-hidden shadow-lg">

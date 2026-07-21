@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import {
   useReactTable,
@@ -16,18 +15,15 @@ import { rankItem } from "@tanstack/match-sorter-utils";
 import { OrderType } from "@/types/OrderType";
 import { Row } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
-
 const fuzzyFilter: FilterFn<OrderType> = (row, columnId, value, addMeta) => {
   const itemRank = rankItem(String(row.getValue(columnId)), value);
   addMeta({ itemRank });
   return itemRank.passed;
 };
-
 function BasicTable({
   data,
   columns,
   pageSize = 10,
-
   enableRowSelection = false,
   enableActions = false,
 }: {
@@ -39,14 +35,11 @@ function BasicTable({
 }) {
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
-
   const [sorting, setSorting] = useState<SortingState>([]);
-
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize,
   });
-
   const selectionColumn: ColumnDef<OrderType> = {
     id: "select",
     header: ({ table }) => (
@@ -64,14 +57,12 @@ function BasicTable({
       />
     ),
   };
-
   const actionColumn: ColumnDef<OrderType> = {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => (
       <div className="relative">
         <button className="border px-2 py-1">⋮</button>
-
         {/* Replace with dropdown if using shadcn */}
         <div className="absolute hidden border bg-white p-2 group-hover:block">
           <button onClick={() => console.log("View", row.original)}>
@@ -87,7 +78,6 @@ function BasicTable({
       </div>
     ),
   };
-
   const finalColumns = [
     ...(enableRowSelection ? [selectionColumn] : []),
     ...columns,
@@ -95,14 +85,12 @@ function BasicTable({
   ];
   const table = useReactTable<OrderType>({
     data,
-
     columns: finalColumns,
     filterFns: {
       fuzzy: fuzzyFilter,
     },
     enableRowSelection: enableRowSelection,
     onRowSelectionChange: setRowSelection,
-
     state: {
       globalFilter,
       sorting,
@@ -111,7 +99,6 @@ function BasicTable({
     },
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: fuzzyFilter,
-
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
@@ -120,11 +107,9 @@ function BasicTable({
     getPaginationRowModel: getPaginationRowModel(),
     autoResetPageIndex: false,
   });
-
   const isRowHighlighted = (row: Row<OrderType>) => {
     return row.index % 2 !== 0;
   };
-
   return (
     <div className="p-4">
       <input
@@ -134,7 +119,6 @@ function BasicTable({
         placeholder="Search..."
         className="mb-4 w-full max-w-xs rounded border p-2"
       />
-
       <table className="w-full">
         <thead className="">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -153,7 +137,6 @@ function BasicTable({
                           header.column.columnDef.header,
                           header.getContext(),
                         )}
-
                     {{
                       asc: <ChevronUp size={16} />,
                       desc: <ChevronDown size={16} />,
@@ -164,7 +147,6 @@ function BasicTable({
             </tr>
           ))}
         </thead>
-
         <tbody>
           {table.getRowModel().rows.length === 0 ? (
             <tr>
@@ -188,7 +170,6 @@ function BasicTable({
           )}
         </tbody>
       </table>
-
       <div className="mt-4 flex items-center justify-between">
         <div className="flex gap-2">
           <button
@@ -198,7 +179,6 @@ function BasicTable({
           >
             {"<<"}
           </button>
-
           <button
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
@@ -206,7 +186,6 @@ function BasicTable({
           >
             {"<"}
           </button>
-
           <button
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
@@ -214,7 +193,6 @@ function BasicTable({
           >
             {">"}
           </button>
-
           <button
             onClick={() => table.lastPage()}
             disabled={!table.getCanNextPage()}
@@ -223,7 +201,6 @@ function BasicTable({
             {">>"}
           </button>
         </div>
-
         <span>
           Page{" "}
           <strong>
@@ -235,5 +212,4 @@ function BasicTable({
     </div>
   );
 }
-
 export default BasicTable;

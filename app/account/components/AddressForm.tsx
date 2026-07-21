@@ -1,5 +1,4 @@
 import React from "react";
-
 type AddressFormProps = {
   formData: any;
   setFormData: (data: any) => void;
@@ -8,7 +7,6 @@ type AddressFormProps = {
   loading: boolean;
   editingId: string | null;
 };
-
 export default function AddressForm({
   formData,
   setFormData,

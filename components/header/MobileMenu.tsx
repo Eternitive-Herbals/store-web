@@ -1,56 +1,37 @@
 "use client";
-
 import { Menu, X, Search, ShoppingBag, User, UserStar } from "lucide-react";
-
 import Link from "next/link";
-
 import { NAVIGATION } from "./navigation";
-
 import { useEffect } from "react";
-
 import { AnimatePresence, motion } from "motion/react";
-
 import { useRouter, usePathname } from "next/navigation";
-
 import { useAuth } from "@/context/AuthContext";
-
 interface Props {
   open: boolean;
   setOpen(value: boolean): void;
   onSearch(): void;
 }
-
 export default function MobileMenu({ open, setOpen, onSearch }: Props) {
   const router = useRouter();
-
   const pathname = usePathname();
-
   const { isLoggedIn, user } = useAuth();
-
   const isAdmin = user?.role === "Admin";
-
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-
     return () => {
       document.body.style.overflow = "";
     };
   }, [open]);
-
   useEffect(() => {
     setOpen(false);
   }, [pathname, setOpen]);
-
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
-
     window.addEventListener("keydown", handler);
-
     return () => window.removeEventListener("keydown", handler);
   }, [setOpen]);
-
   return (
     <>
       <div className="flex items-center gap-1 lg:hidden text-background">
@@ -60,14 +41,12 @@ export default function MobileMenu({ open, setOpen, onSearch }: Props) {
         >
           <Search size={20} />
         </button>
-
         <Link
           href="/cart"
           className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-white/10"
         >
           <ShoppingBag size={20} />
         </Link>
-
         <button
           onClick={() => setOpen(true)}
           className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-white/10"
@@ -75,7 +54,6 @@ export default function MobileMenu({ open, setOpen, onSearch }: Props) {
           <Menu />
         </button>
       </div>
-
       <AnimatePresence>
         {open && (
           <>
@@ -86,7 +64,6 @@ export default function MobileMenu({ open, setOpen, onSearch }: Props) {
               onClick={() => setOpen(false)}
               className="fixed inset-0 bg-black/50"
             />
-
             <motion.aside
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
@@ -102,7 +79,6 @@ export default function MobileMenu({ open, setOpen, onSearch }: Props) {
                   <X />
                 </button>
               </div>
-
               <nav className="mt-12 flex flex-col gap-6">
                 {NAVIGATION.map((item) => (
                   <Link key={item.href} href={item.href} className="text-lg">
@@ -110,7 +86,6 @@ export default function MobileMenu({ open, setOpen, onSearch }: Props) {
                   </Link>
                 ))}
               </nav>
-
               <div className="mt-12 flex flex-col gap-5">
                 <button
                   onClick={() =>
@@ -121,7 +96,6 @@ export default function MobileMenu({ open, setOpen, onSearch }: Props) {
                   <User />
                   Account
                 </button>
-
                 {isAdmin && (
                   <button
                     onClick={() => router.push("/admin/products")}

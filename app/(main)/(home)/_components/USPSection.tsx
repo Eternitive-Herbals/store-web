@@ -1,7 +1,6 @@
 import Image from "next/image";
 import BackgroundTexture from "@/assets/background-texture-white-2.svg";
 import USPCard, { USPCardProps } from "./USPCard";
-
 export default function USPSection() {
   const cards: USPCardProps[] = [
     {
@@ -23,7 +22,6 @@ export default function USPSection() {
       bgColour: "#AE8363",
     },
   ];
-
   return (
     <section className="relative flex min-h-dvh snap-start flex-col items-center justify-between overflow-hidden bg-[#1B1B1B] px-[calc(100dvw/24)] py-20 text-white">
       <Image loading="lazy"
@@ -32,14 +30,12 @@ export default function USPSection() {
         fill
         className="object-cover opacity-5"
       />
-
       <div className="font-comfortaa z-10 flex flex-col gap-2 text-center">
         <span className="text-4xl font-bold">Why Choose Us</span>
         <span className="text-xl opacity-75">
           We Help You Prioritize Your Health
         </span>
       </div>
-
       <div className="z-10 flex flex-col mt-10 md:flex-row gap-16">
         {cards.map((card, index) => (
           <USPCard key={index} {...card} />

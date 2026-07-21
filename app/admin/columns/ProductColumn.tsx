@@ -1,8 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ProductType } from "@/types/ProductType";
 import "@/app/globals.css"
-
-
 export const productColumns: ColumnDef<ProductType>[] = [
   {
   accessorKey: "image",
@@ -10,7 +8,6 @@ export const productColumns: ColumnDef<ProductType>[] = [
   cell: ({ row }) => { 
     const imagesList = (row.original.images?.length ? row.original.images : (row.original.image ? [row.original.image] : [])).filter(Boolean);
     const displayImage = imagesList[0] || null;
-
     return (
       <div className="flex items-center">
         {displayImage ? (
@@ -86,11 +83,9 @@ export const productColumns: ColumnDef<ProductType>[] = [
     header: "Category",
   cell: ({ row }) => {
     const categories = row.original.category;
-
     if (!categories || categories.length === 0) {
       return "—";
     }
-
     return categories.map((cat: any) => cat.name).join(", ");
   },
 },
@@ -99,11 +94,9 @@ export const productColumns: ColumnDef<ProductType>[] = [
   header:"Goal",
   cell: ({ row }) => {
     const goals = row.original.goal;
-
     if (!goals || goals.length === 0) {
       return "—";
     }
-
     return goals.map((goal: any) => goal.name).join(", ");
   },
 },

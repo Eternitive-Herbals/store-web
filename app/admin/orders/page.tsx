@@ -1,30 +1,23 @@
 "use client";
-
 import { useState } from "react";
 import { useOrderFilters } from "./hooks/useOrderFilters";
 import { useOrders } from "./hooks/useOrders";
 import { orderHandlers } from "./handlers/orderHandlers";
-
 import OrderTableSection from "./components/OrderTableSection";
 import OrderModals from "./components/OrderModals";
 import { OrderType } from "@/types/OrderType";
-
 export default function OrdersPage() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [selectedOrder, setSelectedOrder] = useState<OrderType | null>(null);
-
   const [openView, setOpenView] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-
   const { filters, setFilters } = useOrderFilters();
   const { orders } = useOrders(filters, refreshKey);
-
   const { handleUpdate, handleDelete } = orderHandlers({
     setRefreshKey,
     setOpenEditModal: setOpenEdit,
     selectedOrder,
   });
-
   const handleRowAction = (action: string, row: OrderType) => {
     if (action === "view") {
       setSelectedOrder(row);
@@ -53,7 +46,6 @@ export default function OrdersPage() {
           setOpenView(true);
         }}
       />
-
       <OrderModals
         selectedOrder={selectedOrder}
         openView={openView}

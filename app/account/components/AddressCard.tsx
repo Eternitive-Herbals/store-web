@@ -1,6 +1,5 @@
 import React from "react";
 import { MapPinHouse, CheckCircle } from "lucide-react";
-
 type AddressCardProps = {
   address: any;
   onEdit: (address: any) => void;
@@ -8,7 +7,6 @@ type AddressCardProps = {
   onSetPrimary: () => void;
   isPrimary: boolean;
 };
-
 export default function AddressCard({ address, onEdit, onDelete, onSetPrimary, isPrimary }: AddressCardProps) {
   return (
     <div className={`flex min-h-60 w-full items-start gap-5 rounded-xl border p-6 bg-white shadow-sm hover:shadow-md transition-all ${isPrimary ? 'border-green-500 shadow-green-100' : 'border-primary-background/20'}`}>

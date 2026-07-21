@@ -1,24 +1,20 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Search, X, Loader2, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProductType } from "@/types/ProductType";
-
 interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
 export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ProductType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-
   useEffect(() => {
     if (isOpen) {
       const timer = setTimeout(() => {
@@ -30,14 +26,12 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       setResults([]);
     }
   }, [isOpen]);
-
   useEffect(() => {
     if (!query.trim()) {
       setResults([]);
       setIsLoading(false);
       return;
     }
-
     setIsLoading(true);
     const delayDebounceFn = setTimeout(async () => {
       try {
@@ -57,10 +51,8 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
         setIsLoading(false);
       }
     }, 300);
-
     return () => clearTimeout(delayDebounceFn);
   }, [query]);
-
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -70,12 +62,10 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
-
   const handleResultClick = (productId: string) => {
     onClose();
     router.push(`/product/${productId}`);
   };
-
   const popularSearches = [
     { label: "Protein", query: "protein" },
     { label: "Whey", query: "whey" },
@@ -83,9 +73,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     { label: "Weight Loss", query: "loss" },
     { label: "Energy", query: "energy" },
   ];
-
   if (!isOpen) return null;
-
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-24 md:pt-32">
@@ -96,7 +84,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           onClick={onClose}
           className="fixed inset-0 bg-primary-background/1 backdrop-blur-2xs cursor-pointer"
         />
-
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: -20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -124,7 +111,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               </button>
             )}
           </div>
-
           <div className="flex-1 overflow-y-auto p-4 min-h-[150px] max-h-[50vh] scrollbar-thin">
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-12 text-background gap-3">
@@ -151,7 +137,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     ))}
                   </div>
                 </div>
-
                 <div className="border-t border-white/5 pt-4 text-xs text-background font-light flex items-center gap-2">
                   <span className="inline-block w-2 h-2 rounded-full bg-foreground animate-pulse" />
                   Tip: You can search directly by ingredients (e.g. &apos;creatine&apos;) or health goals (e.g. &apos;weight loss&apos;).
@@ -167,7 +152,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     product.images && product.images.length > 0
                       ? product.images[0]
                       : product.image || "/images/placeholder.jpg";
-
                   return (
                     <div
                       key={product._id}
@@ -211,7 +195,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                           </div>
                         </div>
                       </div>
-
                       <div className="flex items-center gap-2 shrink-0">
                         <span className="text-sm font-semibold text-white/90 group-hover:text-white">
                           ₹{product.price}

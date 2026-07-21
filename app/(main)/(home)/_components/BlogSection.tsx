@@ -3,7 +3,6 @@ type card = {
   title: string;
   desc: string;
 };
-
 export default function BlogSection() {
   const cards: card[] = [
     {
@@ -22,7 +21,6 @@ export default function BlogSection() {
       desc: "Workout ideas, recovery tips, and easy ways to stay active at home.",
     },
   ];
-
   return (
     <div className="h-dvh w-full snap-start bg-[#F9F8F6] py-16 sm:py-24 md:py-32 lg:py-42">
       {/* Header */}
@@ -38,7 +36,6 @@ export default function BlogSection() {
           </span>
         </div>
       </div>
-
       {/* Cards */}
       <div className="mt-12 flex flex-col items-center gap-8 px-4 sm:mt-16 sm:flex-row sm:flex-wrap sm:justify-center md:mt-20 lg:mt-33 lg:flex-nowrap lg:gap-15">
         {cards.map((card) => (
@@ -54,7 +51,6 @@ export default function BlogSection() {
                 {card.desc}
               </p>
             </div>
-
             <button className="mt-6 h-11 w-40 rounded-full border border-white/40 bg-[#1B1B1B] px-6 py-2 text-sm text-white transition hover:bg-white hover:text-black sm:w-44 lg:h-13.5 lg:w-48.5">
               Learn More
             </button>

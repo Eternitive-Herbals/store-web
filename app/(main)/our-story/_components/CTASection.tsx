@@ -1,11 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import { ArrowRight } from "lucide-react";
 import WellnessJourneyBg from "@/assets/wellnessjourney.jpg";
 import WhyAethery from "@/assets/Why aethery.svg"
-
-
 export default function CTASection() {
   return (
     <section className="relative bg-primary-background h-[1024px] flex items-center justify-center py-12 xl:py-0">

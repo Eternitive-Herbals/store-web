@@ -6,7 +6,6 @@ import CertificationsSection from "./_components/CertificationsSection";
 import OurTeamSection from "./_components/OurTeamSection";
 import FAQSection from "./_components/FAQSection";
 import CTASection from "./_components/CTASection";
-
 export default function OurStoryPage() {
   return (
     <>

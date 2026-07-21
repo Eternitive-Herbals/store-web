@@ -1,10 +1,8 @@
 "use client";
-
 import { X, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { OrderType } from "@/types/OrderType";
 import { toast } from "sonner";
-
 export default function OrderModal({
   open,
   onClose,
@@ -22,7 +20,6 @@ export default function OrderModal({
   const [status, setStatus] = useState("pending");
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     if (open && initialData) {
       setShippingAddress(initialData.shippingAddress || "");
@@ -30,25 +27,19 @@ export default function OrderModal({
       setItems(initialData.items || []);
     }
   }, [open, initialData]);
-
   const totalAmount = items.reduce((acc, item) => acc + (item.quantity * item.price), 0);
-
   const isView = mode === "view";
-
   if (!open || !initialData) return null;
-
   const handleQuantityChange = (idx: number, newQuantity: number) => {
     if (newQuantity < 1) return;
     const newItems = [...items];
     newItems[idx].quantity = newQuantity;
     setItems(newItems);
   };
-
   const handleDeleteItem = (idx: number) => {
     const newItems = items.filter((_, i) => i !== idx);
     setItems(newItems);
   };
-
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -67,14 +58,12 @@ export default function OrderModal({
       setLoading(false);
     }
   };
-
   return (
     <div className="text-sf-pro-text fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
         className="bg-foreground/5 absolute inset-0 backdrop-blur-sm"
         onClick={onClose}
       />
-
       <div className="relative w-full max-w-2xl max-h-[90vh] rounded-xl bg-white p-6 shadow-xl flex flex-col">
         <button
           onClick={onClose}
@@ -82,11 +71,9 @@ export default function OrderModal({
         >
           <X size={18} color="background" />
         </button>
-
         <h2 className="text-foreground mb-6 text-2xl font-bold">
           {isView ? "Order Details" : "Edit Order Status"}
         </h2>
-
         <div className="flex-1 overflow-y-auto pr-2 space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -101,7 +88,6 @@ export default function OrderModal({
               </p>
             </div>
           </div>
-
           <div className="space-y-4  pt-4">
             <div>
               <label className="text-sm font-semibold text-foreground mb-1 block">
@@ -115,7 +101,6 @@ export default function OrderModal({
                 rows={3}
               />
             </div>
-
             <div>
               <label className="text-sm font-semibold text-foreground mb-1 block">
                 Order Status
@@ -132,7 +117,6 @@ export default function OrderModal({
               </select>
             </div>
           </div>
-
           <div className=" pt-4">
             <h3 className="text-sm font-semibold text-foreground mb-3">Order Items</h3>
             <div className="space-y-3">
@@ -185,7 +169,6 @@ export default function OrderModal({
             </div>
           </div>
         </div>
-
         <div className="mt-6 flex justify-end gap-3  pt-4">
           <button
             onClick={onClose}

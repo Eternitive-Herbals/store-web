@@ -1,11 +1,9 @@
 "use client";
-
 import { X } from "lucide-react";
 import { useState, useEffect } from "react";
 import "@/app/globals.css";
 import ImageUpload from "./ImageUpload";
 import { useImageUpload } from "./useImageUpload";
-
 export default function Modal({
   open,
   onClose,
@@ -25,7 +23,6 @@ export default function Modal({
 }) {
   const [value, setValue] = useState("");
   const [description, setDescription] = useState("");
-
   const {
     file,
     setFile,
@@ -36,7 +33,6 @@ export default function Modal({
     handleUpload,
     handleDelete,
   } = useImageUpload();
-
   useEffect(() => {
     if (open && initialData) {
       setValue(initialData.name || "");
@@ -50,37 +46,28 @@ export default function Modal({
       setFile(null);
     }
   }, [open, initialData, setPreviewUrl, setFile]);
-
   if (!open) return null;
-
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!value.trim() || uploading) return;
-
     onCreate(
       value,
       previewUrl || undefined,
       hasDescription ? description : undefined
     );
-
     onClose();
   };
-
   const isEdit = !!initialData;
-
   const showImageUpload =
     isImageUpload ||
     (typeof open === "string" &&
       (open.includes("ingredient") || open.includes("goal")));
-
   return (
     <div className="text-sf-pro-text fixed inset-0 z-50 flex items-center justify-center">
       <div
         className="bg-foreground/5 absolute inset-0 backdrop-blur-sm"
         onClick={onClose}
       />
-
       <form
         onSubmit={handleCreate}
         onClick={(e) => e.stopPropagation()} // ✅ prevent close on inside click
@@ -93,7 +80,6 @@ export default function Modal({
         >
           <X size={18} color="background" />
         </button>
-
         {showImageUpload && (
           <ImageUpload
             file={file}
@@ -105,11 +91,9 @@ export default function Modal({
             onDelete={handleDelete}
           />
         )}
-
         <h2 className="text-foreground mb-4 text-lg font-semibold">
           {isEdit ? `Edit ${title}` : `${title} Name`}
         </h2>
-
         <input
           type="text"
           placeholder={`Enter ${title?.toLowerCase()} name`}
@@ -118,7 +102,6 @@ export default function Modal({
           onChange={(e) => setValue(e.target.value)}
           className="border-foreground/20 focus:border-foreground/60 w-full rounded-lg border-2 px-3 py-2 text-sm outline-none mb-4"
         />
-
         {hasDescription && (
           <>
           <h2 className="text-foreground mb-4 text-lg font-semibold">
@@ -133,7 +116,6 @@ export default function Modal({
           />
           </>
         )}
-
         <div className="mt-5 flex justify-end">
           <button
             type="submit"

@@ -1,5 +1,4 @@
 "use client";
-
 import SampleImage1 from "@/assets/product-sample-image-1.png";
 import SampleImage2 from "@/assets/prod2.png";
 import SampleImage3 from "@/assets/prod3.png";
@@ -9,7 +8,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
-
 const DEFAULT_CAROUSEL_ITEMS = [
   {
     carouselImage: SampleImage1,
@@ -44,11 +42,9 @@ const DEFAULT_CAROUSEL_ITEMS = [
     },
   },
 ];
-
 export default function CarouselSection() {
   const [carouselItems, setCarouselItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     async function fetchCarousel() {
       try {
@@ -67,13 +63,10 @@ export default function CarouselSection() {
     }
     fetchCarousel();
   }, []);
-
   const items = loading ? [] : (carouselItems.length > 0 ? carouselItems : DEFAULT_CAROUSEL_ITEMS);
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-
   const slideVariants = {
     enter: (direction: number) => ({
       x: direction > 0 ? "100%" : "-100%",
@@ -85,32 +78,26 @@ export default function CarouselSection() {
       x: direction < 0 ? "100%" : "-100%",
     }),
   };
-
   useEffect(() => {
     if (isPaused || items.length === 0) {
       return;
     }
-
     const timer = setInterval(() => {
       setDirection(1);
       setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
     }, 7000);
-
     return () => clearInterval(timer);
   }, [currentIndex, items.length, isPaused]);
-
   function handleNext() {
     setDirection(1);
     setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
   }
-
   function handlePrev() {
     setDirection(-1);
     setCurrentIndex(
       (prevIndex) => (prevIndex - 1 + items.length) % items.length,
     );
   }
-
   function togglePause() {
     if (isPaused) {
       setDirection(1);
@@ -120,7 +107,6 @@ export default function CarouselSection() {
     }
     setIsPaused(true);
   }
-
   function handleImageButton(index: number) {
     if (index > currentIndex) {
       setDirection(1);
@@ -133,13 +119,11 @@ export default function CarouselSection() {
       return;
     }
   }
-
   if (items.length === 0) {
     return <div className="bg-foreground relative h-dvh snap-start" >
       <Loader2/>
     </div>;
   }
-
   return (
     <div className="bg-foreground relative flex h-[66dvh] snap-start md:h-dvh">
       <button
@@ -149,7 +133,6 @@ export default function CarouselSection() {
       >
         <ArrowLeft size={24} className="text-[#4F5C39]" />
       </button>
-
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={currentIndex}
@@ -167,11 +150,9 @@ export default function CarouselSection() {
             fill
             sizes="100vw"
             className="pointer-events-none object-cover"
-            unoptimized
           />
         </motion.div>
       </AnimatePresence>
-
       <div className="bg-foreground/66 absolute  bottom-12 left-4 sm:left-20 z-10 flex h-fit min-h-20 w-fit max-w-3xl flex-col justify-between rounded-2xl border border-white/10 px-6 py-4 text-white backdrop-blur-2xl transition-all  md:w-full md:h-40">
         <AnimatePresence initial={false} mode="wait">
           <motion.span
@@ -198,7 +179,6 @@ export default function CarouselSection() {
           </motion.p>
         </AnimatePresence>
       </div>
-
       <div className="absolute bottom-8 sm:left-20 left-4 z-10 flex h-2 w-xs gap-2 rounded-full p-0.5 md:w-xl lg:w-3xl">
         {Array.from({ length: items.length }).map((_, index) => (
           <button
@@ -220,7 +200,6 @@ export default function CarouselSection() {
           </button>
         ))}
       </div>
-
       <div className="absolute right-6 sm:right-28 bottom-12 z-10 gap-4 flex">
         <button
           type="button"
@@ -233,7 +212,6 @@ export default function CarouselSection() {
             <Pause size={20} className="fill-white" />
           )}
         </button>
-
         <Link
           href={`/product/${items[currentIndex]?.product?._id || "alskdjfhlkajsdhflkajsdf"}`}
           className="bg-foreground/66 flex items-center gap-2 rounded-2xl border border-white/10 px-6 py-2 text-white backdrop-blur-2xl transition-all hover:opacity-75 active:opacity-50"
@@ -242,7 +220,6 @@ export default function CarouselSection() {
           <ArrowRight className="text-white size-3 sm:size-4 nd:size-25 lg:size-6" />
         </Link>
       </div>
-
       <button
         type="button"
         onClick={handleNext}

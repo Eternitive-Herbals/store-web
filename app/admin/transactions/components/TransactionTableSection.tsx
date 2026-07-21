@@ -1,21 +1,17 @@
 "use client";
-
 import EnhancedTable from "@/components/DataTable/EnhancedTable";
 import { transactionColumns } from "../../columns/TransactionColumn";
 import { Search } from "lucide-react";
 import { useState, useMemo } from "react";
 import DropdownGeneric from "@/components/DropdownGeneric";
-
 type Props = {
   transactions: any[];
   loading: boolean;
  
 };
-
 export default function TransactionTableSection({ transactions, loading}: Props) {
  
   const [methodFilter, setMethodFilter] = useState("");
-
   const filteredTransactions = useMemo(() => {
     return transactions.filter((t) => {
       
@@ -23,11 +19,9 @@ export default function TransactionTableSection({ transactions, loading}: Props)
       
      
       const matchesMethod = !methodFilter || method === methodFilter;
-
       return matchesMethod;
     });
   }, [transactions, methodFilter]);
-
   return (
     <EnhancedTable
       data={filteredTransactions}

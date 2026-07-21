@@ -5,12 +5,10 @@ import { toast } from "sonner";
 import AddressForm from "./AddressForm";
 import AddressCard from "./AddressCard";
 import { getUserAddresses, createAddress, updateAddress, deleteAddress, setPrimaryAddress } from "@/lib/addressAction";
-
 type ShippingAddressProps = {
   user: IUser | null;
   refreshUser: () => Promise<void>;
 };
-
 export default function ShippingAddress({ user, refreshUser }: ShippingAddressProps) {
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -19,7 +17,6 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
   const [addresses, setAddresses] = useState<any[]>([]);
   const [primaryAddressId, setPrimaryAddressId] = useState<string | null>(null);
   const [fetching, setFetching] = useState(true);
-
   // Form State
   const [formData, setFormData] = useState({
     fullName: "",
@@ -31,7 +28,6 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
     pincode: "",
     country: "India",
   });
-
   const fetchAddresses = async () => {
     try {
       setFetching(true);
@@ -44,13 +40,11 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
       setFetching(false);
     }
   };
-
   useEffect(() => {
     if (user) {
       fetchAddresses();
     }
   }, [user]);
-
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -70,7 +64,6 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
       setLoading(false);
     }
   };
-
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this address?")) return;
     try {
@@ -85,7 +78,6 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
       setLoading(false);
     }
   };
-
   const handleSetPrimary = async (id: string) => {
     try {
       setLoading(true);
@@ -99,7 +91,6 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
       setLoading(false);
     }
   };
-
   const startEdit = (address: any) => {
     setEditingId(address._id);
     setFormData({
@@ -114,7 +105,6 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
     });
     setIsAdding(true);
   };
-
   const resetForm = () => {
     setIsAdding(false);
     setEditingId(null);
@@ -129,11 +119,9 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
       country: "India",
     });
   };
-
   if (fetching) {
      return <div className="p-10 text-center animate-pulse text-gray-500">Loading your addresses...</div>;
   }
-
   return (
     <div className="mx-auto grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
       <div className="flex flex-col gap-6">
@@ -170,7 +158,6 @@ export default function ShippingAddress({ user, refreshUser }: ShippingAddressPr
           </div>
         )}
       </div>
-
       {!isAdding && (
         <div 
           onClick={() => setIsAdding(true)}

@@ -3,12 +3,10 @@ import { toast } from "sonner";
 export default function page() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
     const image = formData.get("image") as string;
-
     try {
       const res = await fetch("/api/blog", {
         method: "POST",
@@ -18,16 +16,12 @@ export default function page() {
         credentials: "include",
         body: JSON.stringify({ title, content, image }),
       });
-
       const data = await res.json();
-
       if (!res.ok) {
         toast.error(data.error || "Something went wrong");
         return;
       }
-
       toast.success("Blog created successfully");
-
       e.currentTarget.reset();
     } catch (error) {
       console.error(error);
@@ -62,7 +56,6 @@ export default function page() {
             className="rounded-lg border border-gray-500 px-2 py-1 placeholder:text-gray-600"
           />
         </div>
-
         <button className="cursor-pointer rounded-2xl border bg-blue-600 p-2 text-lg font-semibold text-white duration-300 hover:scale-105">
           Submit
         </button>

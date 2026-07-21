@@ -7,12 +7,10 @@ import GutImg from "@/assets/gut.svg";
 import BoneImg from "@/assets/bone.svg";
 import SkinImg from "@/assets/skin.svg";
 import HairImg from "@/assets/hair.svg";
-
 type goal = {
   title: string;
   image: string;
 };
-
 export default function ShopByGoal() {
   const goals: goal[] = [
     { title: "Energy & Immunity", image: EnergyImg },
@@ -23,12 +21,10 @@ export default function ShopByGoal() {
     { title: "Skin & Hair", image: SkinImg },
     { title: "Hair Health", image: HairImg },
   ];
-
   return (
     <div className=" bg-transparent">
       <div className="flex w-full flex-col items-start gap-10 overflow-x-auto backdrop:blur-lg bg-shop-background pt-12 pb-12 sm:items-center md:overflow-auto">
         <h2 className="font-comfortaa text-2xl font-semibold">Shop by Goal</h2>
-
         <div className="flex w-full justify-center gap-9 px-12">
           {goals.map((goal, idx) => (
             <div key={idx} className="flex flex-col items-center gap-3">
@@ -40,7 +36,6 @@ export default function ShopByGoal() {
                   className="object-cover"
                 />
               </div>
-
               <p className="w-28 text-center text-sm">{goal.title}</p>
             </div>
           ))}
@@ -50,18 +45,15 @@ export default function ShopByGoal() {
         <select className="flex-1 overflow-hidden min-w-10 rounded-md border bg-white px-4 py-2 text-gray-600">
           <option>Supplement Type</option>
         </select>
-
         <select className="flex-1 overflow-hidden min-w-10  rounded-md border bg-white px-4 py-2 text-gray-600">
           <option>Price</option>
         </select>
-
         <div className="relative flex-1 min-w-10  overflow-hidden">
           <input
             type="text"
             placeholder="search"
             className="w-full rounded-md border bg-white px-4 py-2 pr-10"
           />
-
           <Search
             size={18}
             className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500"

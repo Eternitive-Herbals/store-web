@@ -1,5 +1,4 @@
 import { Search } from "lucide-react";
-
 export default function TableSearch({
   value,
   onChange,

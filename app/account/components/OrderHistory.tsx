@@ -2,10 +2,8 @@ import React from "react";
 import OrderCard from "./OrderCard";
 import { useOrders } from "../hooks/useOrders";
 import Link from "next/link";
-
 export default function OrderHistory() {
   const { orders, loading } = useOrders();
-
   if (loading) {
     return (
       <div className="flex items-center justify-center p-10">
@@ -13,7 +11,6 @@ export default function OrderHistory() {
       </div>
     );
   }
-
   if (orders.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center p-10 gap-4">
@@ -24,7 +21,6 @@ export default function OrderHistory() {
       </div>
     );
   }
-
   return (
     <div className="mx-auto w-full space-y-4">
       {orders.map((order: any) => (

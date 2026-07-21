@@ -1,11 +1,9 @@
 import { User } from "lucide-react";
-
 const teamMembers = [
   { name: "Team Member", role: "Founder & CEO" },
   { name: "Team Member", role: "Head of Research" },
   { name: "Team Member", role: "Lead Vaidya" },
 ];
-
 export default function OurTeamSection() {
   return (
     <section className="bg-background px-[calc(100dvw/24)] py-24">

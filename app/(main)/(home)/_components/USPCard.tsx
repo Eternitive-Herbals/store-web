@@ -3,7 +3,6 @@ export type USPCardProps = {
   description: string;
   bgColour: string;
 };
-
 export default function USPCard({
   title,
   description,

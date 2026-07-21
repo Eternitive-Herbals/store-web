@@ -1,8 +1,6 @@
 "use client";
-
 import React, { useState, useEffect } from 'react'
 import Image from "next/image";
-
 type ProductGridProps = {
   product: {
     images?: string[];
@@ -10,17 +8,14 @@ type ProductGridProps = {
     name: string;
   };
 };
-
 export default function ProductGrid({ product }: ProductGridProps) {
   const imagesList = (product.images?.length ? product.images : (product.image ? [product.image] : [])).filter(Boolean);
   const [selectedImage, setSelectedImage] = useState<string>(imagesList[0] || "");
-
   useEffect(() => {
     if (imagesList.length > 0 && !imagesList.includes(selectedImage)) {
       setSelectedImage(imagesList[0]);
     }
   }, [product]);
-
   return (
     <div className="w-full ">
       <div className="image-grid flex h-[720px]  gap-12 flex-row-reverse items-start justify-start pr-12">
@@ -33,7 +28,6 @@ export default function ProductGrid({ product }: ProductGridProps) {
               priority
               sizes="(max-width: px) 100vw, 150vw"
               className="object-contain bg-zinc-200"
-              unoptimized
             />
           </div>
         ) : (
@@ -41,7 +35,6 @@ export default function ProductGrid({ product }: ProductGridProps) {
             No Image Available
           </div>
         )}
-
         {imagesList.length > 0 && (
           <div className="mt-12 flex w-fit  flex-col items-center justify-start gap-2 overflow-x-auto">
             {imagesList.slice(0, 4).map((imgUrl, idx) => (
@@ -60,7 +53,6 @@ export default function ProductGrid({ product }: ProductGridProps) {
                   fill
                   sizes="(max-width: 768px) 25vw, 120px"
                   className="object-cover"
-                  unoptimized
                 />
               </button>
             ))}
