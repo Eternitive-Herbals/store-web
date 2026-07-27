@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { getAllIngredients, createIngredient, deleteIngredient, updateIngredient } from "@/lib/ingredientAction";
 import { Trash2, Plus, Edit } from "lucide-react";
@@ -15,7 +14,6 @@ export default function IngredientSection({
   const [ingredients, setIngredients] = useState<any[]>([]);
   const [fetching, setFetching] = useState(true);
   const [selectedIngredient, setSelectedIngredient] = useState<any | null>(null);
-
   const fetchIngredients = async () => {
     setFetching(true);
     try {
@@ -27,11 +25,9 @@ export default function IngredientSection({
       setFetching(false);
     }
   };
-
   useEffect(() => {
     fetchIngredients();
   }, []);
-
   const handleSubmit = async (name: string, previewUrl?: string, description?: string) => {
     if (!name.trim() || !description?.trim() || !previewUrl) {
       toast.error("Please enter a name, description, and upload an image.");
@@ -51,14 +47,10 @@ export default function IngredientSection({
       toast.error(`Failed to ${selectedIngredient ? "update" : "create"} ingredient`);
     }
   };
-
   const handleEdit = (ingredient: any) => {
     setSelectedIngredient(ingredient);
     onClose("ingredient");
   };
-
-
-
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this ingredient?")) return;
     try {
@@ -69,7 +61,6 @@ export default function IngredientSection({
       toast.error("Failed to delete ingredient");
     }
   };
-
   return (
     <div className="bg-white rounded-xl bg-background border-2 border-foreground/10 p-6 h-full">
       <div className="flex items-center justify-between mb-6">
@@ -81,7 +72,6 @@ export default function IngredientSection({
            Ingredient <Plus size={16} />
         </button>
       </div>
-
       <Modal 
         open={isOpen === "ingredient"}
         onClose={() => {
@@ -98,7 +88,6 @@ export default function IngredientSection({
           description: selectedIngredient.description
         } : null}
       />
-
       {fetching ? (
         <p className="text-sm text-foreground">Loading ingredients...</p>
       ) : ingredients.length === 0 ? (

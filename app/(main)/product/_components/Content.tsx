@@ -4,7 +4,6 @@ import { useCart } from "@/hooks/useCart";
 import { useRouter } from "next/navigation";
 import { Check, StarIcon } from "lucide-react";
 import { useState } from "react";
-
 type ContentProps = {
   product: {
     _id: string;
@@ -16,16 +15,13 @@ type ContentProps = {
     images?: string[];
   };
 };
-
 export default function Content({ product }: ContentProps) {
   const star = [1, 2, 3, 4, 5];
   const [sub, setSub] = useState(true);
   const { addToCart } = useCart();
   const router = useRouter();
-
   const discountedPrice = Math.round(product.price * 0.8);
   const discountPercent = 20;
-
   const handleAddToCart = async () => {
     await addToCart({
       productId: product._id,
@@ -36,12 +32,10 @@ export default function Content({ product }: ContentProps) {
       quantity: 1,
     });
   };
-
   const handleBuyNow = async () => {
     await handleAddToCart();
     router.push("/cart");
   };
-
   return (
     <div>
       <div className="font-sf-pro-text bg-red flex flex-col items-start gap-6">
@@ -65,12 +59,10 @@ export default function Content({ product }: ContentProps) {
             ₹{sub ? discountedPrice : product.price} <span className="font-light text-[#9EA1A7]"> | </span>{" "}
             {sub && <span className="text-2xl text-[#009966]">{discountPercent}% off</span>}
           </p>
-
           <p className="text-primary-background mt-9 w-full max-w-9/10 text-xl font-light text-wrap">
             {product.description}
           </p>
         </div>
-
         <div className="flex w-full flex-col items-start gap-1">
           <label className="relative w-9/10 cursor-pointer rounded-lg border border-[#AE8363]/50">
             <div className="inset-0 top-0 rounded-t-lg bg-[#AE8363]/50 p-2 text-center text-xl font-medium text-black">
@@ -134,7 +126,6 @@ export default function Content({ product }: ContentProps) {
             <span>₹{product.price}</span>
           </label>
         </div>
-
         <div className="btns mt-11 w-9/10 space-y-4">
           <button
             onClick={handleBuyNow}

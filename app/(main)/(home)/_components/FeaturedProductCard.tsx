@@ -1,10 +1,8 @@
 "use client";
-
 import { ArrowRight, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
-
 export type FeaturedProductCardProps = {
   name: string;
   image: string;
@@ -13,7 +11,6 @@ export type FeaturedProductCardProps = {
   reverse?: boolean;
   href: string;
 };
-
 export default function FeaturedProductCard({
   
   name,
@@ -45,11 +42,9 @@ export default function FeaturedProductCard({
             fill
             sizes="(max-width: 768px) 100vw, 500px"
             className="object-cover"
-            unoptimized
           />
         </motion.div>
       </div>
-
       {/* Content details */}
       <div className="flex flex-1 absolute md:static mt-auto bottom-0 flex-col w-full h-fit md:h-full sm:gap-8 p-4 gap-2 sm:p-8 justify-start md:justify-between bg-[#E2DED3]">
         <div className="flex justify-between items-start w-full">
@@ -59,7 +54,6 @@ export default function FeaturedProductCard({
           </div>
          
         </div>
-
         <div className="flex items-center justify-between mt-auto">
           <span className="md:text-2xl text-lg sm:text-xl lg:text-3xl font-semibold text-stone-850">₹{price}</span>
           <motion.div

@@ -1,11 +1,9 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { getAllCategories, createCategory, deleteCategory, updateCategory } from "@/lib/categoryAction";
 import { Trash2, Plus, Edit } from "lucide-react";
 import Modal from "@/components/genericModal/Modal";
 import { toast } from "sonner";
-
 export default function CategorySection({
   isOpen,
   onClose,
@@ -17,7 +15,6 @@ export default function CategorySection({
   const [fetching, setFetching] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
  
-
   const fetchCategories = async () => {
     setFetching(true);
     try {
@@ -29,11 +26,9 @@ export default function CategorySection({
       setFetching(false);
     }
   };
-
   useEffect(() => {
     fetchCategories();
   }, []);
-
   const handleSubmit = async (name: string) => {
     if (!name.trim()) return;
     try {
@@ -50,12 +45,10 @@ export default function CategorySection({
       toast.error(`Failed to ${selectedCategory ? "update" : "create"} category`);
     }
   };
-
   const handleEdit = (category: any) => {
     setSelectedCategory(category);
     onClose("category"); // Reuse same modal open state
   };
-
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this category?")) return;
     try {
@@ -66,7 +59,6 @@ export default function CategorySection({
       toast.error("Failed to delete category");
     }
   };
-
   return (
     <div className="bg-white rounded-xl bg-background border-2 border-foreground/10 p-6 h-full">
       <div className="flex items-center justify-between mb-6">
@@ -78,7 +70,6 @@ export default function CategorySection({
            Category <Plus size={16} />
         </button>
       </div>
-
       <Modal 
         open={isOpen === "category"}
         onClose={() => {

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Logo from "@/assets/Aethery_black.svg";
-
 export default function DiscoverSection() {
   return (
     <section className="bg-background px-[calc(100dvw/24)] py-24">
@@ -18,7 +17,6 @@ export default function DiscoverSection() {
             </span>
           </div>
         </div>
-
         {/* Text Content */}
         <div className="flex w-full md:w-[617px] h-auto md:h-[399px] flex-col justify-center gap-6">
           <h2 className="font-comfortaa text-2xl md:text-[32px] font-bold text-primary-background leading-tight md:leading-[40px]">

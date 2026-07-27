@@ -8,12 +8,10 @@ import Link from "next/link";
 import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-
 export default function Page() {
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const router = useRouter();
   const handleSignUp = async () => {
     try {
@@ -30,7 +28,6 @@ export default function Page() {
         }),
       });
       const data = await res.json();
-
       if (!res.ok) {
         toast.error(data.message);
         return;
@@ -46,10 +43,8 @@ if(data.user === "admin"){
       console.error("SignUp error:", error);
     }
   };
-
   const [showPassword, setShowPassword] = useState(false);
   const [confirmShowPassword, setConfirmShowPassword] = useState(false);
-
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6">
       <div className="flex flex-col items-center">
@@ -95,7 +90,6 @@ if(data.user === "admin"){
           <span className="text-md font-sf-pro-text w-fit text-[#181818]">
             Password
           </span>
-
           <div className="relative w-full">
             <input
               type={showPassword ? "text" : "password"}
@@ -107,7 +101,6 @@ if(data.user === "admin"){
               autoComplete="current-password"
               className="bg-background-light focus:outline-background-lightest w-full rounded-2xl border border-[#C4C4C4] px-4 py-2 pr-10 outline-2 outline-offset-0 outline-transparent transition-all placeholder:text-sm placeholder:text-[#9D9D9E]"
             />
-
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
@@ -125,7 +118,6 @@ if(data.user === "admin"){
           <span className="text-md font-sf-pro-text w-fit text-[#181818]">
             Confirm Password
           </span>
-
           <div className="relative w-full">
             <input
               type={confirmShowPassword ? "text" : "password"}
@@ -135,7 +127,6 @@ if(data.user === "admin"){
               autoComplete="current-password"
               className="w-full rounded-2xl border border-[#C4C4C4] px-4 py-2 pr-10 outline-2 outline-offset-0 outline-transparent transition-all placeholder:text-sm placeholder:text-[#9D9D9E]"
             />
-
             <button
               type="button"
               onClick={() => setConfirmShowPassword((prev) => !prev)}
@@ -149,14 +140,12 @@ if(data.user === "admin"){
             </button>
           </div>
         </label>
-
         <button
           onClick={handleSignUp}
           className="flex w-full cursor-pointer items-center justify-center rounded-2xl bg-[#1B1B1B] py-3"
         >
           <span className="font-sf-pro-text text-sm text-white">Sign up</span>
         </button>
-
         <button className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border border-[#C4C4C4] py-1">
           <Image loading="lazy" src={GoogleImage} alt="Google-G-Logo" className="size-7" />
           <span className="font-sf-pro-text text-sm text-black">

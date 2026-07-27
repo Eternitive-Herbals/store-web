@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useRef, useState } from "react";
 import { ImagePlus, Plus, StarIcon, X } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
@@ -8,12 +7,10 @@ import { uploadImage } from "@/lib/uploadImage";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
 type CreateReviewProps = {
   productId: string;
   onReviewCreated: () => void;
 };
-
 export default function CreateReview({ productId, onReviewCreated }: CreateReviewProps) {
   const { user, isLoggedIn } = useAuth();
   const router = useRouter();
@@ -25,41 +22,33 @@ export default function CreateReview({ productId, onReviewCreated }: CreateRevie
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     if (!file.type.startsWith("image/")) {
       toast.error("Please select an image file");
       return;
     }
-
     setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
   };
-
   const removeImage = () => {
     setImageFile(null);
     setImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!content.trim()) {
       toast.error("Please write a review");
       return;
     }
-
     try {
       setLoading(true);
-
       let imageUrl: string | undefined;
       if (imageFile) {
         imageUrl = await uploadImage(imageFile);
       }
-
       await createReview({
         productId,
         rating,
@@ -79,14 +68,12 @@ export default function CreateReview({ productId, onReviewCreated }: CreateRevie
       setLoading(false);
     }
   };
-
   return (
     <div className="font-sf-pro-text mr-auto pt-4 pb-22">
       <h1 className="text-[28px] font-medium text-[#1B1B1B]">Review this Product</h1>
       <p className="font-regular text-[#4A5565] text-[20px] pb-4">
         Share your thoughts with other customers
       </p>
-
       {isWriting ? (
         <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
           <div className="flex items-center gap-1">
@@ -118,7 +105,6 @@ export default function CreateReview({ productId, onReviewCreated }: CreateRevie
             className="w-full p-3 rounded-lg border border-[#E5E7EB] focus:border-primary-background/40 outline-none resize-none text-base"
             required
           />
-
           {/* Image Upload */}
           <div>
             <input
@@ -156,7 +142,6 @@ export default function CreateReview({ productId, onReviewCreated }: CreateRevie
               </button>
             )}
           </div>
-
           <div className="flex gap-3">
             <button
               type="button"

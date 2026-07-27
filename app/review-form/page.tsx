@@ -3,12 +3,10 @@ import { toast } from "sonner";
 export default function page() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const author = e.currentTarget.author.value;
     const content = e.currentTarget.content.value;
     const rating = e.currentTarget.rating.value;
     const image = e.currentTarget.image.value;
-
     try {
       const res = await fetch("/api/review", {
         method: "POST",
@@ -18,16 +16,12 @@ export default function page() {
         credentials: "include",
         body: JSON.stringify({ author, content, rating, image }),
       });
-
       const data = await res.json();
-
       if (!res.ok) {
         toast.error(data.error || "Something went wrong");
         return;
       }
-
       toast.success("Review created successfully");
-
       e.currentTarget.reset();
     } catch (error) {
       console.error(error);
@@ -71,7 +65,6 @@ export default function page() {
             className="rounded-lg border border-gray-500 px-2 py-1 placeholder:text-gray-600"
           />
         </div>
-
         <button className="cursor-pointer rounded-2xl border bg-blue-600 p-2 text-lg font-semibold text-white duration-300 hover:scale-105">
           Submit
         </button>

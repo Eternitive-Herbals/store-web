@@ -1,6 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
 import { useState ,useEffect, useRef} from "react";
-
 export default function RowActions({ row, onAction }: any) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -14,7 +13,6 @@ export default function RowActions({ row, onAction }: any) {
       return () => document.removeEventListener("click", handleClickOutside);
     }, []);
    
-
   return (
     <div className="relative" ref={ref}>
       <button onClick={(e) => { e.stopPropagation(); setOpen(!open); }}

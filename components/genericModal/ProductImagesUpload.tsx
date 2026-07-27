@@ -1,6 +1,5 @@
 import { Upload, X } from "lucide-react";
 import { toast } from "sonner";
-
 type Props = {
   files: File[];
   setFiles: (files: File[]) => void;
@@ -11,7 +10,6 @@ type Props = {
   onDelete: (url: string) => void;
   onRemoveFile: (index: number) => void;
 };
-
 export default function ProductImagesUpload({
   files,
   setFiles,
@@ -24,7 +22,6 @@ export default function ProductImagesUpload({
 }: Props) {
   const maxImages = 4;
   const currentTotal = files.length + previewUrls.length;
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
@@ -38,7 +35,6 @@ export default function ProductImagesUpload({
     }
     e.target.value = ''; // reset
   };
-
   return (
     <div className="flex relative items-center w-full h-fit gap-4 mb-4 flex-wrap">
       {/* Existing uploaded images */}
@@ -58,7 +54,6 @@ export default function ProductImagesUpload({
           </button>
         </div>
       ))}
-
       {/* Selected files to upload */}
       {files.map((file, idx) => (
         <div key={idx} className="relative w-16  h-16 rounded-xl overflow-hidden border-2 border-blue-400 shrink-0">
@@ -78,7 +73,6 @@ export default function ProductImagesUpload({
           </button>
         </div>
       ))}
-
       {currentTotal < maxImages && (
         <div className="w-full relative min-w-[200px] flex-1">
           <input
@@ -88,7 +82,6 @@ export default function ProductImagesUpload({
             onChange={handleFileChange}
             className="border-foreground/20 border-dashed h-32 rounded-xl placeholder:text-center focus:border-foreground/60 w-full border-2 px-3 py-2 text-sm outline-none bg-[#f9f8f6] file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-background/10 file:text-primary-background hover:file:bg-primary-background/20"
           />
-
           <button
             className="absolute bg-primary-background hover:bg-primary-background/90 text-background inset-0 w-fit left-1/2 -translate-x-1/2 my-auto h-fit py-2 px-5 rounded-full text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             onClick={onUpload}

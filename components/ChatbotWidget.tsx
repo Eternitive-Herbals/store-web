@@ -1,15 +1,12 @@
 "use client";
-
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import BackgroundTexture from "@/assets/background-texture-white-2.svg";
 import { Send, MessageSquare, X } from "lucide-react";
-
 type Message = {
   role: "user" | "assistant";
   content: string;
 };
-
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -18,15 +15,12 @@ export default function ChatbotWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const widgetRef = useRef<HTMLDivElement>(null);
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
   useEffect(() => {
     scrollToBottom();
   }, [messages, loading, isOpen]);
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (widgetRef.current && !widgetRef.current.contains(event.target as Node)) {
@@ -40,20 +34,16 @@ export default function ChatbotWidget() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
-
   const handleSend = async (text: string = input) => {
     const content = text.trim();
     if (!content) return;
-
     setInput("");
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
     }
-
     const newMessages: Message[] = [...messages, { role: "user", content }];
     setMessages(newMessages);
     setLoading(true);
-
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
@@ -62,9 +52,7 @@ export default function ChatbotWidget() {
         },
         body: JSON.stringify({ messages: newMessages }),
       });
-
       if (!res.ok) throw new Error("Failed to fetch response");
-
       const data = await res.json();
       setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
     } catch (error) {
@@ -77,24 +65,20 @@ export default function ChatbotWidget() {
       setLoading(false);
     }
   };
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
   };
-
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
     e.target.style.height = "auto";
     e.target.style.height = Math.min(e.target.scrollHeight, 120) + "px";
   };
-
   const clearChat = () => {
     setMessages([]);
   };
-
   const formatText = (text: string) => {
     const parts = text.split(/(\*\*.*?\*\*)/g);
     return parts.map((part, i) => {
@@ -104,7 +88,6 @@ export default function ChatbotWidget() {
       return <span key={i}>{part}</span>;
     });
   };
-
   return (
     <div ref={widgetRef} className="fixed bottom-6 right-6 z-50 flex flex-col items-end font-sf-pro-text pointer-events-none">
       {/* Chat Window */}
@@ -122,7 +105,6 @@ export default function ChatbotWidget() {
             className="object-cover opacity-5"
             />
         </div>
-
         {/* Header */}
         <header className="relative z-10 flex items-center justify-between border-b border-primary-background/15 bg-[#F9F8F6]/90 px-5 py-4 backdrop-blur-md">
           <div className="flex items-center gap-3">
@@ -151,7 +133,6 @@ export default function ChatbotWidget() {
             </button>
           </div>
         </header>
-
         {/* Messages Area */}
         <div className="relative z-10 flex flex-1 flex-col gap-4 overflow-y-auto p-5 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-primary-background/10">
           {messages.length === 0 ? (
@@ -189,7 +170,6 @@ export default function ChatbotWidget() {
               </div>
             ))
           )}
-
           {loading && (
             <div className="flex gap-2">
               <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-full bg-primary-background text-[10px] text-white">
@@ -206,7 +186,6 @@ export default function ChatbotWidget() {
           )}
           <div ref={messagesEndRef} />
         </div>
-
         {/* Input Area */}
         <div className="relative z-10 border-t border-primary-background/15 bg-[#F9F8F6]/90 px-4 pb-4 pt-3 backdrop-blur-md">
           <div className="flex items-end gap-2">
@@ -232,7 +211,6 @@ export default function ChatbotWidget() {
           </p>
         </div>
       </div>
-
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}

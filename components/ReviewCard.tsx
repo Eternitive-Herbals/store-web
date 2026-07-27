@@ -4,7 +4,6 @@ import Image, { StaticImageData } from "next/image";
 import { useState } from "react";
 import {motion} from "motion/react"
 import defaultAvatar from "@/assets/bone.svg";
-
 export type ReviewCardProps = {
   authorName?: string;
   author?: string;
@@ -16,7 +15,6 @@ export type ReviewCardProps = {
   createdAt?: number | string;
   content?: string;
 };
-
 export default function ReviewCard({
   authorName,
   author,
@@ -28,7 +26,6 @@ export default function ReviewCard({
   createdAt,
   content,
 }: ReviewCardProps) {
-
   const [seeMore, setSeeMore] = useState(false)
   return (
     <div className="flex h-fit w-3xs shrink-0 snap-start flex-col justify-between rounded-3xl border border-stone-200/80 bg-white p-2 shadow-md shadow-stone-100/50 sm:w-[350px] md:w-[380px]">
@@ -65,7 +62,6 @@ export default function ReviewCard({
               </span>
             </div>
           </div>
-
           {/* Rating Stars */}
           <div className="flex gap-0.5 text-[#EDC06F]">
             {Array.from({ length: 5 }).map((_, index) => (
@@ -81,7 +77,6 @@ export default function ReviewCard({
             ))}
           </div>
         </div>
-
         {/* Review Text */}
         <motion.p
           className={`${seeMore ? "line-clamp-none" : "line-clamp-2"}  text-sm leading-relaxed font-normal text-stone-700`}
@@ -92,7 +87,6 @@ export default function ReviewCard({
           {seeMore ? "less -" : "See more +"}
         </button>
       </div>
-
       {/* Review Image */}
       {image ? (
         <div className="relative mt-1 h-[110px] w-full shrink-0 overflow-hidden rounded-2xl bg-stone-50">
@@ -100,7 +94,6 @@ export default function ReviewCard({
             src={image}
             alt="Customer review photo"
             fill
-            unoptimized
             className="mx-auto h-full w-full object-cover"
           />
         </div>

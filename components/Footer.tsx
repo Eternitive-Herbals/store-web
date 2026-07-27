@@ -5,7 +5,6 @@ import FooterFirstImage from "@/assets/spiral_footer.svg";
 import FooterElementalIcons from "../assets/footer-elemental-icons.svg";
 import FooterAetheryText from "@/assets/footer-aethery-text.svg";
 import Link from "next/link";
-
 export default function Footer() {
   return (
     <div className="font-comfortaa relative flex h-dvh flex-col justify-between bg-[#1B1B1B] px-[calc(100dvw/24)] pt-48 text-white">
@@ -15,19 +14,16 @@ export default function Footer() {
         fill
         className="object-cover"
       />
-
       <Image loading="lazy"
         src={FooterElementalIcons}
         alt="Elemental Icons"
         className="absolute top-0 left-1/2 z-10 -translate-1/2"
       />
-
       <div className="z-10 mx-auto flex w-full max-w-7xl items-start justify-between gap-8 text-sm font-extralight">
         <div className="flex flex-col gap-4">
           <Link href={"mailto:contact@aethery.com"}>contact@aethery.com</Link>
           <Link href={"tel:+919810373111"}>+91 9810373111</Link>
         </div>
-
         <div className="mx-auto flex flex-col gap-4">
           <Link
             href={"/privacy-policy"}
@@ -54,7 +50,6 @@ export default function Footer() {
             <span>Help Center</span>
           </Link>
         </div>
-
         <div className="flex items-center gap-4">
           <Link
             href={"https://x.com"}
@@ -72,12 +67,10 @@ export default function Footer() {
           </Link>
         </div>
       </div>
-
       <h1 className="z-10 mx-auto flex items-center gap-2 text-lg">
         <Copyright size={16} />
         aethery. 2018 All rights reserved.
       </h1>
-
       <Image loading="lazy"
         alt="footer_aethery"
         src={FooterAetheryText}

@@ -1,5 +1,4 @@
 import { ColumnDef } from "@tanstack/react-table";
-
 export const transactionColumns: ColumnDef<any>[] = [
   {
     accessorKey: "id",

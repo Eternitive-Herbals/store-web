@@ -1,5 +1,4 @@
 import Image from 'next/image'
-
 type IngredientCardProps = {
   ingredients: Array<{
     _id: string;
@@ -8,14 +7,12 @@ type IngredientCardProps = {
     image: string;
   }>;
 };
-
 export default function IngredientCard({ ingredients }: IngredientCardProps) {
   // Split into rows of 3
   const rows: Array<typeof ingredients> = [];
   for (let i = 0; i < ingredients.length; i += 3) {
     rows.push(ingredients.slice(i, i + 3));
   }
-
   return (
     <div className="mb-10 w-full space-y-9">
       {rows.map((row, rowIdx) => (

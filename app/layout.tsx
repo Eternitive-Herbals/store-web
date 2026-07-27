@@ -6,12 +6,10 @@ import { Toaster } from "sonner";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import ChatbotWidget from "@/components/ChatbotWidget";
-
 const comfortaa = Comfortaa({
   variable: "--font-comfortaa",
   subsets: ["latin"],
 });
-
 const sf_pro_text = localFont({
   src: [
     {
@@ -107,12 +105,10 @@ const sf_pro_text = localFont({
   ],
   variable: "--font-sf-pro-text",
 });
-
 export const metadata: Metadata = {
   title: "aethery",
   description: "",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

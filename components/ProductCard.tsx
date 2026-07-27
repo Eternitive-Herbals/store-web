@@ -1,12 +1,9 @@
 "use client";
-
 import { useCart } from "@/hooks/useCart";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { ShoppingCart} from "lucide-react";
 import { toast } from "sonner";
-
-
 type ProductCardProps = {
   id: string;
   image: string | StaticImageData;
@@ -14,7 +11,6 @@ type ProductCardProps = {
   description: string;
   price: number;
 };
-
 export default function ProductCard({
   id,
   image,
@@ -23,7 +19,6 @@ export default function ProductCard({
   price,
 }: ProductCardProps) {
   const { addToCart } = useCart();
-
   const handleAddToCart = async () => {
     const res = await addToCart({
       productId: id,
@@ -33,12 +28,10 @@ export default function ProductCard({
       image: image,
       quantity: 1,
     });
-
     if (res.success) {
       toast.success("Item added to cart");
     }
   };
-
   return (
     <div className="group group:hover:shadow-lg relative flex aspect-2/3 max-h-[25rem] w-[48%] flex-col overflow-hidden rounded-xl border border-white/10 transition-shadow duration-300 md:aspect-3/4 md:w-2xs md:rounded-4xl">
       <Link
@@ -53,7 +46,6 @@ export default function ProductCard({
             fill
             sizes="(max-width: 768px) 100vw, 300px"
             className="-z-10 object-cover object-center"
-            unoptimized
           />
         ) : (
           <div className="absolute inset-0 -z-10 bg-gray-200"></div>

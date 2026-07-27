@@ -1,21 +1,15 @@
 "use client";
-
 import Link from "next/link";
 import { Search, ShoppingBag, User, UserStar } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-
 interface Props {
   onSearch(): void;
 }
-
 export default function HeaderActions({ onSearch }: Props) {
   const router = useRouter();
-
   const { loading, isLoggedIn, user } = useAuth();
-
   const isAdmin = user?.role === "Admin";
-
   return (
     <div className="hidden items-center gap-2 lg:flex  text-background">
       <button
@@ -25,7 +19,6 @@ export default function HeaderActions({ onSearch }: Props) {
       >
         <Search size={20} />
       </button>
-
       <Link
         aria-label="Cart"
         href="/cart"
@@ -33,7 +26,6 @@ export default function HeaderActions({ onSearch }: Props) {
       >
         <ShoppingBag size={20} />
       </Link>
-
       {loading ? (
         <div className="h-10 w-10 animate-pulse rounded-full bg-white/10" />
       ) : (
@@ -45,7 +37,6 @@ export default function HeaderActions({ onSearch }: Props) {
           >
             <User size={20} />
           </button>
-
           {isAdmin && (
             <button
               aria-label="Admin Dashboard"

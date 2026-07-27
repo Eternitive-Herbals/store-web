@@ -1,11 +1,9 @@
 "use client";
-
 import { Upload, X } from "lucide-react";
 import { useState } from "react";
 import "@/app/globals.css";
 import { uploadImage, deleteImage } from "@/lib/uploadImage";
 import { toast } from "sonner";
-
 export default function GenericModal({
   open,
   onClose,
@@ -28,10 +26,8 @@ export default function GenericModal({
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [deleting, setDeleting] = useState(false);
-
   const handleUpload = async () => {
     if (!file) return;
-
     setUploading(true);
     try {
       const url = await uploadImage(file);
@@ -44,13 +40,10 @@ export default function GenericModal({
     } finally {
       setUploading(false);
     }
-
     setFile(null);
   };
-
   const handleDelete = async () => {
     if (!previewUrl) return;
-
     setDeleting(true);
     try {
       await deleteImage(previewUrl);
@@ -63,18 +56,14 @@ export default function GenericModal({
       setDeleting(false);
     }
   };
-
   if (!open) return null;
-
   return (
     <div className="text-sf-pro-text fixed inset-0 z-50 flex items-center justify-center">
       <div
         className="bg-foreground/5 absolute inset-0 backdrop-blur-sm"
         onClick={onClose}
       />
-
       
-
       <div className="relative w-full max-w-md rounded-xl bg-white p-2 shadow-lg">
         <button
           onClick={onClose}
@@ -99,7 +88,6 @@ export default function GenericModal({
               </button>
             </div>
           ) }
-
           {title && <h2 className="text-foreground mb-4 text-lg font-semibold">{title}</h2>}
       {description && <p className="text-foreground/60 mb-4 text-sm">{description}</p>}
             
@@ -119,9 +107,7 @@ export default function GenericModal({
            
           
         </div>
-
         <h2 className="text-foreground mb-4 text-lg font-semibold">Category</h2>
-
         <input
           type="text"
           placeholder="Enter category name"
@@ -129,7 +115,6 @@ export default function GenericModal({
           onChange={(e) => setValue(e.target.value)}
           className="border-foreground/20 focus:border-foreground/60 w-full rounded-lg border-2 px-3 py-2 text-sm outline-none"
         />
-
         <div className="mt-5 flex justify-end">
           <button
             onClick={() => {

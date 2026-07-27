@@ -1,5 +1,4 @@
 "use client"
-
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -9,15 +8,12 @@ import '@/app/globals.css'
 import { useAuth } from "@/context/AuthContext";
 import { logoutUser } from "@/lib/userAction";
 import { toast } from "sonner";
-
 export default function AdminLayout({
   children,
 }: {    children: React.ReactNode }) {
-
   const pathname = usePathname();
   const router = useRouter();
   const { user, refreshUser } = useAuth();
-
   const handleLogout = async () => {
     try {
       await logoutUser();
@@ -29,23 +25,18 @@ export default function AdminLayout({
       toast.error("Logout failed");
     }
   };
-
   const Avatar = user?.username?.charAt(0).toUpperCase() || "U";
-
   type LinkType = {
     name: string;
     href: string;
     icon: React.ReactNode;
   };
-
   const links: LinkType[] = [
-
     { name: "Products", href: "/admin/products", icon: <Album size={20} /> },
     { name: "Orders", href: "/admin/orders", icon: <Package size={20} /> },
     {name: "Catalog", href:"/admin/catalog", icon: <ArchiveIcon size={20} />},
     { name: "Transactions", href: "/admin/transactions", icon: <ReceiptIcon size={20} /> },
   ];
-
   return (
     <div className="bg-[#F8F9FA] text-slate-900 flex h-dvh items-start gap-4 p-4 font-sans selection:bg-slate-200">
       {/* Sidebar */}
@@ -67,10 +58,8 @@ export default function AdminLayout({
               <PanelLeft size={22} strokeWidth={2} />
             </button> */}
           </div>
-
           {/* Navigation Links */}
           <nav className="flex flex-col gap-2">
-
             {links.map((link, index) => {
               const isActive = pathname === link.href || (link.href !== "/admin" && pathname?.startsWith(link.href));
               return (
@@ -92,7 +81,6 @@ export default function AdminLayout({
             })}
           </nav>
         </div>
-
         {/* Bottom Section (User & Logout) */}
         <div className="flex flex-col gap-3">
           <button
@@ -104,7 +92,6 @@ export default function AdminLayout({
             </div>
             Log Out
           </button>
-
           <div className="flex items-center gap-3 rounded-2xl bg-primary-background/5 hover:bg-primary-background/10 p-3 transition-colors duration-300 shadow-2xs transition-all cursor-pointer">
             <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary-background to-purple-500 text-sm font-bold text-white shadow-inner">
               {Avatar}
@@ -120,7 +107,6 @@ export default function AdminLayout({
           </div>
         </div>
       </aside>
-
       {/* Main Content Area */}
       <div className="flex h-full flex-1  overflow-hidden rounded-4xl bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all">
         <div className="h-full w-full p-8">

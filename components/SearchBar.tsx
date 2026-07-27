@@ -1,21 +1,17 @@
 "use client";
 import { useState } from "react";
 import { Search } from "lucide-react";
-
 const SearchBar = () => {
   const [query, setQuery] = useState("");
-
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Implement search logic here
   };
-
   return (
     <div className="items-centerjustify-start flex max-w-3xs gap-4 rounded-full bg-zinc-700/40 px-2 py-1">
       <div className="jsutify-center flex items-center">
         <Search size={20} className="text-white/90" color="white" />
       </div>
-
       <form
         onSubmit={handleSearch}
         className="flex items-center justify-center"
@@ -31,5 +27,4 @@ const SearchBar = () => {
     </div>
   );
 };
-
 export default SearchBar;

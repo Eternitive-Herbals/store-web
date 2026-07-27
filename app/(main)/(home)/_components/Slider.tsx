@@ -1,18 +1,14 @@
 "use client";
-
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-
 type Slide = {
   name: string;
   href: string;
 };
-
 const Slider = ({ slides }: { slides: Slide[] }) => {
   const [slideIdx, setSlideIdx] = useState(1);
   const [isTransition, setIsTransition] = useState(true);
-
   useEffect(() => {
     if (!isTransition) {
       requestAnimationFrame(() => {
@@ -20,19 +16,14 @@ const Slider = ({ slides }: { slides: Slide[] }) => {
       });
     }
   }, [isTransition]);
-
   if (!slides || slides.length === 0) return null;
-
   const extendedSlides = [slides[slides.length - 1], ...slides, slides[0]];
-
   const next = () => {
     setSlideIdx((prev) => prev + 1);
   };
-
   const prev = () => {
     setSlideIdx((prev) => prev - 1);
   };
-
   return (
     <div className="relative h-screen w-full overflow-hidden">
       <div
@@ -47,7 +38,6 @@ const Slider = ({ slides }: { slides: Slide[] }) => {
             setIsTransition(false);
             setSlideIdx(1);
           }
-
           if (slideIdx === 0) {
             setIsTransition(false);
             setSlideIdx(slides.length);
@@ -66,7 +56,6 @@ const Slider = ({ slides }: { slides: Slide[] }) => {
           </div>
         ))}
       </div>
-
       <div className="absolute inset-0 flex items-center justify-between px-8">
         <button
           onClick={prev}
@@ -84,5 +73,4 @@ const Slider = ({ slides }: { slides: Slide[] }) => {
     </div>
   );
 };
-
 export default Slider;

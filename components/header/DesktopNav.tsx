@@ -1,12 +1,9 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NAVIGATION } from "./navigation";
-
 export default function DesktopNav() {
   const pathname = usePathname();
-
   return (
     <nav
       aria-label="Main Navigation"
@@ -14,7 +11,6 @@ export default function DesktopNav() {
     >
       {NAVIGATION.map((link) => {
         const active = pathname === link.href;
-
         return (
           <Link
             key={link.href}
@@ -24,7 +20,6 @@ export default function DesktopNav() {
             }`}
           >
             {link.name}
-
             <span
               className={`absolute -bottom-1 left-0 h-[2px] bg-white transition-all duration-300 ${
                 active ? "w-full" : "w-0"

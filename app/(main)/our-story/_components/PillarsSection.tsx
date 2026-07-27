@@ -12,7 +12,6 @@ const pillars = [
     text: '"Applying the Ancient knowledge of Ayurveda in modern context & conveying its potent healing potential to improve the quality of Health & life of an individual and the society in general."',
   },
 ];
-
 export default function PillarsSection() {
   return (
     <section className="bg-background px-[calc(100dvw/24)] py-24">
