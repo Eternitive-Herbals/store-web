@@ -1,8 +1,6 @@
 "use client";
-
 import React, { useState, useEffect } from 'react'
 import Image from "next/image";
-
 type ProductGridProps = {
   product: {
     images?: string[];
@@ -10,23 +8,23 @@ type ProductGridProps = {
     name: string;
   };
 };
-
 export default function ProductGrid({ product }: ProductGridProps) {
   const imagesList = (product.images?.length ? product.images : (product.image ? [product.image] : [])).filter(Boolean);
   const [selectedImage, setSelectedImage] = useState<string>(imagesList[0] || "");
-
   useEffect(() => {
-    if (imagesList.length > 0 && !imagesList.includes(selectedImage)) {
-      setSelectedImage(imagesList[0]);
+    function updateSelectedImage() {
+      if (imagesList.length > 0 && !imagesList.includes(selectedImage)) {
+        setSelectedImage(imagesList[0]);
+      }
+updateSelectedImage();
     }
   }, [product]);
-
   return (
     <div className="w-full ">
       <div className="image-grid flex h-[720px]  gap-12 flex-row-reverse items-start justify-start pr-12">
         {selectedImage ? (
           <div className="relative aspect-[3/4] w-9/10 h-7/8 overflow-hidden rounded-2xl">
-            <Image
+            <Image 
               alt={product.name || "Product image"}
               src={selectedImage}
               fill
@@ -40,7 +38,6 @@ export default function ProductGrid({ product }: ProductGridProps) {
             No Image Available
           </div>
         )}
-
         {imagesList.length > 0 && (
           <div className="mt-12 flex w-fit  flex-col items-center justify-start gap-2 overflow-x-auto">
             {imagesList.slice(0, 4).map((imgUrl, idx) => (
@@ -53,7 +50,7 @@ export default function ProductGrid({ product }: ProductGridProps) {
                     : "border-transparent hover:border-gray-300"
                 }`}
               >
-                <Image
+                <Image loading="lazy"
                   src={imgUrl}
                   alt={`${product.name || "Product"} thumbnail ${idx + 1}`}
                   fill

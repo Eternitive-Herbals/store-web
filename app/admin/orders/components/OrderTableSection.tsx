@@ -1,11 +1,9 @@
 "use client";
-
 import EnhancedTable from "@/components/DataTable/EnhancedTable";
 import DropdownGeneric from "@/components/DropdownGeneric";
 import { OrderType } from "@/types/OrderType";
 import { orderColumns } from "../../columns/OrderColumn";
 import { orderActionColumn } from "../columns/orderActionColumn";
-
 type Props = {
   orders: OrderType[]; 
   filters: any;
@@ -13,7 +11,6 @@ type Props = {
   onRowAction: (action: string, row: OrderType) => void;
   onRowClick: (row: OrderType) => void;
 };
-
 export default function OrderTableSection({
   orders,
   filters,

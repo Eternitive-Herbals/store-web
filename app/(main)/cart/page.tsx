@@ -6,7 +6,6 @@ import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { toast } from "sonner";
-
 export default function CartPage() {
   const { user, loading: authLoading } = useAuth();
   const [cart, setCart] = useState<any[]>([]);
@@ -17,7 +16,6 @@ export default function CartPage() {
   const [couponCode, setCouponCode] = useState<string>("");
   // const [isCouponOpen, setIsCouponOpen] = useState<boolean>(false);
   const { updateQuantity: updateCartQuantity, removeFromCart } = useCart();
-
   const fetchCart = useCallback(async () => {
     try {
       const res = await fetch("/api/cart", {
@@ -25,9 +23,7 @@ export default function CartPage() {
         credentials: "include",
         cache: "no-store",
       });
-
       const data = await res.json();
-
       if (data.cart) {
         setCart(data.cart || []);
       } else {
@@ -39,7 +35,6 @@ export default function CartPage() {
       setLoading(false);
     }
   }, []);
-
   useEffect(() => {
     if (!authLoading) {
       if (user) {
@@ -49,44 +44,33 @@ export default function CartPage() {
       }
     }
   }, [authLoading, user, fetchCart]);
-
   const handleDelete = async (productId: string) => {
     const data = await removeFromCart(productId);
-
     if (data?.cart) {
       setCart(data.cart);
     }
   };
-
   const updateQuantity = async (productId: string, quantity: number) => {
     const data = await updateCartQuantity(productId, quantity);
-
     console.log("API RESPONSE:", data);
-
     if (data?.cart) {
       setCart(data.cart);
     } else {
       console.error(data?.message);
     }
   };
-
   const subTotal = (cart: any[]) => {
     if (!Array.isArray(cart)) return 0;
-
     return cart.reduce((total, item) => {
       return total + Number(item.price) * item.quantity;
     }, 0);
   };
-
   async function applyCoupon(code?: string) {
     const couponToApply = (code || couponCode).trim().toUpperCase();
-
     if (!couponToApply) {
       toast.error("Enter Coupon Code");
     }
-
     const cartTotalForCheck = subTotal(cart);
-
     const res = await fetch("/api/coupon/apply", {
       method: "POST",
       cache: "no-store", 
@@ -96,9 +80,7 @@ export default function CartPage() {
         cartTotal: cartTotalForCheck,
       }),
     });
-
     const data = await res.json();
-
     if (!data.success) {
       if (data.minimumOrder) {
         toast.error(`Minimum order ₹${data.minimumOrder}`);
@@ -107,16 +89,13 @@ export default function CartPage() {
       }
       return;
     }
-
     setDiscount(data.discount);
     // setFinalTotal(data.finalTotal);
     // setAppliedCoupon(couponToApply);
-
     toast.success("Coupon applied!");
     // setIsCouponOpen(false);
   }
   const calculatedTotal = subTotal(cart) - discount;
-
   if (authLoading || (loading && user)) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-white">
@@ -129,7 +108,6 @@ export default function CartPage() {
       </div>
     );
   }
-
   if (!user) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-white">
@@ -143,7 +121,6 @@ export default function CartPage() {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen bg-white px-[calc(100dvw/24)] h-fit  pt-41 overflow-y-auto ">
       <div className="font-sf-pro-text grid h-full grid-cols-[2fr_1fr] gap-16">
@@ -159,14 +136,13 @@ export default function CartPage() {
           {cart.map((item, index) => (
             <div className="w-full rounded-t-4xl px-8 pt-8" key={index}>
               <div className="flex h-fit items-start gap-6 p-4">
-                <Image
+                <Image loading="lazy"
                   src={item.image}
                   alt="items-image"
                   width={200}
                   height={200}
                   className="rounded-xl"
                 />
-
                 <div className="font-sf-pro-text flex h-50 w-full flex-col items-start justify-between gap-6">
                   <div className="">
                     <h2 className="font=medium text-2xl">{item.title}</h2>
@@ -194,7 +170,6 @@ export default function CartPage() {
                         ₹225 savings
                       </p>
                     </div>
-
                     <div className="flex items-center gap-4 rounded-full bg-white px-4 py-2">
                       {item.quantity == 1 ? (
                         <button
@@ -231,7 +206,6 @@ export default function CartPage() {
             </div>
           ))}
         </div>
-
         <div className="space-y-5">
           <div className="flex items-center gap-4">
             <div className="border-primary-background/20 w-full rounded-2xl border p-4">
@@ -250,7 +224,6 @@ export default function CartPage() {
               Apply
             </button>
           </div>
-
           <div className="border-primary-background/20 space-y-5 rounded-2xl border p-6">
             <div className="flex w-full items-center justify-between text-xl">
               <span className="text-[#4A5565]">Subtotal</span>
@@ -263,8 +236,6 @@ export default function CartPage() {
               <span className="text-right text-[#009966]">
                 ₹{discount}
               </span>
-
-
             </div>
             <div className="flex w-full items-center justify-between text-xl">
               <span className="text-[#4A5565]">Shipping</span>
@@ -277,7 +248,6 @@ export default function CartPage() {
               <span className="text-primary-background font-semibold">
                 Estimated Total 
               </span>
-
               <span className="text-primary-background text-righ font-semibold">
                 ₹{calculatedTotal > 0 ? calculatedTotal : 0}
               </span>
@@ -291,7 +261,6 @@ export default function CartPage() {
               Checkout
             </Link>
             <div className="bg-primary-background/20 h-0.5" />
-
             <p className="text-left text-sm font-light text-[#4A5565]">
               SECURE PAYMENTS PROVIDED BY
             </p>

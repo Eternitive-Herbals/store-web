@@ -1,5 +1,4 @@
 import { flexRender, Table } from "@tanstack/react-table";
-
 export default function TableBody<T>({
   table,
   columnCount,
@@ -11,7 +10,6 @@ export default function TableBody<T>({
 }) {
   const rows = table.getRowModel().rows;
   
-
   if (rows.length === 0) {
     return (
       <tbody>
@@ -23,7 +21,6 @@ export default function TableBody<T>({
       </tbody>
     );
   }
-
   return (
     <tbody className="">
       {rows.map((row, index) => (

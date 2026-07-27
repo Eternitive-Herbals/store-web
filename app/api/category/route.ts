@@ -7,7 +7,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 export async function GET() {
   try {
     await connectDB();
-    const categories = await Category.find();
+    const categories = await Category.find().lean();
     return NextResponse.json(categories, { status: 200 });
   } catch (err) {
     return NextResponse.json(

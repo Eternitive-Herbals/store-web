@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     ) as JwtPayload;
     const userId = decoded.userId;
 
-    let cart = await Cart.findOne({ userId });
+    let cart = await Cart.findOne({ userId }).lean();
 
     if (!cart) {
       cart = await Cart.create({
@@ -84,7 +84,7 @@ export async function GET() {
     ) as JwtPayload;
     const userId = decoded.userId;
 
-    const cart = await Cart.findOne({ userId });
+    const cart = await Cart.findOne({ userId }).lean();
 
     return NextResponse.json({
       cart: cart?.items || [],
@@ -162,7 +162,7 @@ export async function DELETE(req: NextRequest) {
 
   const body = await req.json();
 
-  const cart = await Cart.findOne({ userId });
+  const cart = await Cart.findOne({ userId }).lean();
   if (!cart) {
     return NextResponse.json({ message: "unauthorized" }, { status: 404 });
   }

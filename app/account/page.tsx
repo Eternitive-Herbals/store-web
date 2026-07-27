@@ -1,5 +1,4 @@
 "use client";
-
 import { LogOut, MapPinHouse, ShoppingBag, User } from "lucide-react";
 import React, { useState } from "react";
 import AccountDetails from "./components/AccountDetails";
@@ -12,39 +11,30 @@ import { toast } from "sonner";
 import Image from "next/image";
 import Logo from "@/assets/Aethery_black.svg";
 import Link from "next/link";
-
 type OptionType =
   | "Order History"
   | "Shipping Address"
   | "Account Details"
   | "Log Out";
-
 type Option = {
   name: OptionType;
   icon: React.ReactNode;
 };
-
 export default function Page() {
     const router = useRouter();
   const [selectedOption, setSelectedOption] =
     useState<OptionType>("Account Details");
   
     const {loading, refreshUser, user} = useAuth();
-
      if (loading) {
     return <div className="">Loading...</div>;
   }
-
-
-
   const options: Option[] = [
     { name: "Order History", icon: <ShoppingBag /> },
     { name: "Shipping Address", icon: <MapPinHouse /> },
     { name: "Account Details", icon: <User /> },
     { name: "Log Out", icon: <LogOut /> },
   ];
-
-
   const handleLogout = async () => {
     try {
       await logoutUser();
@@ -56,7 +46,6 @@ export default function Page() {
       toast.error("Logout failed");
     }
   };
-
   return (
     <div className="p-12 pt-42">
       <div className="border-primary-background/20 min-h-141 w-fit max-w-312 place-self-center rounded-4xl border bg-white p-18 md:w-10/11">
@@ -66,7 +55,7 @@ export default function Page() {
             <div className="py-4">
               <div className="flex items-center justify-between mb-6">
                 <Link className="group flex items-center gap-3" href={"/"}>
-                  <Image
+                  <Image loading="lazy"
                     src={Logo}
                     alt="Aethery logo"
                     className="size-6 object-contain opacity-90 transition-opacity group-hover:opacity-100"
@@ -94,10 +83,8 @@ export default function Page() {
                 </h1>
               ))}
             </div>
-
             <div className="bg-primary-background/20 hidden h-64 w-0.5 md:block" />
           </div>
-
           {/* Content */}
           <div className="w-full">
             {selectedOption === "Account Details" && (

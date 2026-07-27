@@ -1,11 +1,8 @@
 "use client";
-
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown, Plus } from "lucide-react";
 import Modal from "@/components/genericModal/Modal";
 import "@/app/globals.css";
-
-
 type DropdownWithCreateProps = {
   options: string[];
   value?: string;
@@ -16,7 +13,6 @@ type DropdownWithCreateProps = {
   title: string;
   className?: string;
 };
-
 export default function DropdownWithCreate({
   options,
   value,
@@ -34,14 +30,12 @@ export default function DropdownWithCreate({
   // Set default selected to value if provided, else the first option
   const [selected, setSelected] = useState(value);
   const ref = useRef<HTMLDivElement>(null);
-
   // Sync internal state if the value prop changes from outside
   useEffect(() => {
     if (value !== undefined) {
       setSelected(value);
     }
   }, [value]);
-
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -51,13 +45,11 @@ export default function DropdownWithCreate({
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
-
   const handleSelect = (item: string) => {
     setSelected(item);
     onChange?.(item);
     setOpen(false);
   };
-
   const handleCreate = async (newValue: string, imageUrl?: string) => {
     // Notify parent about creation
     if(onCreate){
@@ -66,8 +58,6 @@ export default function DropdownWithCreate({
       onChange?.(newValue);
     }
   };
-
-
   return (
     <div ref={ref} className={`relative w-fit   font-sf-pro-text text-sm ${className}`}>
       
@@ -83,7 +73,6 @@ export default function DropdownWithCreate({
           <ChevronDown className="size-5 text-background" />
         </span>
       </button>
-
       {/* Menu */}
       {open && (
         <div className="absolute z-10 mt-1.5 w-fit  left-1/2 -translate-x-1/2  rounded-xl text-nowrap p-1  border border-foreground/10 bg-white overflow-hidden shadow-lg">
@@ -125,7 +114,6 @@ export default function DropdownWithCreate({
           </div>
         </div>
       )}
-
       {/* Embedded Modal */}
       <Modal
         open={isModalOpen}

@@ -1,5 +1,4 @@
 import React from "react";
-
 type DetailsRowProps = {
   label: string;
   value: string;
@@ -8,7 +7,6 @@ type DetailsRowProps = {
   placeholder?: string;
   editable?: boolean;
 };
-
 export default function DetailsRow({
   label,
   value,

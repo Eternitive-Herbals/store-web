@@ -1,14 +1,12 @@
 "use server";
 import { ArrowUpRight, IndianRupee } from "lucide-react";
 import Image from "next/image";
-
 type prod = {
   image: string;
   title: string;
   discription: string;
   price: string;
 };
-
 const PostCard = async ({ products }: { products: prod[] }) => {
   return (
     <>
@@ -24,26 +22,22 @@ const PostCard = async ({ products }: { products: prod[] }) => {
         >
           {/* Image */}
           <div className="relative h-full w-[40%] min-w-62.5 shrink-0">
-            <Image
+            <Image loading="lazy"
               alt="prod"
               src={product.image}
               fill
               className="object-cover"
             />
           </div>
-
           {/* Text */}
           <div className="flex w-full flex-col justify-start pt-20 pl-6 pr-6 font-sf-pro-text">
             <h1 className="text-2xl font-normal">{product.title}</h1>
-
             <p className="max-w-60">{product.discription}</p>
-
             <span className="flex items-center text-xl font-normal">
               <IndianRupee size={20} />
               {product.price}
             </span>
           </div>
-
           {/* Button */}
           <button
             className={`tracking-tight text-white font-sf-pro-text absolute 
@@ -66,5 +60,4 @@ const PostCard = async ({ products }: { products: prod[] }) => {
     </>
   );
 };
-
 export default PostCard;

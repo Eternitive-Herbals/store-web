@@ -1,13 +1,10 @@
 "use client";
-
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-
 interface FAQItem {
   question: string;
   answer: string;
 }
-
 const faqItems: FAQItem[] = [
   {
     question: "How Is Your Lead Generation Approach Different?",
@@ -35,10 +32,8 @@ const faqItems: FAQItem[] = [
       "We provide end-to-end consultation support, from product selection to ongoing wellness guidance, through our team of Vaidyas and health professionals.",
   },
 ];
-
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
   return (
     <section className="bg-white px-[calc(100dvw/24)] py-24">
       <div className="mx-auto max-w-3xl">

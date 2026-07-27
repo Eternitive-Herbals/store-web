@@ -7,7 +7,6 @@ import { CheckSquare2, Eye, EyeClosed, Square } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
-
 export default function Login() {
   const [loginData, setLoginData] = useState({
     email: "",
@@ -17,7 +16,6 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const checkboxRef = useRef<HTMLInputElement>(null);
-
   const router = useRouter();
   const { refreshUser } = useAuth();
   async function handleLogin() {
@@ -32,7 +30,6 @@ export default function Login() {
         body: JSON.stringify(loginData),
       });
       const data = await res.json();
-
       if (!res.ok) {
       
         toast.error(data.message);
@@ -53,16 +50,13 @@ if(data.user === "Admin"){
       console.error("Login error:", error);
     }
   }
-
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, type, checked, value } = e.target;
-
     setLoginData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
   }
-
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4">
       <div className="flex flex-col items-center">
@@ -73,7 +67,6 @@ if(data.user === "Admin"){
           Please enter your details.
         </span>
       </div>
-
       <div className="flex w-full max-w-md flex-col items-center gap-4 px-4">
         <label htmlFor="email" className="flex w-full flex-col gap-1">
           <span className="w-fit text-lg text-[#181818]">Email</span>
@@ -88,7 +81,6 @@ if(data.user === "Admin"){
             className="bg-background-light focus:outline-background-lightest placeholder: w-full rounded-2xl border border-[#C4C4C4] px-4 py-2 outline-2 outline-offset-0 outline-transparent transition-all placeholder:text-[#9D9D9E]"
           />
         </label>
-
         <label htmlFor="password" className="flex w-full flex-col gap-1">
           <span className="w-fit text-lg text-[#181818]">Password</span>
           <div className="relative w-full">
@@ -115,7 +107,6 @@ if(data.user === "Admin"){
             </button>
           </div>
         </label>
-
         <div className="flex w-full justify-between">
           <label htmlFor="remember-me" className="flex items-center gap-2">
             <input
@@ -143,7 +134,6 @@ if(data.user === "Admin"){
             <span className="text-[#181818]">Forgot Password?</span>
           </Link>
         </div>
-
         <button
           type="button"
           onClick={handleLogin}
@@ -152,17 +142,14 @@ if(data.user === "Admin"){
         >
           <span className="text-lg text-white">Log In</span>
         </button>
-
         <span className="text-lg">OR</span>
-
         <button
           disabled={loading}
           className="shadow-foreground/25 flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border border-[#747775] bg-white px-3 py-1.5 transition-all hover:-translate-y-px hover:shadow-md active:translate-y-0 active:shadow-none disabled:translate-y-0 disabled:cursor-not-allowed disabled:shadow-none"
         >
-          <Image src={GoogleImage} alt="Google-G-Logo" className="size-6" />
+          <Image loading="lazy" src={GoogleImage} alt="Google-G-Logo" className="size-6" />
           <span className="text-lg text-black">Sign in with Google</span>
         </button>
-
         <p className="flex gap-1 text-[#595959]">
           Don&apos;t have an account?
           <Link

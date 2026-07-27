@@ -3,7 +3,6 @@ export type USPCardProps = {
   description: string;
   bgColour: string;
 };
-
 export default function USPCard({
   title,
   description,
@@ -11,7 +10,7 @@ export default function USPCard({
 }: USPCardProps) {
   return (
     <div
-      className="flex size-100 flex-col items-center gap-8 rounded-[3.5rem] px-12 py-16"
+      className="flex size-100 flex-col items-center gap-8 rounded-[48px] px-12 py-16"
       style={{ backgroundColor: bgColour }}
     >
       <span className="font-comfortaa text-3xl font-semibold">{title}</span>

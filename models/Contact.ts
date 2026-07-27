@@ -3,7 +3,7 @@ import { Schema, model , models } from "mongoose";
 const ContactItem = new Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   email: {
     type: String,
@@ -13,7 +13,7 @@ const ContactItem = new Schema({
   },
   message: {
     type: String,
-    require: true,
+    required: true,
   },
 });
 

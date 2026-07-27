@@ -1,25 +1,20 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import ReviewCard, { ReviewCardProps } from "@/components/ReviewCard";
-
 type ReviewCarouselProps = {
   reviews: ReviewCardProps[];
 };
-
 export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
-
   const checkScrollLimits = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
       setCanScrollLeft(scrollLeft > 5);
       setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
-
       // Dynamically calculate active indicator index
       const card = scrollContainerRef.current.firstElementChild as HTMLElement;
       if (card) {
@@ -29,18 +24,15 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
       }
     }
   };
-
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (container) {
       container.addEventListener("scroll", checkScrollLimits, { passive: true });
       // Initial check
       checkScrollLimits();
-
       // Check on window resize
       window.addEventListener("resize", checkScrollLimits);
     }
-
     return () => {
       if (container) {
         container.removeEventListener("scroll", checkScrollLimits);
@@ -48,7 +40,6 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
       window.removeEventListener("resize", checkScrollLimits);
     };
   }, [reviews]);
-
   const handleScroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
@@ -59,7 +50,6 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
           direction === "left"
             ? container.scrollLeft - cardWidth
             : container.scrollLeft + cardWidth;
-
         container.scrollTo({
           left: targetScroll,
           behavior: "smooth",
@@ -67,7 +57,6 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
       }
     }
   };
-
   const scrollToCard = (index: number) => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
@@ -81,7 +70,6 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
       }
     }
   };
-
   return (
     <div className="relative flex w-full flex-col items-center">
       {/* Left/Right Buttons and Carousel Container */}
@@ -96,7 +84,6 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
         >
           <ArrowLeft size={24} strokeWidth={2.5} />
         </button>
-
         {/* Outer Container */}
         <div className="relative w-full max-w-6xl overflow-visible px-4">
           <div
@@ -109,7 +96,6 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
           >
             {/* <div className="from-background to-background/0 absolute inset-0 z-10 w-10 bg-linear-to-r " />
             <div className="from-background to-background/0 absolute inset-0 z-10 w-10 ml-auto  translate-x-2 bg-linear-to-l" /> */}
-
             {reviews.map((review, index) => (
               <div key={index} className="shrink-0 snap-start overflow-visible">
                 <ReviewCard {...review} />
@@ -117,7 +103,6 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
             ))}
           </div>
         </div>
-
         {/* Right Scroll Button */}
         <button
           type="button"
@@ -129,7 +114,6 @@ export default function ReviewCarousel({ reviews }: ReviewCarouselProps) {
           <ArrowRight size={24} strokeWidth={2.5} />
         </button>
       </div>
-
       {/* Navigation Dot Indicators */}
       <div className="flex gap-2">
         {reviews.map((_, index) => (

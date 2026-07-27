@@ -1,15 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import { ArrowRight } from "lucide-react";
 import WellnessJourneyBg from "@/assets/wellnessjourney.jpg";
 import WhyAethery from "@/assets/Why aethery.svg"
-
-
 export default function CTASection() {
   return (
     <section className="relative bg-primary-background h-[1024px] flex items-center justify-center py-12 xl:py-0">
-      <Image
+      <Image loading="lazy"
         src={WhyAethery}
         alt="footer spiral"
         fill
@@ -17,13 +14,13 @@ export default function CTASection() {
         className="object-cover"
       />
       <div className="relative w-full max-w-[1276px] h-[439px] overflow-hidden rounded-[60px] border border-white/10">
-        <Image
+        <Image loading="lazy"
           src={WellnessJourneyBg}
           alt="Wellness background"
           fill
           sizes="100vw"
           className="object-cover opacity-50"
-          priority
+         
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/10" />
         <div className="relative z-10 flex h-full flex-col justify-center p-10 md:p-16">

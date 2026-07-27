@@ -1,10 +1,9 @@
 import Image from "next/image";
 import LeafBg from "@/assets/leaf.png";
-
 export default function AtAGlanceSection() {
   return (
     <section className="relative mx-[calc(100dvw/24)] xl:mx-auto max-w-[1280px] h-[720px] flex flex-col justify-center items-center overflow-hidden rounded-[32px] bg-[#07A763] px-6 md:px-12 text-center">
-      <Image
+      <Image loading="lazy"
         src={LeafBg}
         alt="Leaf Background"
         width={2694}

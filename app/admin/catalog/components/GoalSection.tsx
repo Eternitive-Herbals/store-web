@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { getAllGoals, createGoal, deleteGoal, updateGoal } from "@/lib/goalAction";
 import { Trash2, Plus, Edit } from "lucide-react";
@@ -15,7 +14,6 @@ export default function GoalSection({
   const [goals, setGoals] = useState<any[]>([]);
   const [fetching, setFetching] = useState(true);
   const [selectedGoal, setSelectedGoal] = useState<any | null>(null);
-
   const fetchGoals = async () => {
     setFetching(true);
     try {
@@ -27,11 +25,9 @@ export default function GoalSection({
       setFetching(false);
     }
   };
-
   useEffect(() => {
     fetchGoals();
   }, []);
-
   const handleSubmit = async (name: string, previewUrl?: string) => {
     if (!name.trim() || !previewUrl) {
       toast.error("Please enter a name and upload an image.");
@@ -51,14 +47,10 @@ export default function GoalSection({
       toast.error(`Failed to ${selectedGoal ? "update" : "create"} goal`);
     }
   };
-
   const handleEdit = (goal: any) => {
     setSelectedGoal(goal);
     onClose("goal");
   };
-
-
-
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this goal?")) return;
     try {
@@ -69,7 +61,6 @@ export default function GoalSection({
       toast.error("Failed to delete goal");
     }
   };
-
   return (
     <div className="bg-white rounded-xl bg-background border-2 border-foreground/10 p-6 h-full">
       <div className="flex items-center justify-between mb-6">
@@ -81,7 +72,6 @@ export default function GoalSection({
            Goal <Plus size={16} />
         </button>
       </div>
-
       <Modal 
         open={isOpen === "goal"}
         onClose={() => {

@@ -4,17 +4,14 @@ import { updateUserProfile } from "@/lib/userAction";
 import { Edit2, X, Check } from "lucide-react";
 import { toast } from "sonner";
 import DetailsRow from "./DetailsRow";
-
 type AccountDetailsProps = {
   user: IUser | null;
   refreshUser: () => Promise<void>;
 };
-
 export default function AccountDetails({ user, refreshUser }: AccountDetailsProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [username, setUsername] = useState(user?.username || "");
   const [loading, setLoading] = useState(false);
-
   const handleUpdate = async () => {
     try {
       setLoading(true);
@@ -28,12 +25,10 @@ export default function AccountDetails({ user, refreshUser }: AccountDetailsProp
       setLoading(false);
     }
   };
-
   const handleCancel = () => {
     setUsername(user?.username || "");
     setIsEditing(false);
   };
-
   return (
     <div className="w-full space-y-6 place-self-center">
       <div className="flex justify-end gap-4 mt-6">
@@ -65,7 +60,6 @@ export default function AccountDetails({ user, refreshUser }: AccountDetailsProp
           </button>
         )}
       </div>
-
       <div className="space-y-4">
         <DetailsRow
           label="Name"

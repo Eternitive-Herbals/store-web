@@ -1,12 +1,10 @@
 import { Star, StarHalf, User } from "lucide-react";
-
 interface Review {
   name: string;
   location: string;
   rating: number;
   text: string;
 }
-
 const reviews: Review[] = [
   {
     name: "Sidharth",
@@ -33,7 +31,6 @@ const reviews: Review[] = [
     text: "Sufficient particular improbable by reasonable do expression in. No preference connection stylebook yet researching but end appearance. Add excellence.",
   },
 ];
-
 function StarRating({ rating, max = 5 }: { rating: number; max?: number }) {
   return (
     <div className="flex gap-0.5 text-star-fill">
@@ -51,7 +48,6 @@ function StarRating({ rating, max = 5 }: { rating: number; max?: number }) {
     </div>
   );
 }
-
 export default function ReviewsSection() {
   const totalReviews = reviews.length;
   const avgRating =
@@ -61,13 +57,11 @@ export default function ReviewsSection() {
         ).toFixed(1)
       : "0.0";
   const numRating = parseFloat(avgRating);
-
   return (
     <section className="bg-background px-[calc(100dvw/24)] py-24">
       <h2 className="font-comfortaa mb-10 text-center text-3xl font-bold text-primary-background">
         What Our Customers Say
       </h2>
-
       {/* Rating Summary */}
       <div className="mx-auto mb-10 flex max-w-5xl items-center justify-between px-2">
         <div>
@@ -96,7 +90,6 @@ export default function ReviewsSection() {
           ))}
         </div>
       </div>
-
       {/* Review Cards Grid */}
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
         {reviews.map((review, i) => (

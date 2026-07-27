@@ -3,16 +3,16 @@ import { Schema, model, models } from "mongoose";
 const BlogItemSchema = new Schema({
   title: {
     type: String,
-    require: true,
+    required: true,
   },
 
   content: {
     type: String,
-    require: true,
+    required: true,
   },
   image: {
     type: String,
-    require: true,
+    required: true,
   },
   postedDate: {
     type: Date,

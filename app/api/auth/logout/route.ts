@@ -9,7 +9,7 @@ export async function POST() {
   const refreshToken = cookieStore.get("refresh_token")?.value;
 
   if (refreshToken) {
-    const decoded: any = jwt.decode(refreshToken);
+    const decoded: { userId: string } = jwt.decode(refreshToken) as { userId: string };
 
     await connectDB();
 

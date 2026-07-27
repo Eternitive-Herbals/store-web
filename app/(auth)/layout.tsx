@@ -1,21 +1,19 @@
 import Image from "next/image";
 import BackgroundTexture from "@/assets/background-texture-brown-1.svg";
 import BgImage from "@/assets/BgImage.jpg";
-
 export default function AuthLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <main className="relative flex min-h-screen">
-      <Image
+      <Image loading="lazy"
         src={BackgroundTexture}
         alt="background texture"
         fill
         className="-z-10 object-cover opacity-5"
       />
-
       <div className="relative flex-1">
-        <Image src={BgImage} alt="Product" fill className="object-cover" />
+        <Image loading="lazy" src={BgImage} alt="Product" fill className="object-cover" />
         <div
           className="absolute inset-0 rounded-tr-4xl rounded-br-4xl"
           style={{
@@ -24,7 +22,6 @@ export default function AuthLayout({
           }}
         />
       </div>
-
       {children}
     </main>
   );

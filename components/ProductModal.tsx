@@ -1,5 +1,4 @@
 "use client";
-
 import { X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useProductImagesUpload } from "./genericModal/useProductImagesUpload";
@@ -10,7 +9,6 @@ import { getAllIngredients } from "@/lib/ingredientAction";
 import { ProductType } from "@/types/ProductType";
 import { toast } from "sonner";
 import { uploadImage, deleteImage } from "@/lib/uploadImage";
-
 export default function ProductModal({
   open,
   onClose,
@@ -32,17 +30,13 @@ export default function ProductModal({
   const [categories, setCategories] = useState<any[]>([]);
   const [goals, setGoals] = useState<any[]>([]);
   const [ingredients, setIngredients] = useState<any[]>([]);
-
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
-
   const [addToCarousel, setAddToCarousel] = useState(false);
   const [carouselImage, setCarouselImage] = useState("");
   const [uploadingCarousel, setUploadingCarousel] = useState(false);
-
   const [loading, setLoading] = useState(false);
-
   const {
     files,
     setFiles,
@@ -54,7 +48,6 @@ export default function ProductModal({
     handleDelete,
     handleRemoveFile
   } = useProductImagesUpload();
-
   useEffect(() => {
     if (open) {
       if ((mode === "view" || mode === "edit") && initialData) {
@@ -81,7 +74,6 @@ export default function ProductModal({
         setAddToCarousel(false);
         setCarouselImage("");
       }
-
       Promise.all([
         getAllCategories(),
         getAllGoals(),
@@ -93,11 +85,8 @@ export default function ProductModal({
       }).catch(console.error);
     }
   }, [open, mode, initialData]);
-
   const isView = mode === "view";
-
   if (!open) return null;
-
   const handleSubmit = async () => {
     if (!name || !description || !price || !dosage || previewUrls.length === 0) {
       toast.error("Please fill all required fields and upload at least one image.");
@@ -111,7 +100,6 @@ export default function ProductModal({
       toast.error("Please upload a carousel image if adding this product to the carousel.");
       return;
     }
-
     setLoading(true);
     try {
       if (onCreate) {
@@ -136,7 +124,6 @@ export default function ProductModal({
       setLoading(false);
     }
   };
-
   const handleClose = () => {
     setName("");
     setDescription("");
@@ -151,7 +138,6 @@ export default function ProductModal({
     setCarouselImage("");
     onClose();
   };
-
   const toggleSelection = (id: string, list: string[], setList: (val: string[]) => void) => {
     if (list.includes(id)) {
       setList(list.filter(item => item !== id));
@@ -159,14 +145,12 @@ export default function ProductModal({
       setList([...list, id]);
     }
   };
-
   return (
     <div className="text-sf-pro-text fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
         className="bg-foreground/5 absolute inset-0 backdrop-blur-sm"
         onClick={handleClose}
       />
-
       <div className="relative w-full max-w-4xl max-h-[90vh] rounded-xl bg-white p-6 shadow-xl">
         
          <button
@@ -175,11 +159,9 @@ export default function ProductModal({
         >
           <X size={18} color="background" />
         </button>
-
         <h2 className="text-foreground mb-6 text-2xl font-bold">
           {mode === "view" ? "Product Details" : mode === "edit" ? "Edit Product Details" : "Create New Product"}
         </h2>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-[calc(100%-80px)] overflow-y-auto pr-2">
           {/* Left Column: Basic Info */}
           <div className="space-y-4">
@@ -255,7 +237,6 @@ export default function ProductModal({
                 />
               )}
             </div>
-
             {/* Carousel settings */}
             <div className="pt-4 border-t border-gray-100 space-y-3">
               <div className="flex items-center gap-2">
@@ -271,7 +252,6 @@ export default function ProductModal({
                   Add this product to Home Carousel
                 </label>
               </div>
-
               {addToCarousel && (
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-foreground block">
@@ -334,7 +314,6 @@ export default function ProductModal({
               )}
             </div>
           </div>
-
           {/* Right Column: Relationships */}
           <div className="space-y-6">
             <div>
@@ -354,7 +333,6 @@ export default function ProductModal({
                 ))}
               </div>
             </div>
-
             <div>
               <label className="text-sm font-semibold text-foreground mb-2 block">Goals</label>
               <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border-2 border-foreground/10 rounded-lg">
@@ -372,7 +350,6 @@ export default function ProductModal({
                 ))}
               </div>
             </div>
-
             <div>
               <label className="text-sm font-semibold text-foreground mb-2 block">Ingredients</label>
               <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border-2 border-foreground/10 rounded-lg">
@@ -410,7 +387,6 @@ export default function ProductModal({
           </div>
           
         </div>
-
        
       </div>
     </div>

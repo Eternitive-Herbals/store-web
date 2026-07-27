@@ -2,11 +2,10 @@ import Image from "next/image";
 import BackgroundTexture from "@/assets/background-texture-brown-1.svg";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-
 export default function NotFound() {
   return (
     <main className="relative flex min-h-dvh flex-col items-center justify-center">
-      <Image
+      <Image loading="lazy"
         src={BackgroundTexture}
         alt="background texture"
         fill

@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -9,18 +8,15 @@ import {  CheckCircle2, Loader2, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import Script from "next/script";
-
 export default function CheckoutPage() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
-
   const [cart, setCart] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
   const [discount, setDiscount] = useState<number>(0); // Implement discount logic if needed
   const [processing, setProcessing] = useState(false);
-
   useEffect(() => {
     if (!authLoading && user) {
       fetchCartAndAddresses();
@@ -28,7 +24,6 @@ export default function CheckoutPage() {
       router.push("/login");
     }
   }, [authLoading, user]);
-
   const fetchCartAndAddresses = async () => {
     try {
       setLoading(true);
@@ -36,7 +31,6 @@ export default function CheckoutPage() {
       const cartRes = await fetch("/api/cart", { cache: "no-store" });
       const cartData = await cartRes.json();
       if (cartData.cart) setCart(cartData.cart);
-
       // Fetch Addresses
       const addressData = await getUserAddresses();
       setAddresses(addressData.addresses || []);
@@ -53,27 +47,22 @@ export default function CheckoutPage() {
       setLoading(false);
     }
   };
-
   const subTotal = cart.reduce((acc, item) => acc + Number(item.price) * item.quantity, 0);
   const finalTotal = subTotal - discount;
-
   const handleRazorpayPayment = async () => {
     if (!selectedAddressId) {
       toast.error("Please select a shipping address");
       return;
     }
-
     if (cart.length === 0) {
       toast.error("Your cart is empty");
       return;
     }
-
     setProcessing(true);
     try {
       // 1. Find selected address
       const selectedAddr = addresses.find((a) => a._id === selectedAddressId);
       const formattedAddress = `${selectedAddr.fullName}, ${selectedAddr.phone}, ${selectedAddr.addressLine1}, ${selectedAddr.city}, ${selectedAddr.state}, ${selectedAddr.country} - ${selectedAddr.pincode}`;
-
       // 2. Create Order in DB (Pending)
       const orderRes = await fetch("/api/order", {
         method: "POST",
@@ -88,7 +77,6 @@ export default function CheckoutPage() {
       
       if (!orderRes.ok) throw new Error(orderData.message || "Failed to create order");
       const orderId = orderData.order._id;
-
       // 3. Create Razorpay Order
       const rzpRes = await fetch("/api/payment/razorpay/order", {
         method: "POST",
@@ -96,9 +84,7 @@ export default function CheckoutPage() {
         body: JSON.stringify({ amount: finalTotal }),
       });
       const rzpOrder = await rzpRes.json();
-
       if (!rzpRes.ok) throw new Error(rzpOrder.error || "Failed to initialize payment");
-
       // 4. Open Razorpay Modal
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_placeholder", // Replace with actual Key ID
@@ -120,7 +106,6 @@ export default function CheckoutPage() {
                 orderId: orderId,
               }),
             });
-
             const verifyData = await verifyRes.json();
             if (verifyRes.ok) {
               toast.success("Payment successful!", { id: "payment" });
@@ -142,13 +127,11 @@ export default function CheckoutPage() {
           color: "#000000",
         },
       };
-
       const rzp = new (window as any).Razorpay(options);
       rzp.on('payment.failed', function (response: any){
          toast.error(response.error.description);
       });
       rzp.open();
-
     } catch (error: any) {
       console.error(error);
       toast.error(error.message || "Something went wrong during checkout");
@@ -156,7 +139,6 @@ export default function CheckoutPage() {
       setProcessing(false);
     }
   };
-
   if (loading || authLoading) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-white">
@@ -164,19 +146,16 @@ export default function CheckoutPage() {
       </div>
     );
   }
-
   return (
     <>
       {/* Load Razorpay Script */}
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
-
       <div className="min-h-screen bg-[#F9F8F6] px-[calc(100dvw/24)] pt-32 pb-20 font-sf-pro-text">
         <Link href="/cart" className="flex items-center gap-2 text-gray-500 hover:text-black mb-8 transition-colors">
           <ArrowLeft size={20} /> Back to Cart
         </Link>
         
         <h1 className="text-3xl font-bold text-primary-background mb-8">Checkout</h1>
-
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-10">
           
           {/* Left Column: Addresses */}
@@ -188,7 +167,6 @@ export default function CheckoutPage() {
                   Manage Addresses
                 </Link>
               </div>
-
               {addresses.length === 0 ? (
                 <div className="p-8 text-center border-2 border-dashed border-gray-200 rounded-xl bg-gray-50">
                   <p className="text-gray-500 mb-4">You have no saved addresses.</p>
@@ -233,7 +211,6 @@ export default function CheckoutPage() {
               )}
             </div>
           </div>
-
           {/* Right Column: Order Summary */}
           <div className="h-fit bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
             <h2 className="text-2xl font-semibold">Order Summary</h2>
@@ -242,7 +219,7 @@ export default function CheckoutPage() {
               {cart.map((item, idx) => (
                 <div key={idx} className="flex items-center gap-4 border-b border-gray-50 pb-4">
                   <div className="w-16 h-16 relative rounded-lg overflow-hidden border border-gray-100">
-                    <Image src={item.image} alt={item.title} fill sizes="(max-width: 768px) 100vw, 64px" className="object-cover" />
+                    <Image loading="lazy" src={item.image} alt={item.title} fill sizes="(max-width: 768px) 100vw, 64px" className="object-cover" />
                   </div>
                   <div className="flex-1">
                     <p className="font-medium text-sm line-clamp-1">{item.title}</p>
@@ -252,7 +229,6 @@ export default function CheckoutPage() {
                 </div>
               ))}
             </div>
-
             <div className="space-y-3 pt-4 border-t border-gray-100">
               <div className="flex justify-between text-gray-600">
                 <span>Subtotal</span>
@@ -267,13 +243,11 @@ export default function CheckoutPage() {
                 <span className="font-medium text-black">FREE</span>
               </div>
             </div>
-
             <div className="pt-4 border-t border-gray-200">
               <div className="flex justify-between items-center mb-6">
                 <span className="text-xl font-bold">Total</span>
                 <span className="text-2xl font-bold text-primary-background">₹{finalTotal > 0 ? finalTotal : 0}</span>
               </div>
-
               <button
                 onClick={handleRazorpayPayment}
                 disabled={processing || cart.length === 0 || !selectedAddressId}
@@ -283,7 +257,6 @@ export default function CheckoutPage() {
               </button>
             </div>
           </div>
-
         </div>
       </div>
     </>
