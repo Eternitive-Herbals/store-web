@@ -9,7 +9,7 @@ import { toast } from "sonner";
 export default function CartPage() {
   const { user, loading: authLoading } = useAuth();
   const [cart, setCart] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);pupu
   const [discount, setDiscount] = useState<number>(0);
   // const [finalTotal, setFinalTotal] = useState<number>(0);
   // const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
