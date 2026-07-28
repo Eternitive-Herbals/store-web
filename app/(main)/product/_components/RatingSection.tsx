@@ -17,8 +17,8 @@ export default function RatingSection({ reviews }: RatingSectionProps) {
     return Math.round((count / totalReviews) * 100);
   });
   return (
-    <div className="font-sf-pro-text mx-auto h-64 w-241.75 rounded-xl bg-white p-12">
-      <div className="flex gap-32">
+    <div className="font-sf-pro-text mx-auto md:h-64 md:max-w-241.75 w-full  rounded-xl bg-white p-12">
+      <div className="flex flex-col md:flex-row gap-32">
         {/* Left */}
         <div className="flex min-w-fit flex-col items-start gap-2">
           <h2 className="pb-1 text-xl font-medium">Customer Reviews</h2>

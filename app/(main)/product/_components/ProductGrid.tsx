@@ -11,16 +11,20 @@ type ProductGridProps = {
 export default function ProductGrid({ product }: ProductGridProps) {
   const imagesList = (product.images?.length ? product.images : (product.image ? [product.image] : [])).filter(Boolean);
   const [selectedImage, setSelectedImage] = useState<string>(imagesList[0] || "");
-  useEffect(() => {
-    if (imagesList.length > 0 && !imagesList.includes(selectedImage)) {
-      setSelectedImage(imagesList[0]);
-    }
-  }, [product]);
+   useEffect(() => {
+     function updateSelectedImage() {
+       if (imagesList.length > 0 && !imagesList.includes(selectedImage)) {
+         setSelectedImage(imagesList[0]);
+       }
+       updateSelectedImage();
+     }
+   }, [product]); 
+   
   return (
     <div className="w-full ">
-      <div className="image-grid flex h-[720px]  gap-12 flex-row-reverse items-start justify-start pr-12">
+      <div className="image-grid flex h-[720px]  flex-col gap-4 md:gap-12 md:flex-row-reverse items-start justify-start px-4 md:pr-12">
         {selectedImage ? (
-          <div className="relative aspect-[3/4] w-9/10 h-7/8 overflow-hidden rounded-2xl">
+          <div className="relative aspect-[3/4] md:w-9/10 md:h-7/8 w-full overflow-hidden rounded-2xl">
             <Image 
               alt={product.name || "Product image"}
               src={selectedImage}
@@ -36,7 +40,7 @@ export default function ProductGrid({ product }: ProductGridProps) {
           </div>
         )}
         {imagesList.length > 0 && (
-          <div className="mt-12 flex w-fit  flex-col items-center justify-start gap-2 overflow-x-auto">
+          <div className="md:mt-12 mt-1 flex w-fit  flex-row md:flex-col  items-center justify-start gap-2 ">
             {imagesList.slice(0, 4).map((imgUrl, idx) => (
               <button
                 key={idx}

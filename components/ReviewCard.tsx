@@ -35,7 +35,8 @@ export default function ReviewCard({
           <div className="flex items-center gap-3">
             {/* Avatar */}
             <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-stone-200">
-              <Image loading="lazy"
+              <Image
+                loading="lazy"
                 src={authorAvatar || image || defaultAvatar}
                 alt={authorName || author || "User avatar"}
                 fill
@@ -48,16 +49,18 @@ export default function ReviewCard({
                 {authorName || author}
               </span>
               <span className="text-xs font-medium text-stone-400">
-                {location? location : (
-                   <h3 className="text-xs font-medium text-[#9EA1A7]">
-                      {createdAt
+                {location ? (
+                  location
+                ) : (
+                  <h3 className="text-xs font-medium text-[#9EA1A7]">
+                    {createdAt
                       ? new Date(createdAt).toLocaleDateString("en-IN", {
-                             year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          })
-                        : ""}
-                   </h3>
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })
+                      : ""}
+                  </h3>
                 )}
               </span>
             </div>
@@ -79,18 +82,22 @@ export default function ReviewCard({
         </div>
         {/* Review Text */}
         <motion.p
-          className={`${seeMore ? "line-clamp-none" : "line-clamp-2"}  text-sm leading-relaxed font-normal text-stone-700`}
+          className={`${seeMore ? "line-clamp-none" : "line-clamp-2"} text-sm leading-relaxed font-normal text-stone-700`}
         >
           {reviewText || content}
         </motion.p>
-        <button className="text-blue-500 text-xs font-light" onClick={() => setSeeMore(!seeMore)}>
+        <button
+          className="text-xs font-light text-blue-500"
+          onClick={() => setSeeMore(!seeMore)}
+        >
           {seeMore ? "less -" : "See more +"}
         </button>
       </div>
       {/* Review Image */}
       {image ? (
         <div className="relative mt-1 h-[110px] w-full shrink-0 overflow-hidden rounded-2xl bg-stone-50">
-          <Image loading="lazy"
+          <Image
+            loading="lazy"
             src={image}
             alt="Customer review photo"
             fill
@@ -99,7 +106,7 @@ export default function ReviewCard({
         </div>
       ) : (
         <div className="relative h-[110px] w-full shrink-0 overflow-hidden rounded-2xl bg-stone-50">
-          <Loader h-32 w-32 />
+          <Loader className="h-32 w-32" />
         </div>
       )}
     </div>

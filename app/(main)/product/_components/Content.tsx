@@ -37,13 +37,11 @@ export default function Content({ product }: ContentProps) {
     router.push("/cart");
   };
   return (
-    <div>
+    <div className=" px-4  ">
       <div className="font-sf-pro-text bg-red flex flex-col items-start gap-6">
         <div className="Title-subtitile font-sf-pro-text space-y-1 text-left">
-          <h1 className="text-4xl font-normal">{product.name}</h1>
-          <p className="text-xl font-light">
-            {product.description}
-          </p>
+          <h1 className="lg:text-4xl text-2xl md:text-3xl  font-normal">{product.name}</h1>
+          <p className="text-xl font-light">{product.description}</p>
         </div>
         <div className="">
           <div className="flex items-center gap-1 py-2">
@@ -56,13 +54,44 @@ export default function Content({ product }: ContentProps) {
             ))}
           </div>
           <p className="flex place-items-baseline gap-2 text-4xl font-semibold">
-            ₹{sub ? discountedPrice : product.price} <span className="font-light text-[#9EA1A7]"> | </span>{" "}
-            {sub && <span className="text-2xl text-[#009966]">{discountPercent}% off</span>}
+            ₹{sub ? discountedPrice : product.price}{" "}
+            <span className="font-light text-[#9EA1A7]"> | </span>{" "}
+            {sub && (
+              <span className="text-2xl text-[#009966]">
+                {discountPercent}% off
+              </span>
+            )}
           </p>
           <p className="text-primary-background mt-9 w-full max-w-9/10 text-xl font-light text-wrap">
             {product.description}
           </p>
         </div>
+
+        <div className="btns mt-5 w-9/10 space-y-4">
+          <button
+            onClick={handleBuyNow}
+            className="bg-primary-background w-full cursor-pointer rounded-full py-2 text-white transition-opacity hover:opacity-90"
+          >
+            Buy Now
+          </button>
+          <button
+            onClick={handleAddToCart}
+            className="w-full cursor-pointer rounded-full bg-gray-200 py-2 transition-colors hover:bg-gray-300"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div className="flex w-9/10 flex-col items-start gap-6 border-t border-[#E5E7EB] pt-6">
+          <h1 className="text-sm font-medium text-[#6A7282]">DOSAGE</h1>
+          <p className="font-regular text-base text-[#364153]">
+            {product.dosage}
+          </p>
+        </div>
+
+
+
+
+   {/* Subscription Option */}
         <div className="flex w-full flex-col items-start gap-1">
           <label className="relative w-9/10 cursor-pointer rounded-lg border border-[#AE8363]/50">
             <div className="inset-0 top-0 rounded-t-lg bg-[#AE8363]/50 p-2 text-center text-xl font-medium text-black">
@@ -125,26 +154,6 @@ export default function Content({ product }: ContentProps) {
             </div>
             <span>₹{product.price}</span>
           </label>
-        </div>
-        <div className="btns mt-11 w-9/10 space-y-4">
-          <button
-            onClick={handleBuyNow}
-            className="bg-primary-background w-full rounded-full py-2 text-white cursor-pointer hover:opacity-90 transition-opacity"
-          >
-            Buy Now
-          </button>
-          <button
-            onClick={handleAddToCart}
-            className="w-full rounded-full bg-gray-200 py-2 cursor-pointer hover:bg-gray-300 transition-colors"
-          >
-            Add to Cart
-          </button>
-        </div>
-        <div className="flex w-9/10 flex-col items-start gap-6 border-t border-[#E5E7EB] pt-6">
-          <h1 className="text-sm font-medium text-[#6A7282]">DOSAGE</h1>
-          <p className="font-regular text-base text-[#364153]">
-            {product.dosage}
-          </p>
         </div>
       </div>
     </div>

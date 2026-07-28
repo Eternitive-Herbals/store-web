@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <div className="">
-      <div className="container mx-auto flex min-w-[calc(100%-10rem)] items-start justify-between  pt-41 pb-6">
+      <div className="container mx-auto flex w-dvw flex-col md:flex-row items-start justify-between   pt-24 md:pt-41 pb-6">
         {/* Product image section */}
         <ProductGrid product={serialized} />
 

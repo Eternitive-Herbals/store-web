@@ -14,16 +14,20 @@ export default function IngredientCard({ ingredients }: IngredientCardProps) {
     rows.push(ingredients.slice(i, i + 3));
   }
   return (
-    <div className="mb-10 w-full space-y-9">
+    <div className="mb-10 w-full space-y-2 md:space-y-9">
       {rows.map((row, rowIdx) => (
         <div key={rowIdx}>
-          <div className="h-[.5px] w-full bg-[#9EA1A7]" />
-          <div className="mx-auto flex items-center justify-between py-9">
+          <div className="bg-[#9EA1A7 ] hidden h-[.5px] w-fit md:static" />
+          <div className="mx-auto flex flex-wrap gap-4  items-center justify-between py-1 md:py-9">
             {row.map((ingredient, idx) => (
-              <div key={ingredient._id || idx} className="flex items-center justify-between gap-5">
-                <div className="relative size-22 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+              <div
+                key={ingredient._id || idx}
+                className="flex items-center justify-between gap-5 max-w-fit"
+              >
+                <div className="relative flex size-8 items-center justify-center overflow-hidden rounded-full bg-gray-200 sm:size-16 md:size-22">
                   {ingredient.image ? (
-                    <Image loading="lazy"
+                    <Image
+                      loading="lazy"
                       src={ingredient.image}
                       alt={ingredient.name || "Ingredient"}
                       fill
@@ -34,11 +38,11 @@ export default function IngredientCard({ ingredients }: IngredientCardProps) {
                     <span className="text-xs text-gray-400">No Image</span>
                   )}
                 </div>
-                <div className="">
-                  <h1 className="font-sf-pro-text pb-1 text-[20px] font-normal tracking-normal text-wrap">
+                <div className="w-fit ">
+                  <h1 className="font-sf-pro-text pb-1 text-sm font-normal tracking-normal text-wrap sm:text-lg md:text-xl">
                     {ingredient.name}
                   </h1>
-                  <p className="font-sf-pro-text spacing- w-3xs text-sm font-light text-wrap">
+                  <p className="font-sf-pro-text  text-xs font-light text-wrap sm:text-sm md:text-lg">
                     {ingredient.description}
                   </p>
                 </div>
@@ -47,7 +51,9 @@ export default function IngredientCard({ ingredients }: IngredientCardProps) {
           </div>
         </div>
       ))}
-      {ingredients.length > 0 && <div className="h-[.5px] w-full bg-[#9EA1A7]" />}
+      {ingredients.length > 0 && (
+        <div className="h-[.5px] w-full bg-[#9EA1A7] hidden md:static" />
+      )}
     </div>
   );
 }

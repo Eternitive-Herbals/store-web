@@ -20,7 +20,7 @@ export default function Rating_Review_section({ productId }: Props) {
     fetchReviews();
   }, [productId]);
   return (
-    <section className="min-h-screen-2 relative flex snap-start flex-col items-center gap-16 px-24 py-48">
+    <section className="min-h-screen-2 relative flex snap-start flex-col items-center gapt-4sm:gap-16 p-10 md:px-24 md:py-48">
       <Image loading="lazy"
         src={BackgroundTexture}
         alt="Background Texture"
@@ -28,10 +28,10 @@ export default function Rating_Review_section({ productId }: Props) {
         sizes="100vw"
         className="-z-10 object-cover opacity-5"
       />
-      <span className="font-comfortaa mb-16 text-4xl font-bold">
+      <span className="font-comfortaa mb-16 sm:text-2xl text-xl md:text-4xl font-bold">
         Listen from our customers
       </span>
-      <div className="w-[965px]">
+      <div className="flex w-full flex-col items-center gap-16">
         <RatingSection reviews={reviews} />
         <CreateReview productId={productId} onReviewCreated={fetchReviews} />
         <Image loading="lazy"

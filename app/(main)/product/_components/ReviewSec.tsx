@@ -23,7 +23,7 @@ export default function ReviewSec({ reviews }: ReviewSecProps) {
   }
   return (
     <div className="w-full p-9 mt-14">
-      <div className="mx-auto flex h-fit max-h-284 w-[967px] flex-row overflow-hidden flex-wrap  items-start gap-5 ">
+      <div className="mx-auto flex h-fit max-h-284 w-fit max-w-[967px] flex-row overflow-hidden flex-wrap  items-start gap-5  ">
         {reviews.map((review,idx) => (
           <ReviewCard key={idx} {...review}/>
          
